@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useContext, useState } from 'react';
+import { BookContext } from './context/books';
+import { CharacterContext } from './context/characters';
+import Navbar from './components/Navbar';
+import Menu from './components/Menu';
+import CharacterList from './components/CharacterList';
 
-function App() {
+export default function App() {
+  const bookContext = useContext(BookContext);
+  const characterContext = useContext(CharacterContext);
+
+  useEffect(() => {
+    if (!bookContext) {
+      console.error('Unexpected error');
+      return;
+    }
+    bookContext.fetchBooks();
+  }, []);
+
+  useEffect(() => {
+    if (bookContext?.books) {
+      const book = bookContext.books.at(0);
+      if (book?.characterIds) characterContext?.fetchCharactersByIds(book.characterIds);
+    }
+  }, [bookContext?.books]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Navbar />
+      <CharacterList />
+      <Menu />
     </div>
   );
 }
 
-export default App;

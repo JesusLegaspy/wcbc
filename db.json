@@ -1,0 +1,76 @@
+{
+  "books": [
+    {
+      "title": "This is a title",
+      "image": "",
+      "id": 0,
+      "characterIds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    }
+  ],
+  "characters": [
+    {
+      "id": 1,
+      "name": "Sam",
+      "description": "tall and wears no glasses",
+      "image": ""
+    },
+    {
+      "id": 2,
+      "name": "Graystripe",
+      "description": "Grey tom with large stripe going down the back",
+      "image": ""
+    },
+    {
+      "id": 3,
+      "name": "Leafstar",
+      "description": "Light-dappled she-cat",
+      "image": ""
+    },
+    {
+      "id": 4,
+      "name": "Tree",
+      "description": "Yellow tom",
+      "image": ""
+    },
+    {
+      "name": "mouse",
+      "description": "A rodent",
+      "image": "imageUrl",
+      "id": 5
+    },
+    {
+      "name": "mew",
+      "description": "lola",
+      "image": "somelink",
+      "id": 6
+    },
+    {
+      "name": "What",
+      "description": "whaaat",
+      "image": "whaaaaat",
+      "id": 7
+    },
+    {
+      "name": "testing",
+      "description": "testdesc",
+      "image": "testimg",
+      "id": 8
+    },
+    {
+      "name": "Names Mark was here",
+      "description": "Descript",
+      "image": "Image",
+      "id": 9
+    }
+  ]
+}

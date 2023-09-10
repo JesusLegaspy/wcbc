@@ -1,0 +1,76 @@
+@hostname = http://localhost
+@port = 3001
+@host = {{hostname}}:{{port}}
+
+###
+
+# Get all books
+GET {{host}}/books HTTP/1.1
+
+###
+
+# Get a book
+GET {{host}}/books/1?_embed=characters HTTP/1.1
+
+###
+
+# Create a book
+POST {{host}}/books HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Redpaws's red paw",
+  "image": "",
+  "characters": [
+    1,
+    2
+  ]
+}
+
+###
+
+# Update a book
+PATCH {{host}}/books/1 HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Into the Wilds"
+}
+
+###
+
+# Delete a book
+DELETE {{host}}/books/3 HTTP/1.1
+
+###
+
+# Get all characters
+GET {{host}}/characters HTTP/1.1
+
+###
+
+# Create a character
+POST {{host}}/characters HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Cinderpelt",
+  "description": "Gray she-cat",
+  "image": ""
+}
+
+###
+
+# Update a book
+PATCH {{host}}/characters/1 HTTP/1.1
+content-type: application/json
+
+{
+  "name": "edited",
+}
+
+
+# Delete a characters
+DELETE {{host}}/characters/5 HTTP/1.1
+
+###
