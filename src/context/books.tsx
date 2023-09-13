@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useState, useMemo } from 'react';
+import { ReactNode, createContext, useState, useMemo, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 const API_BASE_URL = "http://localhost:3001";
@@ -13,6 +13,7 @@ export interface Book {
 interface BookContextType {
   books: readonly Book[];
   currBookId: number;
+  currBook: Book | undefined;
   setCurrBookId: React.Dispatch<React.SetStateAction<number>>;
   fetchBooks: () => Promise<void>;
   createBook: (title: string) => Promise<void>;
@@ -26,6 +27,11 @@ const BookContext = createContext<BookContextType | null>(null);
 const BookProvider = ({ children }: { children?: ReactNode }) => {
   const [books, setBooks] = useState<readonly Book[]>([]);
   const [currBookId, setCurrBookId] = useState<number>(0);
+  const [currBook, setCurrBook] = useState<Book | undefined>();
+
+  useEffect(() => {
+    setCurrBook(books.at(currBookId));
+  }, [currBookId, books]);
 
   const fetchBooks = async () => {
     try {
@@ -50,7 +56,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     }
   };
 
-  const editBook = async (data: Book) => {
+  const editBook = useCallback(async (data: Book) => {
     try {
       const response = await axios.patch<Book>(`${API_BASE_URL}/books/${currBookId}`, data);
       const editedBook = response.data;
@@ -60,7 +66,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     } catch (error) {
       console.error("Error editing book:", error);
     }
-  };
+  }, [currBookId]);
 
   const deleteBookById = async (id: number) => {
     try {
@@ -71,7 +77,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     }
   };
 
-  const removeCharacterById = async (id: number) => {
+  const removeCharacterById = useCallback(async (id: number) => {
     const currentBook = books.at(currBookId);
 
     if (!currentBook) {
@@ -93,19 +99,20 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     const characterIds = [...currentBook.characterIds];
     characterIds.splice(index, 1);
     editBook({ id: currBookId, characterIds: characterIds });
-  }
+  }, [books, currBookId, editBook]);
 
   const contextValue = useMemo(
     () => ({
       books,
       currBookId,
+      currBook,
       setCurrBookId,
       fetchBooks,
       createBook,
       editBook,
       deleteBookById,
       removeCharacterById
-    }), [books]);
+    }), [books, currBook, currBookId, editBook, removeCharacterById]);
 
   return (
     <BookContext.Provider value={contextValue}>

@@ -1,9 +1,7 @@
 import { useEffect, useContext, useState } from 'react';
 import { BookContext } from './context/books';
 import { CharacterContext } from './context/characters';
-import Navbar from './components/Navbar';
-import Menu from './components/Menu';
-import CharacterList from './components/CharacterList';
+import CharaterPage from './components/CharacterPage';
 
 export default function App() {
   const bookContext = useContext(BookContext);
@@ -26,9 +24,7 @@ export default function App() {
 
   return (
     <div>
-      <Navbar />
-      <CharacterList />
-      <Menu />
+      <CharaterPage />
     </div>
   );
 }
