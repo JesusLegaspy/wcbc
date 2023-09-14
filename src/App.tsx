@@ -1,9 +1,12 @@
 import { useEffect, useContext, useRef } from 'react';
 import { BookContext } from './context/books';
 import { CharacterContext } from './context/characters';
+import { Page, PageContext } from './context/page';
 import CharaterPage from './components/CharacterPage';
+import CharacterCreate from './components/CharacterCreate';
 
 export default function App() {
+  const { page } = useContext(PageContext);
   const { fetchBooks, books } = useContext(BookContext);
   const { fetchCharactersByIds } = useContext(CharacterContext);
 
@@ -20,9 +23,19 @@ export default function App() {
     }
   }, [books]);
 
+  const content = () => {
+    if (page == Page.Home) return <CharaterPage />
+    if (page == Page.AddCharacter) return <CharacterCreate />
+    return (
+      <div>
+        Error
+      </div>
+    );
+  }
+
   return (
     <div>
-      <CharaterPage />
+      {content()}
     </div>
   );
 }

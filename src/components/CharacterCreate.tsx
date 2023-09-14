@@ -9,12 +9,6 @@ const CharacterCreate = () => {
     <div>
       <Navbar />
       <div className="container">
-        <div className="m-auto pt-9">
-          <img className="w-28 h-28" src={`https://picsum.photos/seed/${books?.at(currBookId)?.id ?? 1 * 10}/400/400`} alt="Book cover" />
-        </div>
-        <div className="m-auto">
-          {books?.at(currBookId)?.title}
-        </div>
         <div className="pt-9">
           <div className="m-auto">
             <p>Add new character to chapter.</p>
