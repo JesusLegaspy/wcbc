@@ -22,7 +22,26 @@ interface BookContextType {
   removeCharacterById: (id: number) => Promise<void>;
 }
 
-const BookContext = createContext<BookContextType | null>(null);
+const startupBook: Book = {
+  id: 0,
+  title: "...",
+  image: "...",
+  characterIds: [],
+}
+
+const startupBookContext: BookContextType = {
+  books: [startupBook],
+  currBookId: 0,
+  currBook: undefined,
+  setCurrBookId: () => { },
+  fetchBooks: async () => { },
+  createBook: async () => { },
+  editBook: async () => { },
+  deleteBookById: async () => { },
+  removeCharacterById: async () => { },
+}
+
+const BookContext = createContext<BookContextType>(startupBookContext);
 
 const BookProvider = ({ children }: { children?: ReactNode }) => {
   const [books, setBooks] = useState<readonly Book[]>([]);
@@ -35,7 +54,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
 
   const fetchBooks = async () => {
     try {
-      const response = await axios.get<Book[]>(`${API_BASE_URL}/books`);
+      const response = await axios.get<readonly Book[]>(`${API_BASE_URL}/books`);
       setBooks(response.data);
     } catch (error) {
       console.error("Error fetching books:", error);

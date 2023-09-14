@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { CharacterContext, Character } from "../context/characters";
 
 const CharacterEdit = ({ character, setShowEdit }: { character: Character, setShowEdit: React.Dispatch<React.SetStateAction<boolean>> }) => {
-  const characterContext = useContext(CharacterContext);
+  const { editCharacterById } = useContext(CharacterContext);
 
   const [name, setName] = useState(character.name);
   const [description, setDescription] = useState(character.description);
@@ -22,10 +22,7 @@ const CharacterEdit = ({ character, setShowEdit }: { character: Character, setSh
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!characterContext) {
-      throw new Error("Could not edit character");
-    }
-    characterContext.editCharacterById(character.id, { id: character.id, name, description, image: imageUrl });
+    editCharacterById(character.id, { id: character.id, name, description, image: imageUrl });
     setShowEdit(false);
   };
 

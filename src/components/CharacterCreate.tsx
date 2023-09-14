@@ -3,17 +3,17 @@ import { useContext } from "react";
 import { BookContext } from "../context/books";
 
 const CharacterCreate = () => {
-  const bookContext = useContext(BookContext);
+  const { books, currBookId } = useContext(BookContext);
 
   return (
     <div>
       <Navbar />
       <div className="container">
         <div className="m-auto pt-9">
-          <img className="w-28 h-28" src={`https://picsum.photos/seed/${bookContext?.books?.at(bookContext?.currBookId)?.id ?? 1 * 10}/400/400`} alt="Book cover" />
+          <img className="w-28 h-28" src={`https://picsum.photos/seed/${books?.at(currBookId)?.id ?? 1 * 10}/400/400`} alt="Book cover" />
         </div>
         <div className="m-auto">
-          {bookContext?.books?.at(bookContext?.currBookId)?.title}
+          {books?.at(currBookId)?.title}
         </div>
         <div className="pt-9">
           <div className="m-auto">

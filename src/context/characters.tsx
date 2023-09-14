@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useContext, useState, ReactNode, useMemo } from "react";
+import { createContext, useContext, useState, ReactNode, useMemo, useCallback } from "react";
 import { Book, BookContext } from "./books";
 
 const API_BASE_URL = "http://localhost:3001";
@@ -19,10 +19,24 @@ interface CharacterContextType {
   // deleteCharacterById: (id: number) => void;
 }
 
-const CharacterContext = createContext<CharacterContextType | null>(null);
+const startupCharacter: Character = {
+  id: 0,
+  name: '...',
+  description: '...',
+  image: '...',
+}
+
+const startupCharacterContext: CharacterContextType = {
+  characters: [startupCharacter],
+  fetchCharactersByIds: async () => { },
+  createCharacter: async () => { },
+  editCharacterById: async () => { },
+}
+
+const CharacterContext = createContext<CharacterContextType>(startupCharacterContext);
 
 const CharacterProvider = ({ children }: { children?: ReactNode }) => {
-  const bookContext = useContext(BookContext);
+  const { editBook } = useContext(BookContext);
   const [characters, setCharacters] = useState<readonly Character[]>([]);
 
   const fetchCharactersByIds = async (ids: number[]) => {
@@ -35,11 +49,8 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
     }
   };
 
-  const createCharacter = async (bookId: number, name: string, description: string, imageUrl: string = '') => {
+  const createCharacter = useCallback(async (bookId: number, name: string, description: string, imageUrl: string = '') => {
     try {
-      if (!bookContext) {
-        throw new Error("bookContext not created yet. Try again later.");
-      }
 
       const response = await axios.post<Character>(`${API_BASE_URL}/characters/`, {
         name,
@@ -48,19 +59,15 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
       });
       const newCharacter = response.data;
 
-      if (!bookContext.editBook) {
-        throw new Error("editBookById not available yet. Client-side data is potentially stale.");
-      }
-
       const bookResponse = await axios.get<Book>(`${API_BASE_URL}/books/${bookId}`);
       const currentCharactersIds = bookResponse.data.characterIds || [];
-      await bookContext.editBook({ id: bookId, characterIds: [...currentCharactersIds, newCharacter.id] });
+      await editBook({ id: bookId, characterIds: [...currentCharactersIds, newCharacter.id] });
 
       setCharacters([...characters, newCharacter]);
     } catch (error) {
       console.error("Error creating character:", error);
     }
-  };
+  }, [editBook, characters]);
 
   const editCharacterById = async (id: number, data: Character) => {
     try {
@@ -88,7 +95,7 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
       createCharacter,
       editCharacterById,
       // deleteCharacterById
-    }), [characters]);
+    }), [characters, createCharacter]);
 
   return (
     <CharacterContext.Provider value={contextValue}>
