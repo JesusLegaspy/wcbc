@@ -1,21 +1,59 @@
-import CharacterShow from './CharacterShow';
-import { CharacterContext } from '../context/characters';
-import { useContext } from 'react';
+import { useContext, useRef, useEffect } from "react";
+import { CharacterContext, Character } from "../context/characters";
 
 const CharacterList = () => {
-  const { characters } = useContext(CharacterContext);
+  const { allCharacters, fetchAllCharacters } = useContext(CharacterContext);
 
-  const content = characters?.map(character => {
-    return <CharacterShow key={character.id} character={character} />
-  });
+  const fetchAllCharactersRef = useRef(fetchAllCharacters);
+  useEffect(() => {
+    fetchAllCharactersRef.current?.();
+  }, []);
+
+  type CharactersGroup = {
+    [key: string]: Character[]
+  };
+
+  const sorted = [...allCharacters].sort((a, b) => a.name.localeCompare(b.name));
+
+  const result = sorted.reduce<CharactersGroup>((result, character) => {
+    const key: string = character.name.charAt(0).toUpperCase();
+    result[key] = result[key] || [];
+    result[key].push(character);
+    return result;
+  }, {});
+
+  const populate = (characters: Character[]) => {
+    const content = [];
+    for (const character of characters) {
+      content.push(
+        <div key={character.id} className="flex items-center gap-4 p-4">
+          <img className="w-12 h-12 rounded-full" src={`https://picsum.photos/seed/${character.id * 10}/100/100`} alt={`Profile pic of ${character.name}`} />
+          <strong className="text-slate-900 text-sm font-medium dark:text-slate-200">{character.name}</strong>
+        </div>
+      );
+    }
+    return content;
+  }
+
+  let content = [];
+  for (const [key, value] of Object.entries(result)) {
+    content.push(
+      <div key={key} className="sticky top-16 px-4 py-3 flex items-center font-semibold text-sm text-slate-900 dark:text-slate-200 bg-slate-50/90 dark:bg-slate-700/90 backdrop-blur-sm ring-1 ring-slate-900/10 dark:ring-black/10">
+        {key}
+      </div>
+    );
+    content.push(
+      <div key={key + "divider"} className="divide-y dark:divide-slate-200/5">
+        {populate(value)}
+      </div>
+    );
+  }
 
   return (
-    <div className='container mx-auto max-w-screen-xl px-4 pt-16 pb-16 lg:pt-4 lg:pb-4'>
-      <div className='grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4'>
-        {content}
-      </div>
+    <div className="p-4">
+      {content}
     </div>
   );
-};
+}
 
 export default CharacterList;

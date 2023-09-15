@@ -1,23 +1,19 @@
-import Navbar from "./Navbar";
-import { useContext } from "react";
-import { BookContext } from "../context/books";
+import NavbarSub from "./NavbarSub";
+import CharacterList from './CharacterList';
+import { PiPlusSquareFill } from "react-icons/pi";
 
 const CharacterCreate = () => {
-  const { books, currBookId } = useContext(BookContext);
 
   return (
-    <div>
-      <Navbar />
-      <div className="container">
-        <div className="pt-9">
-          <div className="m-auto">
-            <p>Add new character to chapter.</p>
-          </div>
-        </div>
-        <div className="m-auto">
-          <button className="p-2 bg-blue-300 hover:bg-blue-400">Existing</button>
-          <button className="p-2 bg-green-300 hover:bg-green-400">New</button>
-        </div>
+    <div className="flex flex-col min-h-screen">
+      <NavbarSub />
+      <div className=" container m-auto max-w-screen-xl flex-grow relative">
+        <CharacterList />
+      </div>
+      <div className="relative container m-auto max-w-screen-xl pb-4">
+        <button className="fixed bottom-7 right-7 text-4xl ml-auto">
+          <PiPlusSquareFill />
+        </button>
       </div>
     </div>
   );

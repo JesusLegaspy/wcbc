@@ -1,6 +1,6 @@
 import Navbar from './Navbar';
 import Menu from './Menu';
-import CharacterList from './CharacterList';
+import CharacterGrid from './CharacterGrid';
 
 export default function CharacterPage() {
 
@@ -8,7 +8,7 @@ export default function CharacterPage() {
   return (
     <div>
       <Navbar />
-      <CharacterList />
+      <CharacterGrid />
       <Menu />
     </div>
   );
