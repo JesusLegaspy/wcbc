@@ -1,14 +1,14 @@
 import { useContext } from 'react';
 import { BookContext } from '../context/books';
 import { MdArrowBack } from 'react-icons/md';
-import { PageContext, Page } from '../context/page';
+import { PageContext, } from '../context/page';
 
 const Navbar = () => {
   const { currBook } = useContext(BookContext);
-  const { setPage } = useContext(PageContext);
+  const { goBack } = useContext(PageContext);
 
   const handleClickBack = () => {
-    setPage(Page.Home);
+    goBack();
   }
 
   return (

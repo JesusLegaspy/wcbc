@@ -35,7 +35,7 @@ export default function App() {
     return (
       <>
         <div>
-          Error. Page not found.
+          Error. Page {page} not found.
         </div>
         <button className='bg-sky-500 hover:bg-sky-700 px-2 py-1 rounded-full' onClick={handleClickHome}>
           Go home
