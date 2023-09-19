@@ -13,6 +13,17 @@ const CharacterList = () => {
     <div className='container mx-auto max-w-screen-xl px-4 pt-16 pb-16 lg:pt-4 lg:pb-4'>
       <div className='grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 mt-2 lg:grid-cols-5 gap-4'>
         {content}
+        {content}
+        {content}
+        {content}
+        {content}
+        {content}
+        {content}
+        {content}
+        {content}
+        {content}
+        {content}
+        {content}
       </div>
     </div>
   );
