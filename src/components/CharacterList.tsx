@@ -28,7 +28,7 @@ const CharacterList = () => {
       content.push(
         <div key={character.id} className="flex items-center gap-4 p-4">
           <img className="w-12 h-12 rounded-full" src={`https://picsum.photos/seed/${character.id * 10}/100/100`} alt={`Profile pic of ${character.name}`} />
-          <strong className="text-slate-900 text-sm font-medium dark:text-slate-200">{character.name}</strong>
+          <strong className="text-slate-900 text-sm font-medium">{character.name}</strong>
         </div>
       );
     }
@@ -38,12 +38,12 @@ const CharacterList = () => {
   let content = [];
   for (const [key, value] of Object.entries(result)) {
     content.push(
-      <div key={key} className="sticky top-16 px-4 py-3 flex items-center font-semibold text-sm text-slate-900 dark:text-slate-200 bg-slate-50/90 dark:bg-slate-700/90 backdrop-blur-sm ring-1 ring-slate-900/10 dark:ring-black/10">
+      <div key={key} className="sticky top-16 px-4 py-3 flex items-center font-semibold text-sm text-slate-900 bg-slate-100 backdrop-blur-sm ring-1 ring-slate-900/10">
         {key}
       </div>
     );
     content.push(
-      <div key={key + "divider"} className="divide-y dark:divide-slate-200/5">
+      <div key={key + "divider"} className="divide-y">
         {populate(value)}
       </div>
     );
