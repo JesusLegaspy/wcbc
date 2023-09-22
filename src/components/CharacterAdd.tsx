@@ -14,7 +14,7 @@ const CharacterAdd = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <NavbarSub />
+      <NavbarSub text="Add character" />
       <div className="container m-auto max-w-screen-xl flex-grow relative">
         <CharacterList />
       </div>

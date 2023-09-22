@@ -2,7 +2,7 @@ import { useContext, useRef, useEffect } from "react";
 import { CharacterContext, Character } from "../context/characters";
 
 const CharacterList = () => {
-  const { allCharacters, fetchAllCharacters } = useContext(CharacterContext);
+  const { allCharacters, fetchAllCharacters, characters } = useContext(CharacterContext);
 
   const fetchAllCharactersRef = useRef(fetchAllCharacters);
   useEffect(() => {
@@ -13,7 +13,11 @@ const CharacterList = () => {
     [key: string]: Character[]
   };
 
-  const sorted = [...allCharacters].sort((a, b) => a.name.localeCompare(b.name));
+  const currCharacterIds = new Set(characters.map(c => c.id));
+
+  const sorted = allCharacters
+    .filter(character => !currCharacterIds.has(character.id))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const result = sorted.reduce<CharactersGroup>((result, character) => {
     const key: string = character.name.charAt(0).toUpperCase();

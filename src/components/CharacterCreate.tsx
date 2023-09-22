@@ -6,7 +6,7 @@ const CharacterCreate = () => {
 
   return (
     <div>
-      <NavbarSub />
+      <NavbarSub text="Create new character" />
       <div className="container m-auto max-w-sm sm:max-w-md sm:bg-slate-100 sm:border-x sm:border-b sm:border-gray-200">
         <form className="flex flex-col mx-6">
           <div className="relative m-auto p-6 mb-8">
