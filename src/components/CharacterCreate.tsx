@@ -12,8 +12,8 @@ const CharacterCreate = () => {
           <div className="relative m-auto p-6 mb-8">
             <div className="absolute w-52 h-52 bg-slate-200 rounded-full" />
             <img className="relative top-2 left-2 z-10 w-48 h-48 m-auto rounded-full opacity-40" src={profile} alt="Empty profile." />
-            <button className="z-20 w-10 h-10 absolute bottom-4 right-4 p-1 hover:bg-slate-200 rounded-full">
-              <TbPhotoPlus className="w-full h-full" />
+            <button className="z-20 w-10 h-10 absolute bottom-4 right-4 p-1 hover:bg-slate-200/50 rounded-full">
+              <TbPhotoPlus className="w-full h-full text-slate-600 hover:text-slate-700" />
             </button>
           </div>
           <div className="my-4">
