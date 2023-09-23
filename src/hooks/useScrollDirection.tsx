@@ -22,7 +22,7 @@ function useScrollDirection() {
       }
 
       // Scroll distance buffer
-      if (Math.abs(currentScrollTop - lastScrollTopRef.current) < 25) return;
+      if (Math.abs(currentScrollTop - lastScrollTopRef.current) < 75) return;
 
       // Logic for setting scroll direction
       if (currentScrollTop > lastScrollTopRef.current) {

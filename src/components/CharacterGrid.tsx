@@ -1,12 +1,29 @@
 import CharacterShow from './CharacterShow';
 import { CharacterContext } from '../context/characters';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 const CharacterList = () => {
   const { characters } = useContext(CharacterContext);
+  const [expandedCharacterId, setExpandedCharacterId] = useState<number | null>(null);
+
+  const handleClick = (characterId: number) => {
+    if (expandedCharacterId === characterId) {
+      setExpandedCharacterId(null);
+    } else {
+      setExpandedCharacterId(characterId);
+    }
+  }
 
   const content = characters?.map(character => {
-    return <CharacterShow key={character.id} character={character} />
+    const isExpanded = character.id === expandedCharacterId;
+    return (
+      <CharacterShow
+        key={character.id}
+        character={character}
+        handleClick={() => handleClick(character.id)}
+        expand={isExpanded}
+      />
+    );
   });
 
   return (
