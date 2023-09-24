@@ -11,7 +11,7 @@ const CharacterShow: React.FC<CharacterShowProps> = ({ character, handleClick, e
   return (
     <div
       onClick={handleClick}
-      className={`${expand ? "mb-[-16px] bg-blue-200 border-2 border-blue-200" : ""}`}
+      className={`z-10 ${expand ? "mb-[-16px] bg-blue-200 border-2 border-blue-200" : ""}`}
     >
       <h3 className="font-semibold whitespace-nowrap truncate">{character.name}</h3>
       <div className='relative text-gray-300 bg-cyan-300'>
