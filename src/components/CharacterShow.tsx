@@ -9,7 +9,10 @@ interface CharacterShowProps {
 const CharacterShow: React.FC<CharacterShowProps> = ({ character, handleClick, expand }) => {
 
   return (
-    <div onClick={handleClick} className={expand ? "bg-blue-200 border border-blue-200" : ""}>
+    <div
+      onClick={handleClick}
+      className={`${expand ? "mb-[-16px] bg-blue-200 border-2 border-blue-200" : ""}`}
+    >
       <h3 className="font-semibold whitespace-nowrap truncate">{character.name}</h3>
       <div className='relative text-gray-300 bg-cyan-300'>
         <img className="object-cover h-200 w-200" src={`https://picsum.photos/seed/${character.id * 10}/400/400`} alt="books" />
