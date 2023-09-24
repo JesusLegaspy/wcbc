@@ -13,7 +13,7 @@ const Menu = () => {
   }
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 border-t bg-gray-100">
+    <div className="z-20 fixed bottom-0 left-0 right-0 border-t bg-gray-100">
       <div className="container mx-auto max-w-screen-xl">
         <ul className="flex flex-row justify-center items-center h-16">
           <li className="p-3 flex justify-center items-center">
