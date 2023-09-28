@@ -1,0 +1,17 @@
+.detail-enter {
+  max-height: 0;
+}
+
+.detail-enter-active {
+  max-height: 1000px;
+  transition: max-height 500ms ease-in-out;
+}
+
+.detail-exit {
+  max-height: 1000px;
+}
+
+.detail-exit-active {
+  max-height: 0;
+  transition: max-height 500ms ease-in-out;
+}
