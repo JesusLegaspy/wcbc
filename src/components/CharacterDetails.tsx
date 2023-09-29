@@ -6,10 +6,10 @@ import { TbEdit } from "react-icons/tb";
 
 
 const CharacterDetails = ({ character }: { character: Character }) => {
-  const [isConfirmDelete, setIsConfirmDelete] = useState<boolean>(false);
+  const [isDeleteModalAlive, setIsDeleteModalAlive] = useState<boolean>(false);
 
   const handleDelete = () => {
-    setIsConfirmDelete(true);
+    setIsDeleteModalAlive(true);
   };
 
   return (
@@ -31,7 +31,7 @@ const CharacterDetails = ({ character }: { character: Character }) => {
         </button>
       </div>
       {/* <img src="https://placekitten.com/600/300" alt="kitty" /> */}
-      {isConfirmDelete && <ModalDelete />}
+      {isDeleteModalAlive && <ModalDelete setIsModalAlive={setIsDeleteModalAlive} />}
     </div>
   );
 }
