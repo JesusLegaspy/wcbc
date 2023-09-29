@@ -25,9 +25,6 @@ const CharacterList = () => {
       <div className="grid grid-flow-dense grid-cols-3 sm:grid-cols-3 md:grid-cols-4 mt-2 lg:grid-cols-5 gap-4">
         <TransitionGroup component={null}>
           {content}
-          {content}
-          {content}
-          {content}
         </TransitionGroup>
       </div>
     </div>

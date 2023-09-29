@@ -19,15 +19,8 @@ const CharacterShow: React.FC<CharacterShowProps> = ({ character, handleClick, e
           <img className="object-cover h-200 w-200" src={`https://picsum.photos/seed/${character.id * 10}/400/400`} alt="books" />
         </div>
       </div>
-      <CSSTransition
-        in={expand}
-        timeout={500}
-        classNames="detail"
-        unmountOnExit
-      >
-        <div
-          className="col-span-full overflow-hidden bg-blue-200 border-2 border-blue-200"
-        >
+      <CSSTransition in={expand} timeout={500} classNames="detail" unmountOnExit >
+        <div className="col-span-full overflow-hidden bg-blue-200 border-2 border-blue-200" >
           <CharacterDetails character={character} />
         </div>
       </CSSTransition>

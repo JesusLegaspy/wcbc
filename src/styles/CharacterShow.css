@@ -3,12 +3,12 @@
 }
 
 .detail-enter-active {
-  max-height: 1000px;
+  max-height: 500px;
   transition: max-height 500ms ease-in-out;
 }
 
 .detail-exit {
-  max-height: 1000px;
+  max-height: 500px;
 }
 
 .detail-exit-active {
