@@ -67,7 +67,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
         title: title,
         image: "",
       };
-      const response = await axios.post<Book>(`${API_BASE_URL}/books`, data)
+      const response = await axios.post<Book>(`${API_BASE_URL}/books`, data);
       const newBook = response.data;
       setBooks((prevBooks) => [...prevBooks, newBook]);
     } catch (error) {

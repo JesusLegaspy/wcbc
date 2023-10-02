@@ -1,16 +1,23 @@
-import { useState } from "react";
-import ModalDelete from "./ModalDelete";
+import { useState, useContext } from "react";
+import ModalConfirmation from "./ModalConfirmation";
 import { Character } from "../context/characters";
+import { BookContext } from "../context/books";
 import { LiaTrashAltSolid } from "react-icons/lia";
 import { TbEdit } from "react-icons/tb";
 
 
 const CharacterDetails = ({ character }: { character: Character }) => {
+  const { removeCharacterById } = useContext(BookContext);
   const [isDeleteModalAlive, setIsDeleteModalAlive] = useState<boolean>(false);
 
-  const handleDelete = () => {
+  const handleClick = () => {
     setIsDeleteModalAlive(true);
   };
+
+  const handleDelete = () => {
+    removeCharacterById(character.id);
+    setIsDeleteModalAlive(false);
+  }
 
   return (
     <div
@@ -26,12 +33,17 @@ const CharacterDetails = ({ character }: { character: Character }) => {
         <button>
           <LiaTrashAltSolid
             className="absolute bottom-1 right-1 text-xl text-gray-800 p rounded-full hover:bg-slate-200"
-            onClick={handleDelete}
+            onClick={handleClick}
           />
         </button>
       </div>
       {/* <img src="https://placekitten.com/600/300" alt="kitty" /> */}
-      {isDeleteModalAlive && <ModalDelete setIsModalAlive={setIsDeleteModalAlive} />}
+      {isDeleteModalAlive
+        && <ModalConfirmation
+          message="Would you like to delete this character?"
+          cancelAction={() => setIsDeleteModalAlive(false)}
+          acceptAction={handleDelete}
+        />}
     </div>
   );
 }

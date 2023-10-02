@@ -1,5 +1,4 @@
 import { useContext, useState } from 'react';
-import { TransitionGroup } from 'react-transition-group';
 import CharacterShow from './CharacterShow';
 import { CharacterContext } from '../context/characters';
 
@@ -23,9 +22,7 @@ const CharacterList = () => {
   return (
     <div className="container mx-auto max-w-screen-xl px-4 pt-16 pb-16 lg:pt-4 lg:pb-4">
       <div className="grid grid-flow-dense grid-cols-3 sm:grid-cols-3 md:grid-cols-4 mt-2 lg:grid-cols-5 gap-4">
-        <TransitionGroup component={null}>
-          {content}
-        </TransitionGroup>
+        {content}
       </div>
     </div>
   );

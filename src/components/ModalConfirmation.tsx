@@ -1,13 +1,15 @@
 import { FC } from 'react';
 
 interface ModalDeleteProps {
-  setIsModalAlive: React.Dispatch<React.SetStateAction<boolean>>;
+  message: string;
+  cancelAction: () => void;
+  acceptAction: () => void;
 }
 
-const ModalDelete: FC<ModalDeleteProps> = ({ setIsModalAlive }) => {
+const ModalDelete: FC<ModalDeleteProps> = ({ message, cancelAction, acceptAction }) => {
 
   const handleCancel = () => {
-    setIsModalAlive(false);
+    cancelAction();
   };
 
   const stopPropagation = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -31,7 +33,10 @@ const ModalDelete: FC<ModalDeleteProps> = ({ setIsModalAlive }) => {
           >
             Cancel
           </button>
-          <button className="p-2 ml-2 bg-orange-400">
+          <button
+            className="p-2 ml-2 bg-orange-400"
+            onClick={acceptAction}
+          >
             Yes
           </button>
         </div>
