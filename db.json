@@ -21,7 +21,10 @@
         21,
         22,
         23,
-        25
+        25,
+        26,
+        27,
+        30
       ]
     }
   ],
@@ -175,6 +178,42 @@
       "description": "",
       "image": "",
       "id": 25
+    },
+    {
+      "name": "A new character",
+      "description": "hello!",
+      "image": "",
+      "id": 26
+    },
+    {
+      "name": "Chocolate",
+      "description": "brown cat",
+      "image": "",
+      "id": 27
+    },
+    {
+      "name": "mewtwo",
+      "description": "a pokemon",
+      "image": "",
+      "id": 28
+    },
+    {
+      "name": "Snoreroar!",
+      "description": "A chuncky doggo ",
+      "image": "",
+      "id": 29
+    },
+    {
+      "name": "Flametail",
+      "description": "red tail she-cat",
+      "image": "",
+      "id": 30
+    },
+    {
+      "name": "Needletail",
+      "description": "Grey she-cat",
+      "image": "",
+      "id": 31
     }
   ]
 }

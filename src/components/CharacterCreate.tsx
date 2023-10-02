@@ -9,7 +9,7 @@ import { TbPhotoPlus } from 'react-icons/tb';
 const CharacterCreate = () => {
   const { createCharacter } = useContext(CharacterContext)
   const { currBookId, addCharacterById } = useContext(BookContext);
-  const { goHome } = useContext(PageContext);
+  const { goHome, goBack } = useContext(PageContext);
   const [valueName, setValueName] = useState<string>('');
   const [valueDescription, setValueDescription] = useState<string>('');
   const [checkedAddToExistingBook, setCheckedAddToExistingBook] = useState<boolean>(true);
@@ -23,10 +23,12 @@ const CharacterCreate = () => {
         return;
       }
 
-      if (checkedAddToExistingBook) {
-        addCharacterById(id);
+      if (!checkedAddToExistingBook) {
+        goBack();
+        return;
       }
 
+      addCharacterById(id);
       goHome();
     });
   }
