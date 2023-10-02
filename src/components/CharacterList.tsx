@@ -6,7 +6,7 @@ import { PageContext } from "../context/page";
 const CharacterList = () => {
   const { allCharacters, fetchAllCharacters, characters } = useContext(CharacterContext);
   const { addCharacterById } = useContext(BookContext);
-  const { goBack } = useContext(PageContext);
+  const { goHome } = useContext(PageContext);
 
   const fetchAllCharactersRef = useRef(fetchAllCharacters);
   useEffect(() => {
@@ -33,7 +33,7 @@ const CharacterList = () => {
 
   const handleClickAddCharacter = (id: number) => {
     addCharacterById(id);
-    goBack();
+    goHome();
   }
 
   const charactersSection = (characters: Character[]) => {

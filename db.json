@@ -9,7 +9,19 @@
         9,
         3,
         16,
-        6
+        6,
+        2,
+        5,
+        19,
+        17,
+        4,
+        7,
+        14,
+        20,
+        21,
+        22,
+        23,
+        25
       ]
     }
   ],
@@ -127,6 +139,42 @@
       "description": "Descript",
       "image": "Image",
       "id": 19
+    },
+    {
+      "name": "Cinderpelt",
+      "description": "The best cat ever!! <3",
+      "image": "",
+      "id": 20
+    },
+    {
+      "name": "Tigerstar",
+      "description": "which one?",
+      "image": "",
+      "id": 21
+    },
+    {
+      "name": "Alderheart",
+      "description": "A medicine cat",
+      "image": "",
+      "id": 22
+    },
+    {
+      "name": "Shadowsight",
+      "description": "A medicine cat that had special powers but has since been gone...",
+      "image": "",
+      "id": 23
+    },
+    {
+      "name": "Don't add me",
+      "description": "Bleh",
+      "image": "",
+      "id": 24
+    },
+    {
+      "name": "Add me!",
+      "description": "",
+      "image": "",
+      "id": 25
     }
   ]
 }

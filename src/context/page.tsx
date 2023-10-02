@@ -10,12 +10,14 @@ interface PageInterface {
   page: Page;
   setPage: (page: Page) => void;
   goBack: () => void;
+  goHome: () => void;
 }
 
 const startPage: PageInterface = {
   page: Page.Home,
   setPage: () => { },
   goBack: () => { },
+  goHome: () => { },
 }
 
 const PageContext = createContext<PageInterface>(startPage);
@@ -37,11 +39,17 @@ const PageProvider = ({ children }: { children?: ReactNode }) => {
     setPageInternal(history.at(-2) ?? Page.Home);
   }
 
+  const goHome = () => {
+    setHistory([Page.Home]);
+    setPageInternal(Page.Home);
+  };
+
   return (
     <PageContext.Provider value={{
       page,
       setPage,
-      goBack
+      goBack,
+      goHome
     }}>
       {children}
     </PageContext.Provider>

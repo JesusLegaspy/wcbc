@@ -1,6 +1,5 @@
 import axios from "axios";
-import { createContext, useContext, useState, ReactNode, useMemo, useCallback } from "react";
-import { Book, BookContext } from "./books";
+import { createContext, useState, ReactNode, useMemo, useCallback } from "react";
 
 const API_BASE_URL = "http://localhost:3001";
 
@@ -16,7 +15,7 @@ interface CharacterContextType {
   allCharacters: readonly Character[];
   fetchCharactersByIds: (ids: number[]) => Promise<void>;
   fetchAllCharacters: () => Promise<void>;
-  createCharacter: (bookId: number, name: string, description: string, imageUrl: string) => Promise<void>;
+  createCharacter: (bookId: number, name: string, description: string, imageUrl: string) => Promise<number | undefined>;
   editCharacterById: (id: number, data: Character) => Promise<void>;
   // deleteCharacterById: (id: number) => void;
 }
@@ -33,14 +32,13 @@ const startupCharacterContext: CharacterContextType = {
   allCharacters: [startupCharacter],
   fetchCharactersByIds: async () => { },
   fetchAllCharacters: async () => { },
-  createCharacter: async () => { },
+  createCharacter: async () => { return undefined },
   editCharacterById: async () => { },
 }
 
 const CharacterContext = createContext<CharacterContextType>(startupCharacterContext);
 
 const CharacterProvider = ({ children }: { children?: ReactNode }) => {
-  const { editBook } = useContext(BookContext);
   const [characters, setCharacters] = useState<readonly Character[]>([]);
   const [allCharacters, setAllCharacters] = useState<readonly Character[]>([]);
 
@@ -65,23 +63,23 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
 
   const createCharacter = useCallback(async (bookId: number, name: string, description: string, imageUrl: string = '') => {
     try {
-
       const response = await axios.post<Character>(`${API_BASE_URL}/characters/`, {
         name,
         description,
         image: imageUrl,
       });
       const newCharacter = response.data;
+      return newCharacter.id;
 
-      const bookResponse = await axios.get<Book>(`${API_BASE_URL}/books/${bookId}`);
-      const currentCharactersIds = bookResponse.data.characterIds || [];
-      await editBook({ id: bookId, characterIds: [...currentCharactersIds, newCharacter.id] });
+      // const bookResponse = await axios.get<Book>(`${API_BASE_URL}/books/${bookId}`);
+      // const currentCharactersIds = bookResponse.data.characterIds || [];
+      // await editBook({ id: bookId, characterIds: [...currentCharactersIds, newCharacter.id] });
 
-      setCharacters([...characters, newCharacter]);
+      // setCharacters([...characters, newCharacter]);
     } catch (error) {
       console.error("Error creating character:", error);
     }
-  }, [editBook, characters]);
+  }, []);
 
   const editCharacterById = async (id: number, data: Character) => {
     try {
