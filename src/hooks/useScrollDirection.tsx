@@ -10,7 +10,7 @@ function useScrollDirection() {
       const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
       // Check if user is at the top, add a buffer
-      if (currentScrollTop < 100) {
+      if (currentScrollTop < 5) {
         setDirection('up');
         return;
       }

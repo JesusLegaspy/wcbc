@@ -24,7 +24,8 @@
         25,
         26,
         27,
-        30
+        30,
+        32
       ]
     }
   ],
@@ -214,6 +215,12 @@
       "description": "Grey she-cat",
       "image": "",
       "id": 31
+    },
+    {
+      "name": "Cloudstar",
+      "description": "Big white tom",
+      "image": "",
+      "id": 32
     }
   ]
 }
