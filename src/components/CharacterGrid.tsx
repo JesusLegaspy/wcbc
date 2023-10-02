@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import CharacterShow from './CharacterShow';
 import { CharacterContext } from '../context/characters';
 
-const CharacterList = () => {
+const CharacterGrid = () => {
   const { characters } = useContext(CharacterContext);
   const [expandId, setExpandId] = useState<number | null>(null);
 
@@ -28,4 +28,4 @@ const CharacterList = () => {
   );
 };
 
-export default CharacterList;
+export default CharacterGrid;

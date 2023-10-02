@@ -20,6 +20,7 @@ interface BookContextType {
   editBook: (data: Book) => Promise<void>;
   deleteBookById: (id: number) => Promise<void>;
   removeCharacterById: (id: number) => Promise<void>;
+  addCharacterById: (id: number) => void;
 }
 
 const startupBook: Book = {
@@ -39,6 +40,7 @@ const startupBookContext: BookContextType = {
   editBook: async () => { },
   deleteBookById: async () => { },
   removeCharacterById: async () => { },
+  addCharacterById: () => { },
 }
 
 const BookContext = createContext<BookContextType>(startupBookContext);
@@ -120,6 +122,14 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     editBook({ id: currBookId, characterIds: characterIds });
   }, [books, currBookId, editBook]);
 
+  const addCharacterById = useCallback((id: number) => {
+    if (!currBook) {
+      console.error("Unexpected error. Current book not found");
+      return;
+    }
+    editBook({ id: currBookId, characterIds: [...currBook?.characterIds ?? [], id] });
+  }, [currBook, currBookId, editBook]);
+
   const contextValue = useMemo(
     () => ({
       books,
@@ -130,8 +140,9 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
       createBook,
       editBook,
       deleteBookById,
-      removeCharacterById
-    }), [books, currBook, currBookId, editBook, removeCharacterById]);
+      removeCharacterById,
+      addCharacterById
+    }), [books, currBook, currBookId, editBook, removeCharacterById, addCharacterById]);
 
   return (
     <BookContext.Provider value={contextValue}>
