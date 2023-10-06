@@ -1,11 +1,17 @@
-import { useContext, useRef, useEffect } from "react";
+import { useContext, useRef, useEffect, useState } from "react";
 import { CharacterContext, Character } from "../context/characters";
 import { BookContext } from "../context/books";
 import { PageContext } from "../context/page";
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import "../styles/CharacterList.css";
 
+type XPositionsType = {
+  [key: number]: number;
+};
+
+
 const CharacterList = () => {
+  const [xPositions, setXPositions] = useState<XPositionsType>({});
   const { allCharacters, fetchAllCharacters, characters } = useContext(CharacterContext);
   const { addCharacterById } = useContext(BookContext);
   const { goHome } = useContext(PageContext);
@@ -52,6 +58,17 @@ const CharacterList = () => {
     const handleDragStop = (e: DraggableEvent, data: DraggableData, characterId: number) => {
       const dragDistance = data.x - dragStartX; // Calculate the distance dragged
 
+      setXPositions(xPos => {
+        const newXPositions = { ...xPos };
+
+        if (dragDistance < -50) {
+          newXPositions[characterId] = -100;
+        } else {
+          newXPositions[characterId] = 0;
+        }
+
+        return (newXPositions);
+      });
 
       // If drag distance is minimal and the last drag position was the starting point, consider it a click
       if (Math.abs(dragDistance) < 10 && lastDragPosition === 0) {
@@ -74,6 +91,7 @@ const CharacterList = () => {
           </button>
           <div className="z-10 bg-white">
             <Draggable
+              position={{ x: xPositions[character.id] || 0, y: 0 }}
               axis="x"
               bounds={{ left: -100, right: 0 }}
               key={character.id}

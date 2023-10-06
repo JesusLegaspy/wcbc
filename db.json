@@ -6,7 +6,6 @@
       "id": 0,
       "characterIds": [
         1,
-        9,
         3,
         16,
         6,
@@ -30,8 +29,7 @@
         10,
         24,
         31,
-        29,
-        18
+        34
       ]
     }
   ],
@@ -233,6 +231,12 @@
       "description": "new character",
       "image": "",
       "id": 33
+    },
+    {
+      "name": "hellol",
+      "description": "from mark",
+      "image": "",
+      "id": 34
     }
   ]
 }
