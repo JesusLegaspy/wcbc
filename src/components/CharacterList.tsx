@@ -47,8 +47,6 @@ const CharacterList = () => {
   const charactersSection = (characters: Character[]) => {
     const content = [];
     let dragStartX = 0;
-    let lastDragPosition = 0;
-
     const handleDragStart = (e: DraggableEvent) => {
       if (e instanceof MouseEvent) {
         dragStartX = e.clientX;
@@ -57,6 +55,7 @@ const CharacterList = () => {
 
     const handleDragStop = (e: DraggableEvent, data: DraggableData, characterId: number) => {
       const dragDistance = data.x - dragStartX; // Calculate the distance dragged
+      const wasOpen = xPositions[characterId] === -100;
 
       setXPositions(xPos => {
         const newXPositions = { ...xPos };
@@ -71,16 +70,14 @@ const CharacterList = () => {
       });
 
       // If drag distance is minimal and the last drag position was the starting point, consider it a click
-      if (Math.abs(dragDistance) < 10 && lastDragPosition === 0) {
+      if (Math.abs(dragDistance) < 10 && !wasOpen) {
         handleClickAddCharacter(characterId);
       }
-
-      lastDragPosition = data.x; // Update the last drag position
     };
 
     for (const character of characters) {
       content.push(
-        <div className="relative w-full">
+        <div key={character.id} className="relative w-full">
           <button
             className="z-0 absolute top-1 right-1 bottom-1 w-24 bg-red-500 flex justify-center items-center text-white"
             onClick={() => {
@@ -94,7 +91,6 @@ const CharacterList = () => {
               position={{ x: xPositions[character.id] || 0, y: 0 }}
               axis="x"
               bounds={{ left: -100, right: 0 }}
-              key={character.id}
               onStart={handleDragStart}
               onStop={(e, data) => handleDragStop(e, data, character.id)}
             >
