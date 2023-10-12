@@ -4,6 +4,8 @@ import { BookContext } from "../context/books";
 import { PageContext } from "../context/page";
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import "../styles/CharacterList.css";
+import { LiaTrashAltSolid } from "react-icons/lia";
+import { TbEdit } from "react-icons/tb";
 
 type XPositionsType = {
   [key: number]: number;
@@ -25,6 +27,15 @@ const CharacterList = () => {
     [key: string]: Character[]
   };
 
+  const handleClickAddCharacter = (id: number) => {
+    addCharacterById(id);
+    goHome();
+  }
+
+  const handleClickDeleteCharacter = () => {
+    console.log('Delete!');
+  }
+
   const currCharacterIds = new Set(characters.map(c => c.id));
 
   const sorted = allCharacters
@@ -39,13 +50,7 @@ const CharacterList = () => {
     return characterDictionary;
   }, {});
 
-  const handleClickAddCharacter = (id: number) => {
-    addCharacterById(id);
-    goHome();
-  }
-
-  const charactersSection = (characters: Character[]) => {
-    const content = [];
+  const charactersSectionDraggable = (characters: Character[]) => {
     let dragStartX = 0;
     const handleDragStart = (e: DraggableEvent) => {
       if (e instanceof MouseEvent) {
@@ -75,42 +80,75 @@ const CharacterList = () => {
       }
     };
 
-    for (const character of characters) {
-      content.push(
+    return (
+      characters.map(character => (
         <div key={character.id} className="relative w-full">
           <button
             className="z-0 absolute top-1 right-1 bottom-1 w-24 bg-red-500 flex justify-center items-center text-white"
-            onClick={() => {
-              console.log('Delete Click!');
-            }}
+            onClick={handleClickDeleteCharacter}
           >
             Delete
           </button>
-          <div className="z-10 bg-white">
-            <Draggable
-              position={{ x: xPositions[character.id] || 0, y: 0 }}
-              axis="x"
-              bounds={{ left: -100, right: 0 }}
-              onStart={handleDragStart}
-              onStop={(e, data) => handleDragStop(e, data, character.id)}
-            >
-              <div
-                className="flex items-center gap-4 p-4 bg-white hover:bg-slate-50"
-              >
-                <img
-                  className="w-12 h-12 rounded-full"
-                  src={`https://picsum.photos/seed/${character.id * 10}/100/100`}
-                  alt={`Profile pic of ${character.name}`}
-                />
-                <strong className="text-slate-900 text-sm font-medium">{character.name}</strong>
-              </div>
-            </Draggable>
-          </div>
+          <Draggable
+            position={{ x: xPositions[character.id] || 0, y: 0 }}
+            axis="x"
+            bounds={{ left: -100, right: 0 }}
+            onStart={handleDragStart}
+            onStop={(e, data) => handleDragStop(e, data, character.id)}
+          >
+            <div className="z-10 flex items-center gap-4 p-4 bg-white hover:bg-slate-50">
+              <img
+                className="w-12 h-12 rounded-full"
+                src={`https://picsum.photos/seed/${character.id * 10}/100/100`}
+                alt={`Profile pic of ${character.name}`}
+              />
+              <strong className="text-slate-900 text-sm font-medium">{character.name}</strong>
+            </div>
+          </Draggable>
         </div>
-      );
-    }
-    return content;
+      ))
+    );
   }
+
+  const characterSection = (characters: Character[]) => {
+    return (
+      characters.map(character => (
+        <div
+          key={character.id}
+          className="z-10 flex items-center w-full hover:bg-slate-50"
+          onClick={() => handleClickAddCharacter(character.id)}
+        >
+          <div className="grow flex items-center gap-4 p-4">
+            <img
+              className="w-12 h-12 rounded-full"
+              src={`https://picsum.photos/seed/${character.id * 10}/100/100`}
+              alt={`Profile pic of ${character.name}`}
+            />
+            <strong className="text-slate-900 text-sm font-medium">{character.name}</strong>
+          </div>
+          <button
+            className="flex p-2 rounded-full hover:bg-slate-200 text-slate-700 hover:text-black"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleClickDeleteCharacter();
+            }}
+          >
+            <LiaTrashAltSolid />
+          </button>
+          <button
+            className="flex p-2 mr-3 rounded-full hover:bg-slate-200 text-slate-700 hover:text-black"
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log('edit!');
+            }}
+          >
+            <TbEdit />
+          </button>
+        </div>
+      ))
+    );
+  }
+
 
   // Create sections of charcters grouped with the same first letter.
   // key - first letter
@@ -124,7 +162,12 @@ const CharacterList = () => {
     );
     content.push(
       <div key={key + "divider"} className="divide-y">
-        {charactersSection(value)}
+        <div className="lg:hidden">
+          {charactersSectionDraggable(value)}
+        </div>
+        <div className="hidden lg:block">
+          {characterSection(value)}
+        </div>
       </div>
     );
   }
