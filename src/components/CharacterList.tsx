@@ -65,13 +65,13 @@ const CharacterList = () => {
 
     const handleDragStop = (e: DraggableEvent, data: DraggableData, characterId: number) => {
       const dragDistance = data.x - dragStartX; // Calculate the distance dragged
-      const wasOpen = xPositions[characterId] === -100;
+      const wasOpen = xPositions[characterId] === -148;
 
       setXPositions(xPos => {
         const newXPositions = { ...xPos };
 
-        if (dragDistance < -50) {
-          newXPositions[characterId] = -100;
+        if (dragDistance < -74) {
+          newXPositions[characterId] = -148;
         } else {
           newXPositions[characterId] = 0;
         }
@@ -88,17 +88,25 @@ const CharacterList = () => {
     return (
       characters.map(character => (
         <div key={character.id} className="relative w-full">
-          <button
-            className="z-0 absolute top-1 right-1 bottom-1 w-24 bg-red-500 flex justify-center items-center text-white"
-            onClick={() => handleClickDeleteCharacter(character.id)}
-          >
-            Delete
-          </button>
+          <div className="z-0 absolute top-1 right-1 bottom-1 w-36 flex items-center">
+            <button
+              className="bg-amber-300 w-16 h-12 flex justify-center items-center text-white"
+              onClick={() => handleClickEditCharacter(character.id)}
+            >
+              Edit
+            </button>
+            <button
+              className="bg-red-500 w-20 h-12 flex justify-center items-center text-white"
+              onClick={() => handleClickDeleteCharacter(character.id)}
+            >
+              Delete
+            </button>
+          </div>
           <Draggable
             nodeRef={nodeRef}
             position={{ x: xPositions[character.id] || 0, y: 0 }}
             axis="x"
-            bounds={{ left: -100, right: 0 }}
+            bounds={{ left: -148, right: 0 }}
             onStart={handleDragStart}
             onStop={(e, data) => handleDragStop(e, data, character.id)}
           >

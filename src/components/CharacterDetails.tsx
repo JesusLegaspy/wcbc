@@ -40,7 +40,7 @@ const CharacterDetails = ({ character }: { character: Character }) => {
       {/* <img src="https://placekitten.com/600/300" alt="kitty" /> */}
       {isDeleteModalAlive
         && <ModalConfirmation
-          message="Would you like to delete this character?"
+          message="Would you like to remove this character?"
           cancelAction={() => setIsDeleteModalAlive(false)}
           acceptAction={handleDelete}
         />}
