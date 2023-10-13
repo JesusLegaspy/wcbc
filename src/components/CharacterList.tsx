@@ -17,6 +17,7 @@ const CharacterList = () => {
   const { allCharacters, fetchAllCharacters, characters } = useContext(CharacterContext);
   const { addCharacterById } = useContext(BookContext);
   const { goHome } = useContext(PageContext);
+  const nodeRef = useRef(null);
 
   const fetchAllCharactersRef = useRef(fetchAllCharacters);
   useEffect(() => {
@@ -94,13 +95,14 @@ const CharacterList = () => {
             Delete
           </button>
           <Draggable
+            nodeRef={nodeRef}
             position={{ x: xPositions[character.id] || 0, y: 0 }}
             axis="x"
             bounds={{ left: -100, right: 0 }}
             onStart={handleDragStart}
             onStop={(e, data) => handleDragStop(e, data, character.id)}
           >
-            <div className="z-10 flex items-center gap-4 p-4 bg-white hover:bg-slate-50">
+            <div ref={nodeRef} className="z-10 flex items-center gap-4 p-4 bg-white hover:bg-slate-50">
               <img
                 className="w-12 h-12 rounded-full"
                 src={`https://picsum.photos/seed/${character.id * 10}/100/100`}
