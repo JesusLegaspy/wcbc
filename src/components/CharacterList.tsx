@@ -32,8 +32,12 @@ const CharacterList = () => {
     goHome();
   }
 
-  const handleClickDeleteCharacter = () => {
+  const handleClickDeleteCharacter = (id: number) => {
     console.log('Delete!');
+  }
+
+  const handleClickEditCharacter = (id: number) => {
+    console.log('Edit!');
   }
 
   const currCharacterIds = new Set(characters.map(c => c.id));
@@ -85,7 +89,7 @@ const CharacterList = () => {
         <div key={character.id} className="relative w-full">
           <button
             className="z-0 absolute top-1 right-1 bottom-1 w-24 bg-red-500 flex justify-center items-center text-white"
-            onClick={handleClickDeleteCharacter}
+            onClick={() => handleClickDeleteCharacter(character.id)}
           >
             Delete
           </button>
@@ -115,7 +119,7 @@ const CharacterList = () => {
       characters.map(character => (
         <div
           key={character.id}
-          className="z-10 flex items-center w-full hover:bg-slate-50"
+          className="group z-10 flex items-center w-full hover:bg-slate-50"
           onClick={() => handleClickAddCharacter(character.id)}
         >
           <div className="grow flex items-center gap-4 p-4">
@@ -127,22 +131,22 @@ const CharacterList = () => {
             <strong className="text-slate-900 text-sm font-medium">{character.name}</strong>
           </div>
           <button
-            className="flex p-2 rounded-full hover:bg-slate-200 text-slate-700 hover:text-black"
+            className="invisible group-hover:visible flex p-2 rounded-full hover:bg-slate-200 text-slate-500 hover:text-black"
             onClick={(e) => {
               e.stopPropagation();
-              handleClickDeleteCharacter();
-            }}
-          >
-            <LiaTrashAltSolid />
-          </button>
-          <button
-            className="flex p-2 mr-3 rounded-full hover:bg-slate-200 text-slate-700 hover:text-black"
-            onClick={(e) => {
-              e.stopPropagation();
-              console.log('edit!');
+              handleClickEditCharacter(character.id);
             }}
           >
             <TbEdit />
+          </button>
+          <button
+            className="invisible group-hover:visible flex p-2 mr-3 rounded-full hover:bg-slate-200 text-slate-500 hover:text-black"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleClickDeleteCharacter(character.id);
+            }}
+          >
+            <LiaTrashAltSolid />
           </button>
         </div>
       ))

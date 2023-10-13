@@ -1,6 +1,6 @@
-@media only screen and (min-width: 1280px) {
+@media only screen and (min-width: 1024px) {
   .btn-create-character {
-    left: calc(50% + 640px - 4rem);
+    left: calc(50% + 512px - 4rem);
     right: auto;
   }
 }
