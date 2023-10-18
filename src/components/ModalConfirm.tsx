@@ -1,12 +1,12 @@
 import { FC } from 'react';
 
-interface ModalDeleteProps {
+interface ModalConfirmProps {
   message: string;
   cancelAction: () => void;
   acceptAction: () => void;
 }
 
-const ModalDelete: FC<ModalDeleteProps> = ({ message, cancelAction, acceptAction }) => {
+const ModalConfirm: FC<ModalConfirmProps> = ({ message, cancelAction, acceptAction }) => {
 
   const handleCancel = () => {
     cancelAction();
@@ -45,4 +45,4 @@ const ModalDelete: FC<ModalDeleteProps> = ({ message, cancelAction, acceptAction
   );
 }
 
-export default ModalDelete;
+export default ModalConfirm;

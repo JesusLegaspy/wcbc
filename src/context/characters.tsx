@@ -17,7 +17,7 @@ interface CharacterContextType {
   fetchAllCharacters: () => Promise<void>;
   createCharacter: (bookId: number, name: string, description: string, imageUrl: string) => Promise<number | undefined>;
   editCharacterById: (id: number, data: Character) => Promise<void>;
-  // deleteCharacterById: (id: number) => void;
+  deleteCharacterById: (id: number) => void;
 }
 
 const startupCharacter: Character = {
@@ -34,6 +34,7 @@ const startupCharacterContext: CharacterContextType = {
   fetchAllCharacters: async () => { },
   createCharacter: async () => { return undefined },
   editCharacterById: async () => { },
+  deleteCharacterById: () => { }
 }
 
 const CharacterContext = createContext<CharacterContextType>(startupCharacterContext);
@@ -91,14 +92,15 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
     }
   };
 
-  // const deleteCharacterById = async (id: number) => {
-  //   try {
-  //     await axios.delete(`${API_BASE_URL}/characters/${id}`);
-  //     setCharacters((prevCharacters) => prevCharacters.filter((character) => character.id !== id));
-  //   } catch (error) {
-  //     console.error("Error deleting character:", error);
-  //   }
-  // };
+  const deleteCharacterById = async (id: number) => {
+    // todo: Need to delete character in all books
+    try {
+      await axios.delete(`${API_BASE_URL}/characters/${id}`);
+      setAllCharacters((prevCharacters) => prevCharacters.filter((character) => character.id !== id));
+    } catch (error) {
+      console.error("Error deleting character:", error);
+    }
+  };
 
   const contextValue = useMemo(
     () => ({
@@ -108,7 +110,7 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
       fetchAllCharacters,
       createCharacter,
       editCharacterById,
-      // deleteCharacterById
+      deleteCharacterById
     }), [characters, createCharacter, allCharacters]);
 
   return (

@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import ModalConfirmation from "./ModalConfirmation";
+import ModalConfirm from "./ModalConfirm";
 import { Character } from "../context/characters";
 import { BookContext } from "../context/books";
 import { LiaTrashAltSolid } from "react-icons/lia";
@@ -39,7 +39,7 @@ const CharacterDetails = ({ character }: { character: Character }) => {
       </div>
       {/* <img src="https://placekitten.com/600/300" alt="kitty" /> */}
       {isDeleteModalAlive
-        && <ModalConfirmation
+        && <ModalConfirm
           message="Would you like to remove this character?"
           cancelAction={() => setIsDeleteModalAlive(false)}
           acceptAction={handleDelete}

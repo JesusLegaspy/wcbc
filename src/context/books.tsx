@@ -130,6 +130,8 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     editBook({ id: currBookId, characterIds: [...currBook?.characterIds ?? [], id] });
   }, [currBook, currBookId, editBook]);
 
+
+
   const contextValue = useMemo(
     () => ({
       books,

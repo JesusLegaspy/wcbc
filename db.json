@@ -5,33 +5,14 @@
       "image": "",
       "id": 0,
       "characterIds": [
-        1,
         3,
-        16,
-        6,
-        19,
-        17,
-        4,
-        7,
-        14,
-        20,
-        21,
+        2,
         22,
-        23,
-        25,
-        26,
-        27,
-        11
+        4
       ]
     }
   ],
   "characters": [
-    {
-      "id": 1,
-      "name": "Sam",
-      "description": "tall and wears no glasses",
-      "image": ""
-    },
     {
       "id": 2,
       "name": "Graystripe",
@@ -51,94 +32,10 @@
       "image": ""
     },
     {
-      "name": "mouse",
-      "description": "A rodent",
-      "image": "imageUrl",
-      "id": 5
-    },
-    {
       "name": "mew",
       "description": "lola",
       "image": "somelink",
       "id": 6
-    },
-    {
-      "name": "What",
-      "description": "whaaat",
-      "image": "whaaaaat",
-      "id": 7
-    },
-    {
-      "name": "testing",
-      "description": "testdesc",
-      "image": "testimg",
-      "id": 8
-    },
-    {
-      "name": "Names Mark was here",
-      "description": "Descript",
-      "image": "Image",
-      "id": 9
-    },
-    {
-      "name": "Ten",
-      "description": "Descript",
-      "image": "Image",
-      "id": 10
-    },
-    {
-      "name": "11",
-      "description": "Descript",
-      "image": "Image",
-      "id": 11
-    },
-    {
-      "name": "twelve",
-      "description": "Descript",
-      "image": "Image",
-      "id": 12
-    },
-    {
-      "name": "asdfewer",
-      "description": "Descript",
-      "image": "Image",
-      "id": 13
-    },
-    {
-      "name": "zxcazxv",
-      "description": "Descript",
-      "image": "Image",
-      "id": 14
-    },
-    {
-      "name": "mjy",
-      "description": "Descript",
-      "image": "Image",
-      "id": 15
-    },
-    {
-      "name": "adaf",
-      "description": "Descript",
-      "image": "Image",
-      "id": 16
-    },
-    {
-      "name": "bfaf",
-      "description": "Descript",
-      "image": "Image",
-      "id": 17
-    },
-    {
-      "name": "awa",
-      "description": "Descript",
-      "image": "Image",
-      "id": 18
-    },
-    {
-      "name": "csda",
-      "description": "Descript",
-      "image": "Image",
-      "id": 19
     },
     {
       "name": "Cinderpelt",
@@ -165,40 +62,10 @@
       "id": 23
     },
     {
-      "name": "Don't add me",
-      "description": "Bleh",
-      "image": "",
-      "id": 24
-    },
-    {
-      "name": "Add me!",
-      "description": "",
-      "image": "",
-      "id": 25
-    },
-    {
       "name": "A new character",
       "description": "hello!",
       "image": "",
       "id": 26
-    },
-    {
-      "name": "Chocolate",
-      "description": "brown cat",
-      "image": "",
-      "id": 27
-    },
-    {
-      "name": "mewtwo",
-      "description": "a pokemon",
-      "image": "",
-      "id": 28
-    },
-    {
-      "name": "Snoreroar!",
-      "description": "A chuncky doggo ",
-      "image": "",
-      "id": 29
     },
     {
       "name": "Flametail",
@@ -217,18 +84,6 @@
       "description": "Big white tom",
       "image": "",
       "id": 32
-    },
-    {
-      "name": "Test",
-      "description": "new character",
-      "image": "",
-      "id": 33
-    },
-    {
-      "name": "hellol",
-      "description": "from mark",
-      "image": "",
-      "id": 34
     }
   ]
 }

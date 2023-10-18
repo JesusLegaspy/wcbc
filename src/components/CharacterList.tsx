@@ -1,23 +1,13 @@
-import { useContext, useRef, useEffect, useState } from "react";
+import { useContext, useRef, useEffect, Fragment, useMemo } from "react";
 import { CharacterContext, Character } from "../context/characters";
-import { BookContext } from "../context/books";
-import { PageContext } from "../context/page";
-import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
-import "../styles/CharacterList.css";
-import { LiaTrashAltSolid } from "react-icons/lia";
-import { TbEdit } from "react-icons/tb";
+import CharacterSection from "./CharacterSection";
+import CharactersSectionDraggable from "./CharacterSectionDraggable";
 
-type XPositionsType = {
-  [key: number]: number;
-};
+import "../styles/CharacterList.css";
 
 
 const CharacterList = () => {
-  const [xPositions, setXPositions] = useState<XPositionsType>({});
   const { allCharacters, fetchAllCharacters, characters } = useContext(CharacterContext);
-  const { addCharacterById } = useContext(BookContext);
-  const { goHome } = useContext(PageContext);
-  const nodeRef = useRef(null);
 
   const fetchAllCharactersRef = useRef(fetchAllCharacters);
   useEffect(() => {
@@ -28,167 +18,44 @@ const CharacterList = () => {
     [key: string]: Character[]
   };
 
-  const handleClickAddCharacter = (id: number) => {
-    addCharacterById(id);
-    goHome();
-  }
+  const getUnusedCharacters = () => {
+    // todo: think about getting ids from book instead
+    const currCharacterIds = new Set(characters.map(c => c.id));
 
-  const handleClickDeleteCharacter = (id: number) => {
-    console.log('Delete!');
-  }
+    const sorted = allCharacters
+      .filter(character => !currCharacterIds.has(character.id))
+      .sort((a, b) => a.name.localeCompare(b.name));
 
-  const handleClickEditCharacter = (id: number) => {
-    console.log('Edit!');
-  }
+    // Dictionary - key of first letter, value of names having the same first letter
+    const characterDictionary = sorted.reduce<CharactersGroup>((characterDictionary, character) => {
+      const key: string = character.name.charAt(0).toUpperCase();
+      characterDictionary[key] = characterDictionary[key] || [];
+      characterDictionary[key].push(character);
+      return characterDictionary;
+    }, {});
 
-  const currCharacterIds = new Set(characters.map(c => c.id));
-
-  const sorted = allCharacters
-    .filter(character => !currCharacterIds.has(character.id))
-    .sort((a, b) => a.name.localeCompare(b.name));
-
-  // Dictionary - key of first letter, value of names having the same first letter
-  const characterDictionary = sorted.reduce<CharactersGroup>((characterDictionary, character) => {
-    const key: string = character.name.charAt(0).toUpperCase();
-    characterDictionary[key] = characterDictionary[key] || [];
-    characterDictionary[key].push(character);
     return characterDictionary;
-  }, {});
-
-  const charactersSectionDraggable = (characters: Character[]) => {
-    let dragStartX = 0;
-    const handleDragStart = (e: DraggableEvent) => {
-      if (e instanceof MouseEvent) {
-        dragStartX = e.clientX;
-      }
-    };
-
-    const handleDragStop = (e: DraggableEvent, data: DraggableData, characterId: number) => {
-      const dragDistance = data.x - dragStartX; // Calculate the distance dragged
-      const wasOpen = xPositions[characterId] === -148;
-
-      setXPositions(xPos => {
-        const newXPositions = { ...xPos };
-
-        if (dragDistance < -74) {
-          newXPositions[characterId] = -148;
-        } else {
-          newXPositions[characterId] = 0;
-        }
-
-        return (newXPositions);
-      });
-
-      // If drag distance is minimal and the last drag position was the starting point, consider it a click
-      if (Math.abs(dragDistance) < 10 && !wasOpen) {
-        handleClickAddCharacter(characterId);
-      }
-    };
-
-    return (
-      characters.map(character => (
-        <div key={character.id} className="relative w-full">
-          <div className="z-0 absolute top-1 right-1 bottom-1 w-36 flex items-center">
-            <button
-              className="bg-amber-300 w-16 h-12 flex justify-center items-center text-white"
-              onClick={() => handleClickEditCharacter(character.id)}
-            >
-              Edit
-            </button>
-            <button
-              className="bg-red-500 w-20 h-12 flex justify-center items-center text-white"
-              onClick={() => handleClickDeleteCharacter(character.id)}
-            >
-              Delete
-            </button>
-          </div>
-          <Draggable
-            nodeRef={nodeRef}
-            position={{ x: xPositions[character.id] || 0, y: 0 }}
-            axis="x"
-            bounds={{ left: -148, right: 0 }}
-            onStart={handleDragStart}
-            onStop={(e, data) => handleDragStop(e, data, character.id)}
-          >
-            <div ref={nodeRef} className="z-10 flex items-center gap-4 p-4 bg-white hover:bg-slate-50">
-              <img
-                className="w-12 h-12 rounded-full"
-                src={`https://picsum.photos/seed/${character.id * 10}/100/100`}
-                alt={`Profile pic of ${character.name}`}
-              />
-              <strong className="text-slate-900 text-sm font-medium">{character.name}</strong>
-            </div>
-          </Draggable>
-        </div>
-      ))
-    );
   }
 
-  const characterSection = (characters: Character[]) => {
-    return (
-      characters.map(character => (
-        <div
-          key={character.id}
-          className="group z-10 flex items-center w-full hover:bg-slate-50"
-          onClick={() => handleClickAddCharacter(character.id)}
-        >
-          <div className="grow flex items-center gap-4 p-4">
-            <img
-              className="w-12 h-12 rounded-full"
-              src={`https://picsum.photos/seed/${character.id * 10}/100/100`}
-              alt={`Profile pic of ${character.name}`}
-            />
-            <strong className="text-slate-900 text-sm font-medium">{character.name}</strong>
-          </div>
-          <button
-            className="invisible group-hover:visible flex p-2 rounded-full hover:bg-slate-200 text-slate-500 hover:text-black"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleClickEditCharacter(character.id);
-            }}
-          >
-            <TbEdit />
-          </button>
-          <button
-            className="invisible group-hover:visible flex p-2 mr-3 rounded-full hover:bg-slate-200 text-slate-500 hover:text-black"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleClickDeleteCharacter(character.id);
-            }}
-          >
-            <LiaTrashAltSolid />
-          </button>
-        </div>
-      ))
-    );
-  }
-
-
-  // Create sections of charcters grouped with the same first letter.
-  // key - first letter
-  // value - array of characters with the same first letter
-  let content = [];
-  for (const [key, value] of Object.entries(characterDictionary)) {
-    content.push(
-      <div key={key} className="z-30 sticky top-16 px-4 py-3 flex items-center font-semibold text-sm text-slate-900 bg-slate-100 backdrop-blur-sm ring-1 ring-slate-900/10">
-        {key}
-      </div>
-    );
-    content.push(
-      <div key={key + "divider"} className="divide-y">
-        <div className="lg:hidden">
-          {charactersSectionDraggable(value)}
-        </div>
-        <div className="hidden lg:block">
-          {characterSection(value)}
-        </div>
-      </div>
-    );
-  }
+  const unusedCharacters = useMemo(getUnusedCharacters, [characters, allCharacters]);
 
   return (
     <div className="p-4">
-      {content}
+      {Object.entries(unusedCharacters).map(([letter, characters]) => (
+        <Fragment key={letter}>
+          <div className="z-30 sticky top-16 px-4 py-3 flex items-center font-semibold text-sm text-slate-900 bg-slate-100 backdrop-blur-sm ring-1 ring-slate-900/10">
+            {letter}
+          </div>
+          <div className="divide-y">
+            <div className="lg:hidden">
+              <CharactersSectionDraggable characters={characters} />
+            </div>
+            <div className="hidden lg:block">
+              <CharacterSection characters={characters} />
+            </div>
+          </div>
+        </Fragment>
+      ))}
     </div>
   );
 }
