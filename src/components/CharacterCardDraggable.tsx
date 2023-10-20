@@ -95,7 +95,7 @@ const CharacterCard = ({ character }: { character: Character }) => {
       </div>
       {isModalDeleteAlive &&
         <ModalConfirm
-          message={`Edit ${character.name}?`}
+          message={`Delete ${character.name} from all books?`}
           cancelAction={() => setIsModalDeleteAlive(false)}
           acceptAction={() => handleDeleteCharacter(character.id)}
         />}
