@@ -1,13 +1,16 @@
 import { useState, useContext } from "react";
 import ModalConfirm from "./ModalConfirm";
-import { Character } from "../context/characters";
+import { Character, CharacterContext } from "../context/characters";
 import { BookContext } from "../context/books";
 import { MdPlaylistRemove } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
+import { PageContext, Page } from "../context/page";
 
 
 const CharacterDetails = ({ character }: { character: Character }) => {
+  const { setPage } = useContext(PageContext);
   const { removeCharacterById } = useContext(BookContext);
+  const { setCurrentCharacter } = useContext(CharacterContext);
   const [isDeleteModalAlive, setIsDeleteModalAlive] = useState<boolean>(false);
 
   const handleClick = () => {
@@ -19,6 +22,11 @@ const CharacterDetails = ({ character }: { character: Character }) => {
     setIsDeleteModalAlive(false);
   }
 
+  const handleEdit = () => {
+    setCurrentCharacter(character);
+    setPage(Page.EditCharacter);
+  }
+
   return (
     <div
       key={"detail-" + character.id}
@@ -28,7 +36,10 @@ const CharacterDetails = ({ character }: { character: Character }) => {
           {character.description}
         </p>
         <button>
-          <TbEdit className="absolute bottom-1 right-7 text-xl text-gray-800 p rounded-full hover:bg-slate-200" />
+          <TbEdit
+            className="absolute bottom-1 right-7 text-xl text-gray-800 p rounded-full hover:bg-slate-200"
+            onClick={handleEdit}
+          />
         </button>
         <button>
           <MdPlaylistRemove

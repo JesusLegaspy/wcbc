@@ -10,7 +10,7 @@ import CharacterEdit from './components/CharacterEdit';
 export default function App() {
   const { page, setPage } = useContext(PageContext);
   const { fetchBooks, books } = useContext(BookContext);
-  const { fetchCharactersByIds, currentCharacter } = useContext(CharacterContext);
+  const { fetchCharactersByIds } = useContext(CharacterContext);
 
   const fetchBooksRef = useRef(fetchBooks);
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function App() {
     if (page === Page.Home) return <CharaterPage />
     if (page === Page.AddCharacter) return <CharacterAdd />
     if (page === Page.CreateCharacter) return <CharacterCreate />
-    if (page === Page.EditCharacter) return <CharacterEdit character={currentCharacter} />
+    if (page === Page.EditCharacter) return <CharacterEdit />
     return (
       <>
         <div>

@@ -86,7 +86,7 @@ const CharacterCard = ({ character }: { character: Character }) => {
               src={`https://picsum.photos/seed/${character.id * 10}/100/100`}
               alt={`Profile pic of ${character.name}`}
             />
-            <strong className="text-slate-900 text-sm font-medium">{character.name}</strong>
+            <strong className="text-slate-900 text-sm font-medium line-clamp-2">{character.name}</strong>
             <div className="font-thin text-sm line-clamp-2">
               {character.description}
             </div>

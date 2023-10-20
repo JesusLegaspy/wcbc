@@ -45,6 +45,10 @@ const CharacterCreate = () => {
     setCheckedAddToExistingBook(e.target.checked);
   }
 
+  const handleCancel = () => {
+    goBack();
+  }
+
   return (
     <div>
       <NavbarSub text="Create new character" />
@@ -65,6 +69,7 @@ const CharacterCreate = () => {
               id="name"
               name="name"
               placeholder="ShadowWhisker"
+              value={valueName}
               onChange={handleChangeName}
             />
           </div>
@@ -76,6 +81,7 @@ const CharacterCreate = () => {
               id="description"
               name="description"
               placeholder="Dark grey tabby with amber-green eyes..."
+              value={valueDescription}
               onChange={handleChangeDescription}
             />
           </div>
@@ -84,10 +90,10 @@ const CharacterCreate = () => {
             <input id="addToCurrent" type="checkbox" checked={checkedAddToExistingBook} onChange={handleChangeAddToExistingBook} />
           </div>
           <div className="flex justify-end mb-6">
-            <button className="border px-4 py-2 bg-stone-200 border-stone-300">
+            <button type="button" onClick={handleCancel} className="border px-4 py-2 bg-stone-200 border-stone-300">
               Cancel
             </button>
-            <button className="border ml-4 px-4 py-2 bg-blue-200 border-blue-400">
+            <button type="submit" className="border ml-4 px-4 py-2 bg-blue-200 border-blue-400">
               Create
             </button>
           </div>
