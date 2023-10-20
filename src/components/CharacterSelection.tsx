@@ -5,7 +5,7 @@ import { PiPlusSquareFill } from "react-icons/pi";
 import '../styles/CharacterAdd.css';
 import { PageContext, Page } from "../context/page";
 
-const CharacterAdd = () => {
+const CharacterSelection = () => {
   const { setPage } = useContext(PageContext);
 
   const handleButtonAdd = () => {
@@ -29,4 +29,4 @@ const CharacterAdd = () => {
   );
 }
 
-export default CharacterAdd;
+export default CharacterSelection;

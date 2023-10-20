@@ -5,6 +5,7 @@ enum Page {
   AddCharacter,
   CreateCharacter,
   EditCharacter,
+  BookSelection,
 }
 
 interface PageInterface {

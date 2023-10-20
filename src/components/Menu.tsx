@@ -12,6 +12,10 @@ const Menu = () => {
     setPage(Page.AddCharacter);
   }
 
+  const handleClickBookList = () => {
+    setPage(Page.BookSelection);
+  }
+
   return (
     <div className="z-20 fixed bottom-0 left-0 right-0 border-t bg-gray-100">
       <div className="container mx-auto max-w-screen-xl">
@@ -23,7 +27,7 @@ const Menu = () => {
             <button onClick={handleClickAdd}><GoPlusCircle className="text-4xl" /></button>
           </li>
           <li className="p-3 flex justify-center items-center">
-            <button><FaBook className="text-4xl" /></button>
+            <button onClick={handleClickBookList}><FaBook className="text-4xl" /></button>
           </li>
           <li className="p-3 flex justify-center items-center">
             <button><TbSortDescending2 className="text-4xl" /></button>

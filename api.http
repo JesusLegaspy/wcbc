@@ -61,7 +61,7 @@ content-type: application/json
 
 ###
 
-# Update a book
+# Update a character
 PATCH {{host}}/characters/1 HTTP/1.1
 content-type: application/json
 
@@ -74,3 +74,37 @@ content-type: application/json
 DELETE {{host}}/characters/5 HTTP/1.1
 
 ###
+
+# Get all arks
+GET {{host}}/arks HTTP/1.1
+
+###
+
+# Get an arkf
+GET {{host}}/arks/1 HTTP/1.1
+
+###
+
+# Create an ark
+POST {{host}}/arks HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Broken Code",
+  "order": 5
+}
+
+###
+
+# Update an ark
+PATCH {{host}}/arks/3 HTTP/1.1
+content-type: application/json
+
+{
+  "title": "Broken Codes"
+}
+
+###
+
+# Delete an ark
+DELETE {{host}}/arks/3 HTTP/1.1

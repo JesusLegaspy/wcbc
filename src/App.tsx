@@ -3,9 +3,10 @@ import { BookContext } from './context/books';
 import { CharacterContext } from './context/characters';
 import { Page, PageContext } from './context/page';
 import CharaterPage from './components/CharacterPage';
-import CharacterAdd from './components/CharacterAdd';
+import CharacterSelection from './components/CharacterSelection';
 import CharacterCreate from './components/CharacterCreate';
 import CharacterEdit from './components/CharacterEdit';
+import BookSelection from './components/BookSelection';
 
 export default function App() {
   const { page, setPage } = useContext(PageContext);
@@ -31,9 +32,10 @@ export default function App() {
 
   const content = () => {
     if (page === Page.Home) return <CharaterPage />
-    if (page === Page.AddCharacter) return <CharacterAdd />
+    if (page === Page.AddCharacter) return <CharacterSelection />
     if (page === Page.CreateCharacter) return <CharacterCreate />
     if (page === Page.EditCharacter) return <CharacterEdit />
+    if (page === Page.BookSelection) return <BookSelection />
     return (
       <>
         <div>

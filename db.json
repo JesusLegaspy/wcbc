@@ -1,7 +1,26 @@
 {
+  "arks": [
+    {
+      "title": "Into the Wild",
+      "id": 0,
+      "order": 1
+    },
+    {
+      "title": "The Prophesies Begin",
+      "id": 1,
+      "order": 2
+    },
+    {
+      "title": "Power of Three",
+      "id": 2,
+      "order": 3
+    }
+  ],
   "books": [
     {
       "title": "This is a title",
+      "arkId": 0,
+      "Order": 1,
       "image": "",
       "id": 0,
       "characterIds": [
@@ -10,6 +29,42 @@
         5,
         1,
         10,
+        3
+      ]
+    },
+    {
+      "title": "Book Two",
+      "arkId": 0,
+      "Order": 2,
+      "image": "",
+      "id": 1,
+      "characterIds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Book Three",
+      "arkId": 1,
+      "Order": 1,
+      "image": "",
+      "id": 2,
+      "characterIds": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "title": "Book Four",
+      "arkId": 1,
+      "Order": 2,
+      "image": "",
+      "id": 3,
+      "characterIds": [
+        1,
+        2,
         3
       ]
     }
