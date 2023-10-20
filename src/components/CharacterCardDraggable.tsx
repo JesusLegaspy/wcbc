@@ -2,20 +2,21 @@
 import { useContext, useState, useRef } from "react";
 import { CharacterContext, Character } from "../context/characters";
 import { BookContext } from "../context/books";
-import { PageContext } from "../context/page";
+import { PageContext, Page } from "../context/page";
 import ModalConfirm from "./ModalConfirm";
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 
 const CharacterCard = ({ character }: { character: Character }) => {
-  const { deleteCharacterById } = useContext(CharacterContext);
+  const { deleteCharacterById, setCurrentCharacter } = useContext(CharacterContext);
   const { addCharacterById } = useContext(BookContext);
-  const { goHome } = useContext(PageContext);
+  const { goHome, setPage } = useContext(PageContext);
   const [isModalDeleteAlive, setIsModalDeleteAlive] = useState<boolean>(false);
   const [xPosition, setXPosition] = useState<number>(0);
   const nodeRef = useRef(null);
 
   const handleClickEditCharacter = (id: number) => {
-    console.log('edit!');
+    setCurrentCharacter(character);
+    setPage(Page.EditCharacter);
   }
 
   const handleDeleteCharacter = (id: number) => {
@@ -86,6 +87,9 @@ const CharacterCard = ({ character }: { character: Character }) => {
               alt={`Profile pic of ${character.name}`}
             />
             <strong className="text-slate-900 text-sm font-medium">{character.name}</strong>
+            <div className="font-thin text-sm line-clamp-2">
+              {character.description}
+            </div>
           </div>
         </Draggable>
       </div>

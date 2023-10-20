@@ -5,29 +5,30 @@
       "image": "",
       "id": 0,
       "characterIds": [
-        3,
-        2,
-        22,
-        4,
-        20
+        6,
+        8,
+        5,
+        1,
+        10,
+        3
       ]
     }
   ],
   "characters": [
     {
-      "id": 2,
+      "id": 1,
       "name": "Graystripe",
-      "description": "Grey tom with large stripe going down the back",
+      "description": "Grey tom with large stripe going down the back. And this is a very very long sentence that really is only here to take up a lot of space so that I, the developer of this application, can test the size to make sure it works well with this card that you're currently looking at. And yes, I love warrior cats in case that wasn't obvious enough.",
       "image": ""
     },
     {
-      "id": 3,
+      "id": 2,
       "name": "Leafstar",
       "description": "Light-dappled she-cat",
       "image": ""
     },
     {
-      "id": 4,
+      "id": 3,
       "name": "Tree",
       "description": "Yellow tom",
       "image": ""
@@ -36,43 +37,49 @@
       "name": "Cinderpelt",
       "description": "The best cat ever!! <3",
       "image": "",
-      "id": 20
+      "id": 4
     },
     {
       "name": "Tigerstar",
       "description": "which one?",
       "image": "",
-      "id": 21
+      "id": 5
     },
     {
       "name": "Alderheart",
       "description": "A medicine cat",
       "image": "",
-      "id": 22
+      "id": 6
     },
     {
       "name": "Shadowsight",
       "description": "A medicine cat that had special powers but has since been gone...",
       "image": "",
-      "id": 23
+      "id": 6
     },
     {
       "name": "Flametail",
-      "description": "red tail she-cat",
+      "description": "Flametail is a lean, orange flame-colored tom with broad shoulders and bright blue eyes.",
       "image": "",
-      "id": 30
+      "id": 8
     },
     {
       "name": "Needletail",
       "description": "Grey she-cat",
       "image": "",
-      "id": 31
+      "id": 9
     },
     {
       "name": "Cloudstar",
       "description": "Big white tom",
       "image": "",
-      "id": 32
+      "id": 10
+    },
+    {
+      "name": "Testing",
+      "description": "",
+      "image": "",
+      "id": 11
     }
   ]
 }

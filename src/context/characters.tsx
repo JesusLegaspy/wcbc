@@ -11,8 +11,10 @@ export interface Character {
 }
 
 interface CharacterContextType {
+  currentCharacter: Character;
   characters: readonly Character[];
   allCharacters: readonly Character[];
+  setCurrentCharacter: (id: Character) => void;
   fetchCharactersByIds: (ids: number[]) => Promise<void>;
   fetchAllCharacters: () => Promise<void>;
   createCharacter: (bookId: number, name: string, description: string, imageUrl: string) => Promise<number | undefined>;
@@ -21,15 +23,17 @@ interface CharacterContextType {
 }
 
 const startupCharacter: Character = {
-  id: 0,
+  id: -1,
   name: '...',
   description: '...',
   image: '...',
 }
 
 const startupCharacterContext: CharacterContextType = {
+  currentCharacter: startupCharacter,
   characters: [startupCharacter],
   allCharacters: [startupCharacter],
+  setCurrentCharacter: () => { },
   fetchCharactersByIds: async () => { },
   fetchAllCharacters: async () => { },
   createCharacter: async () => { return undefined },
@@ -40,6 +44,7 @@ const startupCharacterContext: CharacterContextType = {
 const CharacterContext = createContext<CharacterContextType>(startupCharacterContext);
 
 const CharacterProvider = ({ children }: { children?: ReactNode }) => {
+  const [currentCharacter, setCurrCharacter] = useState<Character>(startupCharacter);
   const [characters, setCharacters] = useState<readonly Character[]>([]);
   const [allCharacters, setAllCharacters] = useState<readonly Character[]>([]);
 
@@ -61,6 +66,10 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
       console.error("Error fetching all characters:", error);
     }
   };
+
+  const setCurrentCharacter = (character: Character) => {
+    setCurrCharacter(character);
+  }
 
   const createCharacter = useCallback(async (bookId: number, name: string, description: string, imageUrl: string = '') => {
     try {
@@ -104,6 +113,8 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
 
   const contextValue = useMemo(
     () => ({
+      currentCharacter,
+      setCurrentCharacter,
       characters,
       allCharacters,
       fetchCharactersByIds,
@@ -111,7 +122,7 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
       createCharacter,
       editCharacterById,
       deleteCharacterById
-    }), [characters, createCharacter, allCharacters]);
+    }), [characters, createCharacter, allCharacters, currentCharacter]);
 
   return (
     <CharacterContext.Provider value={contextValue}>

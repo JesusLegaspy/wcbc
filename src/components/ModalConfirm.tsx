@@ -25,7 +25,7 @@ const ModalConfirm: FC<ModalConfirmProps> = ({ message, cancelAction, acceptActi
         className="bg-white p-4"
         onClick={stopPropagation}
       >
-        <p>Would you like to delete this character?</p>
+        <p>{message}</p>
         <div className='flex justify-end mt-2'>
           <button
             className="p-2 bg-yellow-400"

@@ -5,11 +5,12 @@ import { Page, PageContext } from './context/page';
 import CharaterPage from './components/CharacterPage';
 import CharacterAdd from './components/CharacterAdd';
 import CharacterCreate from './components/CharacterCreate';
+import CharacterEdit from './components/CharacterEdit';
 
 export default function App() {
   const { page, setPage } = useContext(PageContext);
   const { fetchBooks, books } = useContext(BookContext);
-  const { fetchCharactersByIds } = useContext(CharacterContext);
+  const { fetchCharactersByIds, currentCharacter } = useContext(CharacterContext);
 
   const fetchBooksRef = useRef(fetchBooks);
   useEffect(() => {
@@ -32,6 +33,7 @@ export default function App() {
     if (page === Page.Home) return <CharaterPage />
     if (page === Page.AddCharacter) return <CharacterAdd />
     if (page === Page.CreateCharacter) return <CharacterCreate />
+    if (page === Page.EditCharacter) return <CharacterEdit character={currentCharacter} />
     return (
       <>
         <div>

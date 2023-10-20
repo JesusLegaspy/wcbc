@@ -3,7 +3,8 @@ import { createContext, useState, ReactNode } from "react";
 enum Page {
   Home,
   AddCharacter,
-  CreateCharacter
+  CreateCharacter,
+  EditCharacter,
 }
 
 interface PageInterface {
