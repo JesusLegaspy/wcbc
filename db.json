@@ -8,7 +8,8 @@
         3,
         2,
         22,
-        4
+        4,
+        20
       ]
     }
   ],
@@ -30,12 +31,6 @@
       "name": "Tree",
       "description": "Yellow tom",
       "image": ""
-    },
-    {
-      "name": "mew",
-      "description": "lola",
-      "image": "somelink",
-      "id": 6
     },
     {
       "name": "Cinderpelt",
@@ -60,12 +55,6 @@
       "description": "A medicine cat that had special powers but has since been gone...",
       "image": "",
       "id": 23
-    },
-    {
-      "name": "A new character",
-      "description": "hello!",
-      "image": "",
-      "id": 26
     },
     {
       "name": "Flametail",

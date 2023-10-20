@@ -6,7 +6,7 @@ const CharactersSectionDraggable = ({ characters }: { characters: Character[] })
     <>
       {
         characters.map(character => (
-          <CharacterCardDraggable character={character} />
+          <CharacterCardDraggable key={"CharacterCardDraggable_" + character.id} character={character} />
         ))
       }
     </>
