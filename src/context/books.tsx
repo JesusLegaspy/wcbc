@@ -5,7 +5,8 @@ const API_BASE_URL = "http://localhost:3001";
 
 export interface Book {
   id: number;
-  title?: string;
+  arkId: number;
+  title: string;
   image?: string;
   characterIds?: number[];
 }
@@ -25,6 +26,7 @@ interface BookContextType {
 
 const startupBook: Book = {
   id: 0,
+  arkId: 0,
   title: "...",
   image: "...",
   characterIds: [],
@@ -51,17 +53,17 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
   const [currBook, setCurrBook] = useState<Book | undefined>();
 
   useEffect(() => {
-    setCurrBook(books.at(currBookId));
+    setCurrBook(books.find(book => book.id === currBookId));
   }, [currBookId, books]);
 
-  const fetchBooks = async () => {
+  const fetchBooks = useCallback(async () => {
     try {
       const response = await axios.get<readonly Book[]>(`${API_BASE_URL}/books`);
       setBooks(response.data);
     } catch (error) {
       console.error("Error fetching books:", error);
     }
-  };
+  }, []);
 
   const createBook = async (title: string) => {
     try {
@@ -119,7 +121,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
 
     const characterIds = [...currentBook.characterIds];
     characterIds.splice(index, 1);
-    editBook({ id: currBookId, characterIds: characterIds });
+    editBook({ id: currBookId, characterIds: characterIds, arkId: currentBook.arkId, title: currentBook.title });
   }, [books, currBookId, editBook]);
 
   const addCharacterById = useCallback((id: number) => {
@@ -127,7 +129,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
       console.error("Unexpected error. Current book not found");
       return;
     }
-    editBook({ id: currBookId, characterIds: [...currBook?.characterIds ?? [], id] });
+    editBook({ id: currBookId, characterIds: [...currBook.characterIds ?? [], id], arkId: currBook.arkId, title: currBook.title });
   }, [currBook, currBookId, editBook]);
 
 
@@ -144,7 +146,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
       deleteBookById,
       removeCharacterById,
       addCharacterById
-    }), [books, currBook, currBookId, editBook, removeCharacterById, addCharacterById]);
+    }), [books, currBook, currBookId, editBook, removeCharacterById, addCharacterById, fetchBooks]);
 
   return (
     <BookContext.Provider value={contextValue}>

@@ -1,4 +1,4 @@
-import { useEffect, useContext, useRef } from 'react';
+import { useEffect, useContext } from 'react';
 import { BookContext } from './context/books';
 import { CharacterContext } from './context/characters';
 import { Page, PageContext } from './context/page';
@@ -13,18 +13,18 @@ export default function App() {
   const { fetchBooks, books } = useContext(BookContext);
   const { fetchCharactersByIds } = useContext(CharacterContext);
 
-  const fetchBooksRef = useRef(fetchBooks);
   useEffect(() => {
-    fetchBooksRef.current?.();
-  }, []);
+    console.log('App.tsx', 'useEffect:', 'fetchBooks()');
+    fetchBooks();
+  }, [fetchBooks]);
 
-  const fetchCharactersByIdsRef = useRef(fetchCharactersByIds);
   useEffect(() => {
     if (books) {
+      console.log('App.tsx', 'useEffect:', 'fetchCharactersByIds()', 'dep:', 'books');
       const book = books.at(0);
-      if (book?.characterIds) fetchCharactersByIdsRef.current?.(book.characterIds);
+      if (book?.characterIds) fetchCharactersByIds(book.characterIds);
     }
-  }, [books]);
+  }, [books, fetchCharactersByIds]);
 
   const handleClickHome = () => {
     setPage(Page.Home);

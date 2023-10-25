@@ -48,7 +48,8 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
   const [characters, setCharacters] = useState<readonly Character[]>([]);
   const [allCharacters, setAllCharacters] = useState<readonly Character[]>([]);
 
-  const fetchCharactersByIds = async (ids: number[]) => {
+  const fetchCharactersByIds = useCallback(async (ids: number[]) => {
+    console.log('fetchCharactersByIds()', ids);
     try {
       const response = await Promise.all(ids.map((characterId) => axios.get<Character>(`${API_BASE_URL}/characters/${characterId}`)));
       const characters = response.map((response) => response.data);
@@ -56,7 +57,7 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
     } catch (error) {
       console.error("Error fetching characters:", error);
     }
-  };
+  }, []);
 
   const fetchAllCharacters = async () => {
     try {
@@ -69,7 +70,7 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
 
   const setCurrentCharacter = (character: Character) => {
     setCurrCharacter(character);
-  }
+  };
 
   const createCharacter = useCallback(async (bookId: number, name: string, description: string, imageUrl: string = '') => {
     try {
@@ -122,7 +123,7 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
       createCharacter,
       editCharacterById,
       deleteCharacterById
-    }), [characters, createCharacter, allCharacters, currentCharacter]);
+    }), [characters, createCharacter, allCharacters, currentCharacter, fetchCharactersByIds]);
 
   return (
     <CharacterContext.Provider value={contextValue}>
