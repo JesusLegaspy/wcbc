@@ -10,7 +10,7 @@ const CharacterList = () => {
   const { allCharacters, fetchAllCharacters, characters } = useContext(CharacterContext);
 
   const fetchAllCharactersRef = useRef(fetchAllCharacters);
-  console.log('CharacterList', 'useEffect', 'fetchAllCharacters');
+  console.debug('CharacterList', 'useEffect', 'fetchAllCharacters');
   useEffect(() => {
     fetchAllCharactersRef.current?.();
   }, []);

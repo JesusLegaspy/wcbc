@@ -10,21 +10,20 @@ import BookSelection from './components/BookSelection';
 
 export default function App() {
   const { page, setPage } = useContext(PageContext);
-  const { fetchBooks, books } = useContext(BookContext);
+  const { fetchBooks, currBook } = useContext(BookContext);
   const { fetchCharactersByIds } = useContext(CharacterContext);
 
   useEffect(() => {
-    console.log('App.tsx', 'useEffect:', 'fetchBooks()');
+    console.debug('App.tsx', 'useEffect:', 'fetchBooks()');
     fetchBooks();
   }, [fetchBooks]);
 
   useEffect(() => {
-    if (books) {
-      console.log('App.tsx', 'useEffect:', 'fetchCharactersByIds()', 'dep:', 'books');
-      const book = books.at(0);
-      if (book?.characterIds) fetchCharactersByIds(book.characterIds);
+    if (currBook) {
+      console.debug('App.tsx', 'useEffect:', 'fetchCharactersByIds()', 'dep:', 'fetchCharactersByIds, currBook');
+      if (currBook.characterIds) fetchCharactersByIds(currBook.characterIds);
     }
-  }, [books, fetchCharactersByIds]);
+  }, [fetchCharactersByIds, currBook]);
 
   const handleClickHome = () => {
     setPage(Page.Home);

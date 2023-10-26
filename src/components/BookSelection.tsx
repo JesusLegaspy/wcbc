@@ -6,7 +6,7 @@ const BookSelection = () => {
 
   const handleButtonAdd = () => {
     // setPage(Page.CreateCharacter);
-    console.log('add new book');
+    console.debug('add new book');
   }
 
   return (

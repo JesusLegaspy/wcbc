@@ -53,6 +53,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
   const [currBook, setCurrBook] = useState<Book | undefined>();
 
   useEffect(() => {
+    console.debug('books.tsx', 'useEffect', 'setCurrentBook', 'Dep:', 'currBookId, books');
     setCurrBook(books.find(book => book.id === currBookId));
   }, [currBookId, books]);
 

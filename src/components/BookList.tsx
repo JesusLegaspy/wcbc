@@ -1,13 +1,15 @@
 import { useEffect, useContext, useState, Fragment } from "react";
-import { BookContext } from "../context/books";
+import { BookContext, Book } from "../context/books";
 import { getArks, Ark } from "../utility/ark";
+import { Page, PageContext } from "../context/page";
 
 const BookList = () => {
-  const { books } = useContext(BookContext);
+  const { books, setCurrBookId } = useContext(BookContext);
+  const { setPage } = useContext(PageContext);
   const [arks, setArks] = useState<Ark[] | undefined>();
 
   useEffect(() => {
-    console.log('BookList.tsx', 'useEffect', 'getArks');
+    console.debug('BookList.tsx', 'useEffect', 'getArks');
     const fetchArks = async () => {
       try {
         const arksFromServer = await getArks();
@@ -20,8 +22,9 @@ const BookList = () => {
     fetchArks();
   }, []);
 
-  const handleClickBook = (id: number) => {
-
+  const handleClickBook = (book: Book) => {
+    setCurrBookId(book.id);
+    setPage(Page.Home);
   }
 
   return (
@@ -35,8 +38,8 @@ const BookList = () => {
             {books.filter(book => book.arkId === ark.id).map(book => (
               <div
                 key={`BookListItem_${book.id}`}
-                className="p-2 pl-10 text-sm text-slate-900 line-clamp-2"
-                onClick={() => handleClickBook(book.id)}
+                className="p-2 pl-10 text-sm text-slate-900 line-clamp-2 hover:bg-slate-50 hover:text-black"
+                onClick={() => handleClickBook(book)}
               >
                 {book.title}
               </div>

@@ -49,7 +49,7 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
   const [allCharacters, setAllCharacters] = useState<readonly Character[]>([]);
 
   const fetchCharactersByIds = useCallback(async (ids: number[]) => {
-    console.log('fetchCharactersByIds()', ids);
+    console.debug('fetchCharactersByIds()', ids);
     try {
       const response = await Promise.all(ids.map((characterId) => axios.get<Character>(`${API_BASE_URL}/characters/${characterId}`)));
       const characters = response.map((response) => response.data);
