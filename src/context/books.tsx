@@ -24,16 +24,8 @@ interface BookContextType {
   addCharacterById: (id: number) => void;
 }
 
-const startupBook: Book = {
-  id: 0,
-  arkId: 0,
-  title: "...",
-  image: "...",
-  characterIds: [],
-}
-
 const startupBookContext: BookContextType = {
-  books: [startupBook],
+  books: [],
   currBookId: 0,
   currBook: undefined,
   setCurrBookId: () => { },

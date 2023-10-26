@@ -1,24 +1,15 @@
-import { useEffect, useContext, useState, Fragment } from "react";
+import { useEffect, useContext, Fragment } from "react";
 import { BookContext, Book } from "../context/books";
-import { getArks, Ark } from "../utility/ark";
+import { Ark, ArkContext } from "../context/arks";
 import { Page, PageContext } from "../context/page";
 
 const BookList = () => {
   const { books, setCurrBookId } = useContext(BookContext);
   const { setPage } = useContext(PageContext);
-  const [arks, setArks] = useState<Ark[] | undefined>();
+  const { fetchArks, allArks } = useContext(ArkContext);
 
   useEffect(() => {
     console.debug('BookList.tsx', 'useEffect', 'getArks');
-    const fetchArks = async () => {
-      try {
-        const arksFromServer = await getArks();
-        setArks(arksFromServer);
-      } catch (error) {
-
-        console.error("An error occurred while fetching arks:", error);
-      }
-    };
     fetchArks();
   }, []);
 
@@ -29,7 +20,7 @@ const BookList = () => {
 
   return (
     <div>
-      {arks?.map(ark => (
+      {allArks?.map(ark => (
         <Fragment key={`ark_${ark.id}`}>
           <div className="z-30 sticky top-16 px-4 py-3 flex items-center font-semibold text-slate-900 bg-slate-100 backdrop-blur-sm ring-1 ring-slate-900/10">
             {ark.title}

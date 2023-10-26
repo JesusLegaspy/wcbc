@@ -7,6 +7,7 @@ import CharacterSelection from './components/CharacterSelection';
 import CharacterCreate from './components/CharacterCreate';
 import CharacterEdit from './components/CharacterEdit';
 import BookSelection from './components/BookSelection';
+import BookCreate from './components/BookCreate';
 
 export default function App() {
   const { page, setPage } = useContext(PageContext);
@@ -35,6 +36,7 @@ export default function App() {
     if (page === Page.CreateCharacter) return <CharacterCreate />
     if (page === Page.EditCharacter) return <CharacterEdit />
     if (page === Page.BookSelection) return <BookSelection />
+    if (page === Page.BookCreate) return <BookCreate />
     return (
       <>
         <div>

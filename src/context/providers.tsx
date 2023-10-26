@@ -1,17 +1,21 @@
 import { ReactNode } from 'react';
+import { PageProvider } from './page';
+import { ArkProvider } from './arks';
 import { BookProvider } from './books';
 import { CharacterProvider } from './characters';
-import { PageProvider } from './page';
+
 
 const MyProviders = ({ children }: { children?: ReactNode }) => {
 
   return (
     <PageProvider>
-      <BookProvider>
-        <CharacterProvider>
-          {children}
-        </CharacterProvider>
-      </BookProvider>
+      <ArkProvider>
+        <BookProvider>
+          <CharacterProvider>
+            {children}
+          </CharacterProvider>
+        </BookProvider>
+      </ArkProvider>
     </PageProvider>
   );
 }
