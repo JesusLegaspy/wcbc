@@ -1,6 +1,6 @@
 import { useEffect, useContext, Fragment } from "react";
 import { BookContext, Book } from "../context/books";
-import { Ark, ArkContext } from "../context/arks";
+import { ArkContext } from "../context/arks";
 import { Page, PageContext } from "../context/page";
 
 const BookList = () => {
@@ -11,7 +11,7 @@ const BookList = () => {
   useEffect(() => {
     console.debug('BookList.tsx', 'useEffect', 'getArks');
     fetchArks();
-  }, []);
+  }, [fetchArks]);
 
   const handleClickBook = (book: Book) => {
     setCurrBookId(book.id);

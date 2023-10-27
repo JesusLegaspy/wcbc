@@ -41,7 +41,8 @@
       "characterIds": [
         1,
         2,
-        3
+        3,
+        11
       ]
     },
     {
@@ -129,6 +130,12 @@
       "description": "Big white tom",
       "image": "",
       "id": 10
+    },
+    {
+      "name": "Mark",
+      "description": "Tall",
+      "image": "",
+      "id": 11
     }
   ]
 }
