@@ -2,14 +2,16 @@ import { useState, useContext } from "react";
 import NavbarSub from "./NavbarSub";
 import { ArkContext } from "../context/arks";
 import "../styles/BookCreate.css";
+import ArkCreate from "./ArkCreate";
 
 
 const BookCreate = () => {
   const { allArks } = useContext(ArkContext);
   const [valueTitle, setValueTitle] = useState<string>('');
   const [valueArk, setValueArk] = useState<string>('');
+  const [isArkCreate, setIsArkCreate] = useState<boolean>(false);
   const [valueArkId, setValueArkId] = useState<number>(0);
-  const [valueOrder, setValueOrder] = useState<number>(0);
+  const [valueOrder, setValueOrder] = useState<number>(1);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -29,7 +31,11 @@ const BookCreate = () => {
   };
 
   const handleClickAddArk = () => {
-    console.log('new ark!');
+    setIsArkCreate(isCreate => !isCreate);
+  }
+
+  const handleClickCancel = () => {
+    console.log('cancel');
   }
 
   return (
@@ -64,35 +70,56 @@ const BookCreate = () => {
               className="ml-auto bg-stone-200 p-1 px-2 text-sm rounded-lg hover:bg-stone-300"
               onClick={() => handleClickAddArk()}
             >
-              Add Ark
+              {isArkCreate ? "Cancel" : "Add Ark"}
             </button>
           </div>
+          {/* Ark Create */}
+          {isArkCreate && <ArkCreate />}
           {/* Order */}
-          <div className="flex my-3 items-center">
-            <label htmlFor="order" className="mr-3">Book Number</label>
+          <div className="flex my-8 items-center">
+            <label htmlFor="order" className="mr-3 whitespace-nowrap">Book Number</label>
             <div className="relative w-full">
               {/* Tooltip */}
               <div
                 style={{
-                  left: `${valueOrder * 100 / 6}%`,
+                  left: `${(valueOrder - 1) * 100 / 5}%`,
                   bottom: "25px"
                 }}
                 className="absolute p-1 rounded bg-stone-200 text-xs tooltip"
               >
                 {valueOrder}
               </div>
-
               <input
                 className="slider w-full"
                 id="order"
                 type="range"
-                min="0"
+                min="1"
                 max="6"
                 step="1"
                 value={valueOrder}
                 onChange={handleChangeOrder}
               />
             </div>
+            <span className="ml-3">
+              {valueOrder}
+            </span>
+          </div>
+
+          {/* Submit */}
+          <div className="flex flex justify-end">
+            <button
+              type="button"
+              className="p-2 bg-gray-100 hover:bg-gray-200 mt-4 rounded-lg"
+              onClick={() => handleClickCancel()}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="p-2 bg-cyan-100 hover:bg-cyan-200 mt-4 rounded-lg ml-4"
+            >
+              Create Ark
+            </button>
           </div>
         </form>
       </div>
