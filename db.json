@@ -14,6 +14,16 @@
       "title": "Power of Three",
       "id": 2,
       "order": 3
+    },
+    {
+      "title": "Test",
+      "order": 1,
+      "id": 3
+    },
+    {
+      "title": "Another one",
+      "order": 4,
+      "id": 4
     }
   ],
   "books": [

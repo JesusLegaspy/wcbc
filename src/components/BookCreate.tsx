@@ -74,7 +74,7 @@ const BookCreate = () => {
             </button>
           </div>
           {/* Ark Create */}
-          {isArkCreate && <ArkCreate />}
+          {isArkCreate && <ArkCreate close={() => setIsArkCreate(false)} />}
           {/* Order */}
           <div className="flex my-8 items-center">
             <label htmlFor="order" className="mr-3 whitespace-nowrap">Book Number</label>
