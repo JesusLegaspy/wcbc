@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { PageContext, Page } from "../context/page";
-import { GoPlusCircle } from "react-icons/go";
 import { FaBook } from "react-icons/fa6";
 import { TbSortDescending2, TbChevronLeftPipe, TbChevronRightPipe } from "react-icons/tb";
 import { FiSearch } from "react-icons/fi";
+import { PiCat } from "react-icons/pi";
 
 const Menu = () => {
   const { setPage } = useContext(PageContext);
@@ -24,7 +24,7 @@ const Menu = () => {
             <button><TbChevronLeftPipe className="text-4xl" /></button>
           </li>
           <li className="p-3 flex justify-center items-center">
-            <button onClick={handleClickAdd}><GoPlusCircle className="text-4xl" /></button>
+            <button onClick={handleClickAdd}><PiCat className="text-4xl" /></button>
           </li>
           <li className="p-3 flex justify-center items-center">
             <button onClick={handleClickBookList}><FaBook className="text-4xl" /></button>

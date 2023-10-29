@@ -56,19 +56,21 @@
       "characterIds": [
         1,
         2,
-        3,
-        11
+        3
       ]
     },
     {
-      "title": "Book Three",
-      "arkId": 1,
+      "title": "This is a title, too",
+      "arkId": 0,
       "Order": 1,
       "image": "",
       "id": 2,
       "characterIds": [
+        6,
+        8,
+        5,
         1,
-        2,
+        10,
         3
       ]
     },
@@ -113,16 +115,27 @@
       "id": 7
     },
     {
-      "title": "Chamber of Secrets",
+      "title": "This is a title",
       "arkId": 0,
-      "characterIds": [],
+      "characterIds": [
+        6,
+        8,
+        5,
+        1,
+        10,
+        3
+      ],
       "image": "",
       "id": 8
     },
     {
-      "title": "adsfasdfasdf",
-      "arkId": 4,
-      "characterIds": [],
+      "title": "Book Two",
+      "arkId": 0,
+      "characterIds": [
+        1,
+        2,
+        3
+      ],
       "image": "",
       "id": 9
     },
@@ -208,12 +221,6 @@
       "description": "Big white tom",
       "image": "",
       "id": 10
-    },
-    {
-      "name": "Mark",
-      "description": "Tall",
-      "image": "",
-      "id": 11
     }
   ]
 }

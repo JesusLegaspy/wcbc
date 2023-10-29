@@ -20,7 +20,9 @@ interface BookContextType {
   createBook: (title: string, arkId: number) => Promise<void>;
   editBook: (data: Book) => Promise<void>;
   deleteBookById: (id: number) => Promise<void>;
-  removeCharacterById: (id: number) => Promise<void>;
+  removeCharacterById: (bookId: number, characterId: number) => Promise<void>;
+  removeCharacterByIdFromCurrentBook: (id: number) => Promise<void>;
+  removeCharacterFromAllBooksById: (characterId: number) => void;
   addCharacterById: (id: number) => void;
 }
 
@@ -34,6 +36,8 @@ const startupBookContext: BookContextType = {
   editBook: async () => { },
   deleteBookById: async () => { },
   removeCharacterById: async () => { },
+  removeCharacterByIdFromCurrentBook: async () => { },
+  removeCharacterFromAllBooksById: () => { },
   addCharacterById: () => { },
 }
 
@@ -76,15 +80,15 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
 
   const editBook = useCallback(async (data: Book) => {
     try {
-      const response = await axios.patch<Book>(`${API_BASE_URL}/books/${currBookId}`, data);
+      const response = await axios.patch<Book>(`${API_BASE_URL}/books/${data.id}`, data);
       const editedBook = response.data;
       setBooks((prevBooks) =>
-        prevBooks.map((book) => (book.id === currBookId ? { ...book, ...editedBook } : book))
+        prevBooks.map((book) => (book.id === data.id ? { ...book, ...editedBook } : book))
       );
     } catch (error) {
       console.error("Error editing book:", error);
     }
-  }, [currBookId]);
+  }, []);
 
   const deleteBookById = async (id: number) => {
     try {
@@ -95,29 +99,38 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     }
   };
 
-  const removeCharacterById = useCallback(async (id: number) => {
-    const currentBook = books.at(currBookId);
+  const removeCharacterById = useCallback(async (bookId: number, characterId: number) => {
+    const selectedBook = books.at(bookId);
 
-    if (!currentBook) {
+    if (!selectedBook) {
       console.error("Unexpected error. Current book not found");
       return;
     }
-    if (!currentBook.characterIds) {
+    if (!selectedBook.characterIds) {
       console.error("Unexpected error. No characterIds exist on current book.");
       return;
     }
 
-    const index = currentBook.characterIds.indexOf(id);
+    const index = selectedBook.characterIds.indexOf(characterId);
 
     if (index < 0) {
       console.error("Could not remove character from book. Character ID not found in book.");
       return;
     }
 
-    const characterIds = [...currentBook.characterIds];
+    const characterIds = [...selectedBook.characterIds];
     characterIds.splice(index, 1);
-    editBook({ id: currBookId, characterIds: characterIds, arkId: currentBook.arkId, title: currentBook.title });
-  }, [books, currBookId, editBook]);
+    editBook({ id: bookId, characterIds: characterIds, arkId: selectedBook.arkId, title: selectedBook.title });
+  }, [books, editBook]);
+
+  const removeCharacterByIdFromCurrentBook = useCallback(async (id: number) => {
+    removeCharacterById(currBookId, id);
+  }, [currBookId, removeCharacterById]);
+
+  const removeCharacterFromAllBooksById = useCallback((characterId: number) => {
+    const bks = books.filter(book => book.characterIds?.some(chId => chId === characterId));
+    bks.forEach(bk => removeCharacterById(bk.id, characterId));
+  }, [books, removeCharacterById]);
 
   const addCharacterById = useCallback((id: number) => {
     if (!currBook) {
@@ -126,8 +139,6 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     }
     editBook({ id: currBookId, characterIds: [...currBook.characterIds ?? [], id], arkId: currBook.arkId, title: currBook.title });
   }, [currBook, currBookId, editBook]);
-
-
 
   const contextValue = useMemo(
     () => ({
@@ -140,8 +151,19 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
       editBook,
       deleteBookById,
       removeCharacterById,
+      removeCharacterByIdFromCurrentBook,
+      removeCharacterFromAllBooksById,
       addCharacterById
-    }), [books, currBook, currBookId, editBook, removeCharacterById, addCharacterById, fetchBooks]);
+    }), [books,
+    currBook,
+    currBookId,
+    editBook,
+    removeCharacterById,
+    removeCharacterByIdFromCurrentBook,
+    removeCharacterFromAllBooksById,
+    addCharacterById,
+    fetchBooks
+  ]);
 
   return (
     <BookContext.Provider value={contextValue}>

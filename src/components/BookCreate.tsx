@@ -56,7 +56,7 @@ const BookCreate = () => {
   }
 
   const handleClickCancel = () => {
-    console.log('cancel');
+    goBack();
   }
 
   return (

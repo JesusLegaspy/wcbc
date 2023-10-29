@@ -9,7 +9,7 @@ import { PageContext, Page } from "../context/page";
 
 const CharacterDetails = ({ character }: { character: Character }) => {
   const { setPage } = useContext(PageContext);
-  const { removeCharacterById } = useContext(BookContext);
+  const { removeCharacterByIdFromCurrentBook } = useContext(BookContext);
   const { setCurrentCharacter } = useContext(CharacterContext);
   const [isDeleteModalAlive, setIsDeleteModalAlive] = useState<boolean>(false);
 
@@ -18,7 +18,7 @@ const CharacterDetails = ({ character }: { character: Character }) => {
   };
 
   const handleDelete = () => {
-    removeCharacterById(character.id);
+    removeCharacterByIdFromCurrentBook(character.id);
     setIsDeleteModalAlive(false);
   }
 
