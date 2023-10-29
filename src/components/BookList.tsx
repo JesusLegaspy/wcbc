@@ -6,7 +6,7 @@ import { Page, PageContext } from "../context/page";
 const BookList = () => {
   const { books, setCurrBookId } = useContext(BookContext);
   const { setPage } = useContext(PageContext);
-  const { fetchArks, allArks } = useContext(ArkContext);
+  const { fetchArks, allArksSortedByOrder } = useContext(ArkContext);
 
   useEffect(() => {
     console.debug('BookList.tsx', 'useEffect', 'getArks');
@@ -20,7 +20,7 @@ const BookList = () => {
 
   return (
     <div>
-      {allArks?.map(ark => (
+      {allArksSortedByOrder?.map(ark => (
         <Fragment key={`ark_${ark.id}`}>
           <div className="z-30 sticky top-16 px-4 py-3 flex items-center font-semibold text-slate-900 bg-slate-100 backdrop-blur-sm ring-1 ring-slate-900/10">
             {ark.title}

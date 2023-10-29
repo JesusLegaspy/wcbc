@@ -1,20 +1,32 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import NavbarSub from "./NavbarSub";
 import { ArkContext } from "../context/arks";
+import { BookContext } from "../context/books";
+import { PageContext } from "../context/page";
 import "../styles/BookCreate.css";
 import ArkCreate from "./ArkCreate";
+import { LiaTrashAltSolid } from "react-icons/lia";
 
 
 const BookCreate = () => {
-  const { allArks } = useContext(ArkContext);
+  const { allArksSortedByOrder, deleteArkById } = useContext(ArkContext);
+  const { books, createBook } = useContext(BookContext);
+  const { goBack } = useContext(PageContext);
   const [valueTitle, setValueTitle] = useState<string>('');
-  const [valueArk, setValueArk] = useState<string>('');
+  const [arkDeleteError, setArkDeleteError] = useState<boolean>(false);
   const [isArkCreate, setIsArkCreate] = useState<boolean>(false);
   const [valueArkId, setValueArkId] = useState<number>(0);
   const [valueOrder, setValueOrder] = useState<number>(1);
 
+  useEffect(() => {
+    console.debug('BookCreate.tsc', 'useEffect', 'setValueArkId', 'dep:allArks');
+    setValueArkId(allArksSortedByOrder.at(0)?.id ?? -1);
+  }, [allArksSortedByOrder])
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    createBook(valueTitle, valueArkId);
+    goBack();
   }
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +42,15 @@ const BookCreate = () => {
     setValueOrder(Number(newValue));
   };
 
+  const handlClickDeleteArk = () => {
+    // Only delete if the ark is not associated with any books
+    if (books.some(book => book.arkId === valueArkId)) {
+      setArkDeleteError(true);
+      return;
+    }
+    deleteArkById(valueArkId);
+  }
+
   const handleClickAddArk = () => {
     setIsArkCreate(isCreate => !isCreate);
   }
@@ -39,7 +60,7 @@ const BookCreate = () => {
   }
 
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="bg-slate-50 min-h-screen" onClick={() => setArkDeleteError(false)}>
       <NavbarSub text="Create new book" />
       <div className="mx-auto max-w-5xl bg-white lg:border border-b lg:border-t-0 p-8">
         <form className="flex flex-col max-w-2xl mx-auto" onSubmit={handleSubmit}>
@@ -60,17 +81,33 @@ const BookCreate = () => {
           {/* Ark */}
           <div className="my-4 flex items-center">
             <label className="mb-1 mr-3" htmlFor="arks">Ark</label>
-            <select className="mr-3" id="arks" onChange={handleChangeArk} value={valueArkId}>
-              {allArks.map(ark => (
+            <select
+              className="mr-3"
+              id="arks"
+              onChange={handleChangeArk}
+              value={valueArkId}
+            >
+              {allArksSortedByOrder.map(ark => (
                 <option key={`option_${ark.id}`} value={ark.id}>{ark.title}</option>
               ))}
             </select>
+            {arkDeleteError && <div className="text-red-500">Ark with books cannot be deleted.</div>}
             <button
               type="button"
-              className="ml-auto bg-stone-200 p-1 px-2 text-sm rounded-lg hover:bg-stone-300"
+              className="ml-auto bg-stone-200 p-1 p-1 text-sm rounded-lg hover:bg-stone-300"
+              onClick={(e) => {
+                e.stopPropagation()
+                handlClickDeleteArk()
+              }}
+            >
+              <LiaTrashAltSolid />
+            </button>
+            <button
+              type="button"
+              className="ml-2 bg-stone-200 p-1 px-2 text-sm rounded-lg hover:bg-stone-300"
               onClick={() => handleClickAddArk()}
             >
-              {isArkCreate ? "Cancel" : "Add Ark"}
+              {isArkCreate ? "Cancel" : "New Ark"}
             </button>
           </div>
           {/* Ark Create */}
@@ -118,7 +155,7 @@ const BookCreate = () => {
               type="submit"
               className="p-2 bg-cyan-100 hover:bg-cyan-200 mt-4 rounded-lg ml-4"
             >
-              Create Ark
+              Create Book
             </button>
           </div>
         </form>

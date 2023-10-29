@@ -16,14 +16,19 @@
       "order": 3
     },
     {
-      "title": "Test",
-      "order": 1,
+      "title": "MLP",
+      "order": 7,
       "id": 3
     },
     {
-      "title": "Another one",
-      "order": 4,
+      "title": "Harry Potter",
+      "order": 10,
       "id": 4
+    },
+    {
+      "title": "Hello World",
+      "order": 8,
+      "id": 5
     }
   ],
   "books": [
@@ -69,7 +74,7 @@
     },
     {
       "title": "Book Four",
-      "arkId": 1,
+      "arkId": 2,
       "Order": 2,
       "image": "",
       "id": 3,
@@ -78,6 +83,69 @@
         2,
         3
       ]
+    },
+    {
+      "title": "Another amazing test book",
+      "arkId": 2,
+      "characterIds": [],
+      "image": "",
+      "id": 4
+    },
+    {
+      "title": "Ponies",
+      "arkId": 3,
+      "characterIds": [],
+      "image": "",
+      "id": 5
+    },
+    {
+      "title": "Test Book",
+      "arkId": 4,
+      "characterIds": [],
+      "image": "",
+      "id": 6
+    },
+    {
+      "title": "Chamber of Secrets",
+      "arkId": 0,
+      "characterIds": [],
+      "image": "",
+      "id": 7
+    },
+    {
+      "title": "Chamber of Secrets",
+      "arkId": 0,
+      "characterIds": [],
+      "image": "",
+      "id": 8
+    },
+    {
+      "title": "adsfasdfasdf",
+      "arkId": 4,
+      "characterIds": [],
+      "image": "",
+      "id": 9
+    },
+    {
+      "title": "adfasdfasdfasdfasdf",
+      "arkId": 0,
+      "characterIds": [],
+      "image": "",
+      "id": 10
+    },
+    {
+      "title": "harry",
+      "arkId": 5,
+      "characterIds": [],
+      "image": "",
+      "id": 11
+    },
+    {
+      "title": "Hello World",
+      "arkId": 4,
+      "characterIds": [],
+      "image": "",
+      "id": 12
     }
   ],
   "characters": [

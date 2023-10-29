@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useCallback, useMemo, useState } from 'react';
+import { ReactNode, createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import axios from "axios";
 
 const API_BASE_URL = "http://localhost:3001";
@@ -11,6 +11,7 @@ export interface Ark {
 
 interface ArkContextType {
   allArks: readonly Ark[];
+  allArksSortedByOrder: readonly Ark[];
   fetchArks: () => Promise<void>;
   getArkById: (id: number) => Promise<Ark | undefined>;
   createArk: (title: string, order: number) => Promise<void>;
@@ -20,6 +21,7 @@ interface ArkContextType {
 
 const startupBookContext: ArkContextType = {
   allArks: [],
+  allArksSortedByOrder: [],
   fetchArks: async () => { },
   getArkById: async (id: number) => undefined,
   createArk: async (title: string, order: number) => { },
@@ -32,6 +34,12 @@ const ArkContext = createContext<ArkContextType>(startupBookContext);
 
 const ArkProvider = ({ children }: { children?: ReactNode }) => {
   const [allArks, setAllArks] = useState<readonly Ark[]>([]);
+  const [allArksSortedByOrder, setAllArksSortedByOrder] = useState<readonly Ark[]>([]);
+
+  useEffect(() => {
+    console.debug('BookCreate.tsc', 'useEffect', 'setValueArkId', [...allArks].shift()?.id, 'dep:allArks');
+    setAllArksSortedByOrder([...allArks].sort((a, b) => a.order - b.order));
+  }, [allArks])
 
   const fetchArks = useCallback(async () => {
     try {
@@ -90,12 +98,13 @@ const ArkProvider = ({ children }: { children?: ReactNode }) => {
   const contextValue = useMemo(
     () => ({
       allArks,
+      allArksSortedByOrder,
       fetchArks,
       getArkById,
       createArk,
       editArk,
       deleteArkById
-    }), [allArks, fetchArks]);
+    }), [allArks, fetchArks, allArksSortedByOrder]);
 
   return (
     <ArkContext.Provider value={contextValue}>
