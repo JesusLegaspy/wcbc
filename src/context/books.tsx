@@ -22,7 +22,7 @@ interface BookContextType {
   deleteBookById: (id: number) => Promise<void>;
   removeCharacterById: (bookId: number, characterId: number) => Promise<void>;
   removeCharacterByIdFromCurrentBook: (id: number) => Promise<void>;
-  removeCharacterFromAllBooksById: (characterId: number) => void;
+  removeCharacterByIdFromAllBooks: (characterId: number) => void;
   addCharacterById: (id: number) => void;
 }
 
@@ -37,7 +37,7 @@ const startupBookContext: BookContextType = {
   deleteBookById: async () => { },
   removeCharacterById: async () => { },
   removeCharacterByIdFromCurrentBook: async () => { },
-  removeCharacterFromAllBooksById: () => { },
+  removeCharacterByIdFromAllBooks: () => { },
   addCharacterById: () => { },
 }
 
@@ -127,7 +127,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     removeCharacterById(currBookId, id);
   }, [currBookId, removeCharacterById]);
 
-  const removeCharacterFromAllBooksById = useCallback((characterId: number) => {
+  const removeCharacterByIdFromAllBooks = useCallback((characterId: number) => {
     const bks = books.filter(book => book.characterIds?.some(chId => chId === characterId));
     bks.forEach(bk => removeCharacterById(bk.id, characterId));
   }, [books, removeCharacterById]);
@@ -152,7 +152,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
       deleteBookById,
       removeCharacterById,
       removeCharacterByIdFromCurrentBook,
-      removeCharacterFromAllBooksById,
+      removeCharacterByIdFromAllBooks,
       addCharacterById
     }), [books,
     currBook,
@@ -160,7 +160,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     editBook,
     removeCharacterById,
     removeCharacterByIdFromCurrentBook,
-    removeCharacterFromAllBooksById,
+    removeCharacterByIdFromAllBooks,
     addCharacterById,
     fetchBooks
   ]);

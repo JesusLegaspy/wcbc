@@ -11,7 +11,7 @@ import { TbEdit } from "react-icons/tb";
 const CharacterCard = ({ character }: { character: Character }) => {
   const { setPage } = useContext(PageContext);
   const { deleteCharacterById, setCurrentCharacter } = useContext(CharacterContext);
-  const { addCharacterById, removeCharacterFromAllBooksById } = useContext(BookContext);
+  const { addCharacterById, removeCharacterByIdFromAllBooks } = useContext(BookContext);
   const { goHome } = useContext(PageContext);
   const [isModalDeleteAlive, setIsModalDeleteAlive] = useState<boolean>(false);
 
@@ -22,7 +22,7 @@ const CharacterCard = ({ character }: { character: Character }) => {
 
   const handleDeleteCharacter = (id: number) => {
     deleteCharacterById(id);
-    removeCharacterFromAllBooksById(id);
+    removeCharacterByIdFromAllBooks(id);
     setIsModalDeleteAlive(false);
   }
 

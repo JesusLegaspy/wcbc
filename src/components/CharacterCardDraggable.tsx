@@ -8,7 +8,7 @@ import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 
 const CharacterCard = ({ character }: { character: Character }) => {
   const { deleteCharacterById, setCurrentCharacter } = useContext(CharacterContext);
-  const { addCharacterById, removeCharacterFromAllBooksById } = useContext(BookContext);
+  const { addCharacterById, removeCharacterByIdFromAllBooks } = useContext(BookContext);
   const { goHome, setPage } = useContext(PageContext);
   const [isModalDeleteAlive, setIsModalDeleteAlive] = useState<boolean>(false);
   const [xPosition, setXPosition] = useState<number>(0);
@@ -21,7 +21,7 @@ const CharacterCard = ({ character }: { character: Character }) => {
 
   const handleDeleteCharacter = (id: number) => {
     deleteCharacterById(id);
-    removeCharacterFromAllBooksById(id);
+    removeCharacterByIdFromAllBooks(id);
     setIsModalDeleteAlive(false);
   }
 
