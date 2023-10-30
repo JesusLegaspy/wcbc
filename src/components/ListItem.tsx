@@ -61,7 +61,7 @@ const ListItem: React.FC<ListItemProps> = ({
           <div className="flex items-center min-h-full space-x-0 lg:space-x-3">
             {/* Edit */}
             <button
-              className="lg:invisible lg:group-hover:visible rounded-full hover:bg-slate-200 text-slate-500 hover:text-black"
+              className="lg:invisible lg:group-hover:visible lg:p-2 rounded-full hover:bg-slate-200 text-slate-500 hover:text-black"
               onClick={(e) => {
                 e.stopPropagation();
                 callbackEdit(id);
@@ -75,7 +75,7 @@ const ListItem: React.FC<ListItemProps> = ({
 
             {/* Delete */}
             <button
-              className="lg:invisible lg:group-hover:visible  rounded-full hover:bg-slate-200 text-slate-500 hover:text-black"
+              className="lg:invisible lg:group-hover:visible lg:p-2 rounded-full hover:bg-slate-200 text-slate-500 hover:text-black"
               onClick={(e) => {
                 e.stopPropagation();
                 callbackDelete(id);
