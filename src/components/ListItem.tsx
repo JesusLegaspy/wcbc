@@ -57,6 +57,38 @@ const ListItem: React.FC<ListItemProps> = ({
         key={"listitem_child_" + id}
         className="group relative"
       >
+        <div className="z-0 lg:z-30 absolute top-0 bottom-0 right-0">
+          <div className="flex items-center min-h-full space-x-0 lg:space-x-3">
+            {/* Edit */}
+            <button
+              className="lg:invisible lg:group-hover:visible rounded-full hover:bg-slate-200 text-slate-500 hover:text-black"
+              onClick={(e) => {
+                e.stopPropagation();
+                callbackEdit(id);
+              }}
+            >
+              <TbEdit className="hidden lg:block" />
+              <div className="lg:hidden bg-yellow-200 w-16 h-12 flex justify-center items-center text-white">
+                Edit
+              </div>
+            </button>
+
+            {/* Delete */}
+            <button
+              className="lg:invisible lg:group-hover:visible  rounded-full hover:bg-slate-200 text-slate-500 hover:text-black"
+              onClick={(e) => {
+                e.stopPropagation();
+                callbackDelete(id);
+              }}
+            >
+              <LiaTrashAltSolid className="hidden lg:block" />
+              <div className="lg:hidden bg-red-400 w-20 h-12 -mr-12 flex justify-center items-center text-white">
+                Delete
+              </div>
+            </button>
+          </div>
+        </div>
+
         <Draggable
           nodeRef={nodeRef}
           position={{ x: xPosition || 0, y: 0 }}
@@ -68,7 +100,7 @@ const ListItem: React.FC<ListItemProps> = ({
 
           <div
             ref={nodeRef}
-            className="z-10 flex items-center gap-4 p-4 pr-28 bg-white hover:bg-slate-50 space-x-4"
+            className="z-10 flex items-center p-4 lg:pr-28 bg-white hover:bg-slate-50 space-x-4 lg:space-x-6"
           >
             {/* Image */}
             <img
@@ -89,31 +121,6 @@ const ListItem: React.FC<ListItemProps> = ({
           </div>
         </Draggable>
 
-        <div className="z-20 absolute top-0 bottom-0 right-0">
-          <div className="flex items-center min-h-full space-x-3">
-            {/* Edit */}
-            <button
-              className="invisible group-hover:visible p-2 rounded-full hover:bg-slate-200 text-slate-500 hover:text-black"
-              onClick={(e) => {
-                e.stopPropagation();
-                callbackEdit(id);
-              }}
-            >
-              <TbEdit />
-            </button>
-
-            {/* Delete */}
-            <button
-              className="invisible group-hover:visible p-2 rounded-full hover:bg-slate-200 text-slate-500 hover:text-black"
-              onClick={(e) => {
-                e.stopPropagation();
-                callbackDelete(id);
-              }}
-            >
-              <LiaTrashAltSolid />
-            </button>
-          </div>
-        </div>
       </div>
     </>
   );

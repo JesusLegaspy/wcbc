@@ -1,7 +1,6 @@
 import { useContext, useRef, useEffect, Fragment, useMemo } from "react";
 import { CharacterContext, Character } from "../context/characters";
 import CharacterSection from "./CharacterSection";
-import CharactersSectionDraggable from "./CharacterSectionDraggable";
 
 import "../styles/CharacterList.css";
 
@@ -48,12 +47,7 @@ const CharacterList = () => {
             {letter}
           </div>
           <div className="divide-y">
-            <div className="lg:hidden">
-              <CharactersSectionDraggable characters={characters} />
-            </div>
-            <div className="hidden lg:block">
-              <CharacterSection characters={characters} />
-            </div>
+            <CharacterSection characters={characters} />
           </div>
         </Fragment>
       ))}
