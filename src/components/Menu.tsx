@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { PageContext, Page } from "../context/page";
-import { FaBook } from "react-icons/fa6";
+import { BiBook } from "react-icons/bi";
 import { TbSortDescending2, TbChevronLeftPipe, TbChevronRightPipe } from "react-icons/tb";
 import { FiSearch } from "react-icons/fi";
 import { PiCat } from "react-icons/pi";
@@ -27,7 +27,7 @@ const Menu = () => {
             <button onClick={handleClickAdd}><PiCat className="text-4xl" /></button>
           </li>
           <li className="p-3 flex justify-center items-center">
-            <button onClick={handleClickBookList}><FaBook className="text-4xl" /></button>
+            <button onClick={handleClickBookList}><BiBook className="text-4xl" /></button>
           </li>
           <li className="p-3 flex justify-center items-center">
             <button><TbSortDescending2 className="text-4xl" /></button>
