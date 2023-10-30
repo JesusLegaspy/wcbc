@@ -110,7 +110,7 @@ const ListItem: React.FC<ListItemProps> = ({
             />
 
             {/* Title */}
-            <strong className="text-slate-900 text-sm font-medium w-16">
+            <strong className="text-slate-900 text-sm font-medium">
               {title}
             </strong>
 

@@ -38,7 +38,12 @@
       "Order": 1,
       "image": "",
       "id": 0,
-      "characterIds": []
+      "characterIds": [
+        6,
+        8,
+        10,
+        5
+      ]
     },
     {
       "title": "Book Two",

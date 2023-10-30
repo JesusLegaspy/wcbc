@@ -1,7 +1,8 @@
 import { useEffect, useContext, Fragment } from "react";
-import { BookContext, Book } from "../context/books";
+import { BookContext } from "../context/books";
 import { ArkContext } from "../context/arks";
 import { Page, PageContext } from "../context/page";
+import ListItem from "./ListItem";
 
 const BookList = () => {
   const { books, setCurrBookId } = useContext(BookContext);
@@ -13,9 +14,17 @@ const BookList = () => {
     fetchArks();
   }, [fetchArks]);
 
-  const handleClickBook = (book: Book) => {
-    setCurrBookId(book.id);
+  const handleClickBook = (id: number) => {
+    setCurrBookId(id);
     setPage(Page.Home);
+  }
+
+  const handleClickEdit = (id: number) => {
+    console.log('Edit');
+  }
+
+  const handleClickDelete = (id: number) => {
+    console.log('Delete');
   }
 
   return (
@@ -27,13 +36,16 @@ const BookList = () => {
           </div>
           <div className="divide-y">
             {books.filter(book => book.arkId === ark.id).map(book => (
-              <div
-                key={`BookListItem_${book.id}`}
-                className="p-2 pl-10 text-sm text-slate-900 line-clamp-2 hover:bg-slate-50 hover:text-black"
-                onClick={() => handleClickBook(book)}
-              >
-                {book.title}
-              </div>
+              <ListItem
+                id={book.id}
+                key={`listitem_book_${book.id}`}
+                iconUrl={''}
+                title={book.title}
+                description={''}
+                callbackEdit={handleClickEdit}
+                callbackDelete={handleClickDelete}
+                callbackSelect={handleClickBook}
+              />
             ))}
           </div>
         </Fragment>
