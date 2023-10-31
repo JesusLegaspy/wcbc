@@ -29,6 +29,16 @@
       "title": "Hello World",
       "order": 8,
       "id": 5
+    },
+    {
+      "title": "New new new ark",
+      "order": 12,
+      "id": 6
+    },
+    {
+      "title": "Group",
+      "order": 13,
+      "id": 7
     }
   ],
   "books": [
@@ -43,7 +53,8 @@
         8,
         10,
         5,
-        11
+        11,
+        9
       ]
     },
     {
@@ -104,7 +115,10 @@
     {
       "title": "Test Book",
       "arkId": 4,
-      "characterIds": [],
+      "characterIds": [
+        10,
+        4
+      ],
       "order": 5,
       "image": "",
       "id": 6
@@ -170,11 +184,19 @@
     },
     {
       "title": "How to bake cookies with a solar oven",
-      "arkId": 1,
+      "arkId": 6,
       "characterIds": [],
       "image": "",
-      "order": 3,
+      "order": 4,
       "id": 13
+    },
+    {
+      "title": "Boooooooooooks",
+      "arkId": 0,
+      "characterIds": [],
+      "image": "",
+      "id": 14,
+      "order": 1
     }
   ],
   "characters": [

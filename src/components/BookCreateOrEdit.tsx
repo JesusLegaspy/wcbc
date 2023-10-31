@@ -30,7 +30,7 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book }) => {
     if (book !== undefined) return;
     console.debug('BookCreate.tsx', 'useEffect', 'setValueArkId', 'dep:allArks');
     setValueArkId(allArksSortedByOrder.at(0)?.id ?? -1);
-  }, [allArksSortedByOrder])
+  }, [allArksSortedByOrder, book])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
