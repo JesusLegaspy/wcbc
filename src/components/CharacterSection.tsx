@@ -1,14 +1,15 @@
 
 import { Character, CharacterContext } from '../context/characters';
 import ListItem from './ListItem';
-import { PageContext, Page } from '../context/page';
+import { PageContext } from '../context/page';
 import { useContext, useState } from 'react';
 import { BookContext } from '../context/books';
+import CharacterEdit from './CharacterEdit';
 import ModalConfirm from './ModalConfirm';
 
 
 const CharacterSection = ({ characters }: { characters: Character[] }) => {
-  const { setPage } = useContext(PageContext);
+  const { setComponent } = useContext(PageContext);
   const { deleteCharacterById, setCurrentCharacter } = useContext(CharacterContext);
   const { addCharacterById, removeCharacterByIdFromAllBooks } = useContext(BookContext);
   const { goHome } = useContext(PageContext);
@@ -22,7 +23,7 @@ const CharacterSection = ({ characters }: { characters: Character[] }) => {
       return;
     }
     setCurrentCharacter(selectedCharacter);
-    setPage(Page.EditCharacter);
+    setComponent(CharacterEdit, {});
   }
 
   const handleDeleteCharacter = (id: number) => {

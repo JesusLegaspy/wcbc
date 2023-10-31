@@ -1,16 +1,10 @@
 import { useEffect, useContext } from 'react';
 import { BookContext } from './context/books';
 import { CharacterContext } from './context/characters';
-import { Page, PageContext } from './context/page';
-import CharaterPage from './components/CharacterPage';
-import CharacterSelection from './components/CharacterSelection';
-import CharacterCreate from './components/CharacterCreate';
-import CharacterEdit from './components/CharacterEdit';
-import BookSelection from './components/BookSelection';
-import BookCreate from './components/BookCreate';
+import { PageContext } from './context/page';
 
 export default function App() {
-  const { page, setPage } = useContext(PageContext);
+  const { presentEntry } = useContext(PageContext);
   const { fetchBooks, currBook } = useContext(BookContext);
   const { fetchCharactersByIds } = useContext(CharacterContext);
 
@@ -26,27 +20,28 @@ export default function App() {
     }
   }, [fetchCharactersByIds, currBook]);
 
-  const handleClickHome = () => {
-    setPage(Page.Home);
-  }
-
   const content = () => {
-    if (page === Page.Home) return <CharaterPage />
-    if (page === Page.AddCharacter) return <CharacterSelection />
-    if (page === Page.CreateCharacter) return <CharacterCreate />
-    if (page === Page.EditCharacter) return <CharacterEdit />
-    if (page === Page.BookSelection) return <BookSelection />
-    if (page === Page.BookCreate) return <BookCreate />
-    return (
-      <>
-        <div>
-          Error. Page {page} not found.
-        </div>
-        <button className='bg-sky-500 hover:bg-sky-700 px-2 py-1 rounded-full' onClick={handleClickHome}>
-          Go home
-        </button>
-      </>
+    // if (page === Page.Home) return <CharaterPage />
+    // if (page === Page.AddCharacter) return <CharacterSelection />
+    // if (page === Page.CreateCharacter) return <CharacterCreate />
+    // if (page === Page.EditCharacter) return <CharacterEdit />
+    // if (page === Page.BookSelection) return <BookSelection />
+    // if (page === Page.BookCreate) return <BookCreateOrEdit />
+    // return (
+    //   <>
+    //     <div>
+    //       Error. Page {page} not found.
+    //     </div>
+    //     <button className='bg-sky-500 hover:bg-sky-700 px-2 py-1 rounded-full' onClick={handleClickHome}>
+    //       Go home
+    //     </button>
+    //   </>
 
+    // );
+    const props = presentEntry.properties;
+
+    return (
+      <presentEntry.component {...props} />
     );
   }
 

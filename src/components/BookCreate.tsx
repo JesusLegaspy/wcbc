@@ -1,14 +1,18 @@
 import { useState, useContext, useEffect } from "react";
 import NavbarSub from "./NavbarSub";
 import { ArkContext } from "../context/arks";
-import { BookContext } from "../context/books";
+import { Book, BookContext } from "../context/books";
 import { PageContext } from "../context/page";
 import "../styles/BookCreate.css";
 import ArkCreate from "./ArkCreate";
 import { LiaTrashAltSolid } from "react-icons/lia";
 
+// If there's an ID in BookContext's editBookId,
+// then assume that user wants to edit a book.
+// Currently, can't think of a more elegant way to pass data
+// or state information from one component to the next.
 
-const BookCreate = () => {
+const BookCreateOrEdit = () => {
   const { allArksSortedByOrder, deleteArkById } = useContext(ArkContext);
   const { books, createBook } = useContext(BookContext);
   const { goBack } = useContext(PageContext);
@@ -25,7 +29,8 @@ const BookCreate = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createBook(valueTitle, valueArkId);
+    // createBook(valueTitle, valueArkId);
+    // todo: edit
     goBack();
   }
 
@@ -64,6 +69,7 @@ const BookCreate = () => {
       <NavbarSub text="Create new book" />
       <div className="mx-auto max-w-5xl bg-white lg:border border-b lg:border-t-0 p-8">
         <form className="flex flex-col max-w-2xl mx-auto" onSubmit={handleSubmit}>
+
           {/* Title */}
           <div className="my-4 flex items-center">
             <label className="mb-1 mr-3" htmlFor="title">Title</label>
@@ -78,6 +84,7 @@ const BookCreate = () => {
               required
             />
           </div>
+
           {/* Ark */}
           <div className="my-4 flex items-center">
             <label className="mb-1 mr-3" htmlFor="arks">Ark</label>
@@ -110,8 +117,10 @@ const BookCreate = () => {
               {isArkCreate ? "Cancel" : "New Ark"}
             </button>
           </div>
+
           {/* Ark Create */}
           {isArkCreate && <ArkCreate close={() => setIsArkCreate(false)} />}
+
           {/* Order */}
           <div className="flex my-8 items-center">
             <label htmlFor="order" className="mr-3 whitespace-nowrap">Book Number</label>
@@ -143,7 +152,7 @@ const BookCreate = () => {
           </div>
 
           {/* Submit */}
-          <div className="flex flex justify-end">
+          <div className="flex justify-end">
             <button
               type="button"
               className="p-2 bg-gray-100 hover:bg-gray-200 mt-4 rounded-lg"
@@ -164,4 +173,4 @@ const BookCreate = () => {
   );
 }
 
-export default BookCreate;
+export default BookCreateOrEdit;

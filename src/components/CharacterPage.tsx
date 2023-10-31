@@ -4,7 +4,6 @@ import CharacterGrid from './CharacterGrid';
 
 export default function CharacterPage() {
 
-
   return (
     <div>
       <Navbar />

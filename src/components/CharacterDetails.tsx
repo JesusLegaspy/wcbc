@@ -2,13 +2,14 @@ import { useState, useContext } from "react";
 import ModalConfirm from "./ModalConfirm";
 import { Character, CharacterContext } from "../context/characters";
 import { BookContext } from "../context/books";
+import CharacterEdit from "./CharacterEdit";
 import { MdPlaylistRemove } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
-import { PageContext, Page } from "../context/page";
+import { PageContext } from "../context/page";
 
 
 const CharacterDetails = ({ character }: { character: Character }) => {
-  const { setPage } = useContext(PageContext);
+  const { setComponent } = useContext(PageContext);
   const { removeCharacterByIdFromCurrentBook } = useContext(BookContext);
   const { setCurrentCharacter } = useContext(CharacterContext);
   const [isDeleteModalAlive, setIsDeleteModalAlive] = useState<boolean>(false);
@@ -24,7 +25,7 @@ const CharacterDetails = ({ character }: { character: Character }) => {
 
   const handleEdit = () => {
     setCurrentCharacter(character);
-    setPage(Page.EditCharacter);
+    setComponent(CharacterEdit, {});
   }
 
   return (

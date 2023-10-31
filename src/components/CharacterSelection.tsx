@@ -1,15 +1,16 @@
 import { useContext } from "react";
 import NavbarSub from "./NavbarSub";
 import CharacterList from './CharacterList';
+import CharacterCreate from "./CharacterCreate";
 import { PiPlusSquareFill } from "react-icons/pi";
 import '../styles/CharacterAdd.css';
-import { PageContext, Page } from "../context/page";
+import { PageContext } from "../context/page";
 
 const CharacterSelection = () => {
-  const { setPage } = useContext(PageContext);
+  const { setComponent } = useContext(PageContext);
 
   const handleButtonAdd = () => {
-    setPage(Page.CreateCharacter);
+    setComponent(CharacterCreate, {});
   }
 
   return (

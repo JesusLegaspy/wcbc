@@ -1,12 +1,12 @@
 import { useEffect, useContext, Fragment } from "react";
 import { BookContext } from "../context/books";
 import { ArkContext } from "../context/arks";
-import { Page, PageContext } from "../context/page";
+import { PageContext } from "../context/page";
 import ListItem from "./ListItem";
 
 const BookList = () => {
   const { books, setCurrBookId } = useContext(BookContext);
-  const { setPage } = useContext(PageContext);
+  const { goHome } = useContext(PageContext);
   const { fetchArks, allArksSortedByOrder } = useContext(ArkContext);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const BookList = () => {
 
   const handleClickBook = (id: number) => {
     setCurrBookId(id);
-    setPage(Page.Home);
+    goHome();
   }
 
   const handleClickEdit = (id: number) => {

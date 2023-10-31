@@ -1,62 +1,73 @@
 import { createContext, useState, ReactNode } from "react";
+import CharacterPage from "../components/CharacterPage";
 
-enum Page {
-  Home,
-  AddCharacter,
-  CreateCharacter,
-  EditCharacter,
-  BookSelection,
-  BookCreate
+
+interface HistoryEntry<P = {}> {
+  component: React.ElementType<P>;
+  properties: P;
+}
+
+const homePage: HistoryEntry = {
+  component: CharacterPage,
+  properties: {}
 }
 
 interface PageInterface {
-  page: Page;
-  setPage: (page: Page) => void;
   goBack: () => void;
   goHome: () => void;
+  setComponent: <P extends {}>(component: React.ElementType<P>, properties: P) => void;
+  presentEntry: HistoryEntry;
 }
 
 const startPage: PageInterface = {
-  page: Page.Home,
-  setPage: () => { },
   goBack: () => { },
   goHome: () => { },
+  setComponent: <P extends {}>(component: React.ElementType<P>, properties: P) => { },
+  presentEntry: homePage
 }
 
 const PageContext = createContext<PageInterface>(startPage);
 
 const PageProvider = ({ children }: { children?: ReactNode }) => {
-  const [page, setPageInternal] = useState<Page>(Page.Home);
-  const [history, setHistory] = useState<readonly Page[]>([Page.Home]);
-
-  const setPage = (newPage: Page) => {
-    setHistory(currHist => [...currHist, newPage]);
-    setPageInternal(newPage);
-  }
+  const [historyEntries, setHistoryEntries] = useState<HistoryEntry<any>[]>([]);
+  const [presentEntry, setPresentEntry] = useState<HistoryEntry<any>>(homePage);
 
   const goBack = () => {
-    setHistory(currHist => {
-      if (currHist.length <= 2) return [Page.Home];
-      return currHist.slice(0, -1);
+    setHistoryEntries(currHist => {
+      if (currHist.length <= 1) {
+        setPresentEntry(homePage);
+        return [homePage];
+      }
+      const newHist = currHist.slice(0, -1);
+      setPresentEntry(newHist.at(-1) ?? homePage);
+      return newHist;
     });
-    setPageInternal(history.at(-2) ?? Page.Home);
   }
 
   const goHome = () => {
-    setHistory([Page.Home]);
-    setPageInternal(Page.Home);
+    setHistoryEntries([homePage]);
+    setPresentEntry(homePage);
   };
+
+  const setComponent = <P extends {}>(
+    component: React.ElementType<P>,
+    properties: P
+  ) => {
+    const newEntry: HistoryEntry<P> = { component, properties };
+    setHistoryEntries(prevEntries => [...prevEntries, newEntry]);
+    setPresentEntry(newEntry);
+  }
 
   return (
     <PageContext.Provider value={{
-      page,
-      setPage,
       goBack,
-      goHome
+      goHome,
+      setComponent,
+      presentEntry
     }}>
       {children}
     </PageContext.Provider>
   );
 }
 
-export { PageProvider, PageContext, Page };
+export { PageProvider, PageContext };

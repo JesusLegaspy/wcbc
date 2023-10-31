@@ -1,14 +1,15 @@
 import { PiPlusSquareFill } from "react-icons/pi";
 import BookList from "./BookList";
 import NavbarSub from "./NavbarSub";
-import { Page, PageContext } from "../context/page";
+import { PageContext } from "../context/page";
 import { useContext } from "react";
+import BookCreateOrEdit from "./BookCreate";
 
 const BookSelection = () => {
-  const { setPage } = useContext(PageContext);
+  const { setComponent } = useContext(PageContext);
 
   const handleButtonAdd = () => {
-    setPage(Page.BookCreate);
+    setComponent(BookCreateOrEdit, {});
   }
 
   return (

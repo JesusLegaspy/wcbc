@@ -1,19 +1,21 @@
 import { useContext } from "react";
-import { PageContext, Page } from "../context/page";
+import { PageContext } from "../context/page";
+import CharacterSelection from "./CharacterSelection";
+import BookSelection from "./BookSelection";
 import { BiBook } from "react-icons/bi";
 import { TbSortDescending2, TbChevronLeftPipe, TbChevronRightPipe } from "react-icons/tb";
 import { FiSearch } from "react-icons/fi";
 import { PiCat } from "react-icons/pi";
 
 const Menu = () => {
-  const { setPage } = useContext(PageContext);
+  const { setComponent } = useContext(PageContext);
 
   const handleClickAdd = () => {
-    setPage(Page.AddCharacter);
+    setComponent(CharacterSelection, {});
   }
 
   const handleClickBookList = () => {
-    setPage(Page.BookSelection);
+    setComponent(BookSelection, {});
   }
 
   return (
