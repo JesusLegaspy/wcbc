@@ -29,7 +29,7 @@ const startPage: PageInterface = {
 const PageContext = createContext<PageInterface>(startPage);
 
 const PageProvider = ({ children }: { children?: ReactNode }) => {
-  const [historyEntries, setHistoryEntries] = useState<HistoryEntry<any>[]>([]);
+  const [historyEntries, setHistoryEntries] = useState<HistoryEntry<any>[]>([homePage]);
   const [presentEntry, setPresentEntry] = useState<HistoryEntry<any>>(homePage);
 
   const goBack = () => {
