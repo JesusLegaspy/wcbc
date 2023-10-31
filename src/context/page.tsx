@@ -17,13 +17,19 @@ interface PageInterface {
   goHome: () => void;
   setComponent: <P extends {}>(component: React.ElementType<P>, properties: P) => void;
   presentEntry: HistoryEntry;
+  setModal: (getModalElement: () => JSX.Element) => void;
+  modalEntry: JSX.Element | undefined;
+  clearModal: () => void;
 }
 
 const startPage: PageInterface = {
   goBack: () => { },
   goHome: () => { },
   setComponent: <P extends {}>(component: React.ElementType<P>, properties: P) => { },
-  presentEntry: homePage
+  presentEntry: homePage,
+  setModal: () => { },
+  modalEntry: undefined,
+  clearModal: () => { }
 }
 
 const PageContext = createContext<PageInterface>(startPage);
@@ -32,6 +38,7 @@ const PageProvider = ({ children }: { children?: ReactNode }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setHistoryEntries] = useState<HistoryEntry<any>[]>([homePage]);
   const [presentEntry, setPresentEntry] = useState<HistoryEntry<any>>(homePage);
+  const [modalEntry, setModalEntry] = useState<JSX.Element | undefined>();
 
   const goBack = () => {
     setHistoryEntries(currHist => {
@@ -57,14 +64,26 @@ const PageProvider = ({ children }: { children?: ReactNode }) => {
     const newEntry: HistoryEntry<P> = { component, properties };
     setHistoryEntries(prevEntries => [...prevEntries, newEntry]);
     setPresentEntry(newEntry);
-  }
+  };
+
+  const setModal = (getModalElement: () => JSX.Element) => {
+    const modalElement = getModalElement();
+    setModalEntry(modalElement);
+  };
+
+  const clearModal = () => {
+    setModalEntry(undefined);
+  };
 
   return (
     <PageContext.Provider value={{
       goBack,
       goHome,
       setComponent,
-      presentEntry
+      presentEntry,
+      setModal,
+      modalEntry,
+      clearModal
     }}>
       {children}
     </PageContext.Provider>

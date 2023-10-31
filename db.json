@@ -159,14 +159,6 @@
       "id": 9
     },
     {
-      "title": "adfasdfasdfasdfasdf",
-      "arkId": 0,
-      "characterIds": [],
-      "image": "",
-      "order": 6,
-      "id": 10
-    },
-    {
       "title": "harry",
       "arkId": 5,
       "characterIds": [],
@@ -189,14 +181,6 @@
       "image": "",
       "order": 4,
       "id": 13
-    },
-    {
-      "title": "Boooooooooooks",
-      "arkId": 0,
-      "characterIds": [],
-      "image": "",
-      "id": 14,
-      "order": 1
     }
   ],
   "characters": [

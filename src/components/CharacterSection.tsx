@@ -22,6 +22,7 @@ const CharacterSection = ({ characters }: { characters: Character[] }) => {
       console.error("Could not edit character");
       return;
     }
+    //todo: remove global selected character
     setCurrentCharacter(selectedCharacter);
     setComponent(CharacterEdit, {});
   }

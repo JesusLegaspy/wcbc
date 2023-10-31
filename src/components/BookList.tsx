@@ -3,11 +3,12 @@ import { BookContext } from "../context/books";
 import { ArkContext } from "../context/arks";
 import { PageContext } from "../context/page";
 import ListItem from "./ListItem";
-import BookCreate from "./BookCreateOrEdit";
+import BookCreateOrEdit from "./BookCreateOrEdit";
+import ModalConfirm from './ModalConfirm';
 
 const BookList = () => {
-  const { books, setCurrBookId } = useContext(BookContext);
-  const { goHome, setComponent } = useContext(PageContext);
+  const { books, setCurrBookId, deleteBookById } = useContext(BookContext);
+  const { goHome, setComponent, setModal, clearModal } = useContext(PageContext);
   const { fetchArks, allArksSortedByOrder } = useContext(ArkContext);
 
   useEffect(() => {
@@ -22,15 +23,29 @@ const BookList = () => {
 
   const handleClickEdit = (id: number) => {
     const book = books.find(book => book.id === id);
-    if (!book) {
+    if (book === undefined) {
       console.error("Cannot edit book");
       return;
     }
-    setComponent(BookCreate, { book });
+    setComponent(BookCreateOrEdit, { book });
   }
 
   const handleClickDelete = (id: number) => {
-    console.log('Delete');
+    const book = books.find(book => book.id === id);
+    if (book === undefined) {
+      console.error("Cannot edit book");
+      return;
+    }
+    setModal(() => (
+      <ModalConfirm
+        message={`Delete ${book.title}?`}
+        cancelAction={clearModal}
+        acceptAction={() => {
+          deleteBookById(id);
+          clearModal();
+        }}
+      />
+    ));
   }
 
   return (
@@ -56,7 +71,6 @@ const BookList = () => {
           </div>
         </Fragment>
       ))}
-
     </div>
   );
 }

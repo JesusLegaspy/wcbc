@@ -4,7 +4,7 @@ import { CharacterContext } from './context/characters';
 import { PageContext } from './context/page';
 
 export default function App() {
-  const { presentEntry } = useContext(PageContext);
+  const { presentEntry, modalEntry } = useContext(PageContext);
   const { fetchBooks, currBook } = useContext(BookContext);
   const { fetchCharactersByIds } = useContext(CharacterContext);
 
@@ -20,34 +20,11 @@ export default function App() {
     }
   }, [fetchCharactersByIds, currBook]);
 
-  const content = () => {
-    // if (page === Page.Home) return <CharaterPage />
-    // if (page === Page.AddCharacter) return <CharacterSelection />
-    // if (page === Page.CreateCharacter) return <CharacterCreate />
-    // if (page === Page.EditCharacter) return <CharacterEdit />
-    // if (page === Page.BookSelection) return <BookSelection />
-    // if (page === Page.BookCreate) return <BookCreateOrEdit />
-    // return (
-    //   <>
-    //     <div>
-    //       Error. Page {page} not found.
-    //     </div>
-    //     <button className='bg-sky-500 hover:bg-sky-700 px-2 py-1 rounded-full' onClick={handleClickHome}>
-    //       Go home
-    //     </button>
-    //   </>
-
-    // );
-    const props = presentEntry.properties;
-
-    return (
-      <presentEntry.component {...props} />
-    );
-  }
 
   return (
     <div>
-      {content()}
+      <presentEntry.component {...presentEntry.properties} />
+      {modalEntry}
     </div>
   );
 }
