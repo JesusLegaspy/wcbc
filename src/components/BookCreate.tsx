@@ -7,30 +7,49 @@ import "../styles/BookCreate.css";
 import ArkCreate from "./ArkCreate";
 import { LiaTrashAltSolid } from "react-icons/lia";
 
-// If there's an ID in BookContext's editBookId,
-// then assume that user wants to edit a book.
-// Currently, can't think of a more elegant way to pass data
-// or state information from one component to the next.
+interface BookCreateOrEditProps {
+  book?: Book;
+}
 
-const BookCreateOrEdit = () => {
+// If a book is passed, then assume editing.
+// Otherwise, assume book creation.
+
+const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book }) => {
   const { allArksSortedByOrder, deleteArkById } = useContext(ArkContext);
-  const { books, createBook } = useContext(BookContext);
+  const { books, createBook, editBook } = useContext(BookContext);
   const { goBack } = useContext(PageContext);
-  const [valueTitle, setValueTitle] = useState<string>('');
+
+  const [valueTitle, setValueTitle] = useState<string>(book?.title ?? '');
+
   const [arkDeleteError, setArkDeleteError] = useState<boolean>(false);
-  const [isArkCreate, setIsArkCreate] = useState<boolean>(false);
-  const [valueArkId, setValueArkId] = useState<number>(0);
-  const [valueOrder, setValueOrder] = useState<number>(1);
+  const [showArkCreate, setShowArkCreate] = useState<boolean>(false);
+  const [valueArkId, setValueArkId] = useState<number | undefined>(book?.arkId);
+  const [valueOrder, setValueOrder] = useState<number>(book?.order ?? 1);
 
   useEffect(() => {
-    console.debug('BookCreate.tsc', 'useEffect', 'setValueArkId', 'dep:allArks');
+    if (book !== undefined) return;
+    console.debug('BookCreate.tsx', 'useEffect', 'setValueArkId', 'dep:allArks');
     setValueArkId(allArksSortedByOrder.at(0)?.id ?? -1);
   }, [allArksSortedByOrder])
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // createBook(valueTitle, valueArkId);
-    // todo: edit
+    if (valueArkId === undefined) {
+      console.warn("Ark is required");
+      // todo: Warning message system.
+      return;
+    }
+
+    if (book) {
+      editBook({
+        id: book.id,
+        arkId: valueArkId,
+        order: valueOrder,
+        title: valueTitle
+      });
+    } else {
+      createBook(valueTitle, valueArkId);
+    }
     goBack();
   }
 
@@ -48,6 +67,11 @@ const BookCreateOrEdit = () => {
   };
 
   const handlClickDeleteArk = () => {
+    if (valueArkId === undefined) {
+      setArkDeleteError(true);
+      return;
+    }
+
     // Only delete if the ark is not associated with any books
     if (books.some(book => book.arkId === valueArkId)) {
       setArkDeleteError(true);
@@ -57,7 +81,7 @@ const BookCreateOrEdit = () => {
   }
 
   const handleClickAddArk = () => {
-    setIsArkCreate(isCreate => !isCreate);
+    setShowArkCreate(isCreate => !isCreate);
   }
 
   const handleClickCancel = () => {
@@ -66,7 +90,7 @@ const BookCreateOrEdit = () => {
 
   return (
     <div className="bg-slate-50 min-h-screen" onClick={() => setArkDeleteError(false)}>
-      <NavbarSub text="Create new book" />
+      <NavbarSub text={book ? `Editing ${book.title}` : "Create new book"} />
       <div className="mx-auto max-w-5xl bg-white lg:border border-b lg:border-t-0 p-8">
         <form className="flex flex-col max-w-2xl mx-auto" onSubmit={handleSubmit}>
 
@@ -114,12 +138,12 @@ const BookCreateOrEdit = () => {
               className="ml-2 bg-stone-200 p-1 px-2 text-sm rounded-lg hover:bg-stone-300"
               onClick={() => handleClickAddArk()}
             >
-              {isArkCreate ? "Cancel" : "New Ark"}
+              {showArkCreate ? "Cancel" : "New Ark"}
             </button>
           </div>
 
           {/* Ark Create */}
-          {isArkCreate && <ArkCreate close={() => setIsArkCreate(false)} />}
+          {showArkCreate && <ArkCreate close={() => setShowArkCreate(false)} />}
 
           {/* Order */}
           <div className="flex my-8 items-center">
@@ -164,7 +188,7 @@ const BookCreateOrEdit = () => {
               type="submit"
               className="p-2 bg-cyan-100 hover:bg-cyan-200 mt-4 rounded-lg ml-4"
             >
-              Create Book
+              {book ? "Edit Book" : "Create Book"}
             </button>
           </div>
         </form>

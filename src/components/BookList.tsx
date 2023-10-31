@@ -3,10 +3,11 @@ import { BookContext } from "../context/books";
 import { ArkContext } from "../context/arks";
 import { PageContext } from "../context/page";
 import ListItem from "./ListItem";
+import BookCreate from "./BookCreate";
 
 const BookList = () => {
   const { books, setCurrBookId } = useContext(BookContext);
-  const { goHome } = useContext(PageContext);
+  const { goHome, setComponent } = useContext(PageContext);
   const { fetchArks, allArksSortedByOrder } = useContext(ArkContext);
 
   useEffect(() => {
@@ -20,7 +21,12 @@ const BookList = () => {
   }
 
   const handleClickEdit = (id: number) => {
-    console.log('Edit');
+    const book = books.find(book => book.id === id);
+    if (!book) {
+      console.error("Cannot edit book");
+      return;
+    }
+    setComponent(BookCreate, { book });
   }
 
   const handleClickDelete = (id: number) => {

@@ -6,6 +6,7 @@ const API_BASE_URL = "http://localhost:3001";
 export interface Book {
   id: number;
   arkId: number;
+  order: number;
   title: string;
   image?: string;
   characterIds?: number[];
@@ -16,8 +17,6 @@ interface BookContextType {
   currBook: Book | undefined;
   currBookId: number;
   setCurrBookId: React.Dispatch<React.SetStateAction<number>>;
-  editBookId: number | undefined;
-  setEditBookId: React.Dispatch<React.SetStateAction<number>>;
   fetchBooks: () => Promise<void>;
   createBook: (title: string, arkId: number) => Promise<void>;
   editBook: (data: Book) => Promise<void>;
@@ -33,8 +32,6 @@ const startupBookContext: BookContextType = {
   currBook: undefined,
   currBookId: 0,
   setCurrBookId: () => { },
-  editBookId: 0,
-  setEditBookId: () => { },
   fetchBooks: async () => { },
   createBook: async () => { },
   editBook: async () => { },
@@ -50,7 +47,6 @@ const BookContext = createContext<BookContextType>(startupBookContext);
 const BookProvider = ({ children }: { children?: ReactNode }) => {
   const [books, setBooks] = useState<readonly Book[]>([]);
   const [currBookId, setCurrBookId] = useState<number>(0);
-  const [editBookId, setEditBookId] = useState<number>(0);
   const [currBook, setCurrBook] = useState<Book | undefined>();
 
   useEffect(() => {
@@ -125,7 +121,13 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
 
     const characterIds = [...selectedBook.characterIds];
     characterIds.splice(index, 1);
-    editBook({ id: bookId, characterIds: characterIds, arkId: selectedBook.arkId, title: selectedBook.title });
+    editBook({
+      id: bookId,
+      characterIds: characterIds,
+      arkId: selectedBook.arkId,
+      order: selectedBook.order,
+      title: selectedBook.title
+    });
   }, [books, editBook]);
 
   const removeCharacterByIdFromCurrentBook = useCallback(async (id: number) => {
@@ -142,7 +144,13 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
       console.error("Unexpected error. Current book not found");
       return;
     }
-    editBook({ id: currBookId, characterIds: [...currBook.characterIds ?? [], id], arkId: currBook.arkId, title: currBook.title });
+    editBook({
+      id: currBookId,
+      characterIds: [...currBook.characterIds ?? [], id],
+      arkId: currBook.arkId,
+      order: currBook.order,
+      title: currBook.title
+    });
   }, [currBook, currBookId, editBook]);
 
   const contextValue = useMemo(
@@ -151,8 +159,6 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
       currBookId,
       currBook,
       setCurrBookId,
-      editBookId,
-      setEditBookId,
       fetchBooks,
       createBook,
       editBook,
@@ -165,7 +171,6 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     currBook,
     currBookId,
     editBook,
-    editBookId,
     removeCharacterById,
     removeCharacterByIdFromCurrentBook,
     removeCharacterByIdFromAllBooks,

@@ -37,7 +37,7 @@ const ArkProvider = ({ children }: { children?: ReactNode }) => {
   const [allArksSortedByOrder, setAllArksSortedByOrder] = useState<readonly Ark[]>([]);
 
   useEffect(() => {
-    console.debug('BookCreate.tsc', 'useEffect', 'setValueArkId', [...allArks].shift()?.id, 'dep:allArks');
+    console.debug('arks.tsx', 'useEffect', 'setValueArkId', [...allArks].shift()?.id, 'dep:allArks');
     setAllArksSortedByOrder([...allArks].sort((a, b) => a.order - b.order));
   }, [allArks])
 

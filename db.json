@@ -35,7 +35,7 @@
     {
       "title": "This is a title",
       "arkId": 0,
-      "Order": 1,
+      "order": 1,
       "image": "",
       "id": 0,
       "characterIds": [
@@ -49,7 +49,7 @@
     {
       "title": "Book Two",
       "arkId": 0,
-      "Order": 2,
+      "order": 2,
       "image": "",
       "id": 1,
       "characterIds": [
@@ -61,7 +61,7 @@
     {
       "title": "This is a title, too",
       "arkId": 0,
-      "Order": 1,
+      "order": 1,
       "image": "",
       "id": 2,
       "characterIds": [
@@ -76,7 +76,7 @@
     {
       "title": "Book Four",
       "arkId": 2,
-      "Order": 2,
+      "order": 2,
       "image": "",
       "id": 3,
       "characterIds": [
@@ -89,6 +89,7 @@
       "title": "Another amazing test book",
       "arkId": 2,
       "characterIds": [],
+      "order": 3,
       "image": "",
       "id": 4
     },
@@ -96,6 +97,7 @@
       "title": "Ponies",
       "arkId": 3,
       "characterIds": [],
+      "order": 4,
       "image": "",
       "id": 5
     },
@@ -103,6 +105,7 @@
       "title": "Test Book",
       "arkId": 4,
       "characterIds": [],
+      "order": 5,
       "image": "",
       "id": 6
     },
@@ -111,6 +114,7 @@
       "arkId": 0,
       "characterIds": [],
       "image": "",
+      "order": 1,
       "id": 7
     },
     {
@@ -125,6 +129,7 @@
         3
       ],
       "image": "",
+      "order": 2,
       "id": 8
     },
     {
@@ -136,6 +141,7 @@
         3
       ],
       "image": "",
+      "order": 4,
       "id": 9
     },
     {
@@ -143,6 +149,7 @@
       "arkId": 0,
       "characterIds": [],
       "image": "",
+      "order": 6,
       "id": 10
     },
     {
@@ -150,6 +157,7 @@
       "arkId": 5,
       "characterIds": [],
       "image": "",
+      "order": 5,
       "id": 11
     },
     {
@@ -157,7 +165,16 @@
       "arkId": 4,
       "characterIds": [],
       "image": "",
+      "order": 1,
       "id": 12
+    },
+    {
+      "title": "How to bake cookies with a solar oven",
+      "arkId": 1,
+      "characterIds": [],
+      "image": "",
+      "order": 3,
+      "id": 13
     }
   ],
   "characters": [
