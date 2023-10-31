@@ -29,7 +29,8 @@ const startPage: PageInterface = {
 const PageContext = createContext<PageInterface>(startPage);
 
 const PageProvider = ({ children }: { children?: ReactNode }) => {
-  const [historyEntries, setHistoryEntries] = useState<HistoryEntry<any>[]>([homePage]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_, setHistoryEntries] = useState<HistoryEntry<any>[]>([homePage]);
   const [presentEntry, setPresentEntry] = useState<HistoryEntry<any>>(homePage);
 
   const goBack = () => {
