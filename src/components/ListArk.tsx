@@ -80,7 +80,7 @@ const ListArk: React.FC<ListSectionProps> = ({ ark, className: cName }) => {
 
       {showDeleteError &&
         <div className="font-normal text-red-500">
-          <p>Can only delete empty Arks</p>
+          <p>Can only delete empty arks</p>
         </div>
       }
       <div className="grow flex justify-end">
