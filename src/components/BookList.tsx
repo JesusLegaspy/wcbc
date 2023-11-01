@@ -5,6 +5,7 @@ import { PageContext } from "../context/page";
 import ListItem from "./ListItem";
 import BookCreateOrEdit from "./BookCreateOrEdit";
 import ModalConfirm from './ModalConfirm';
+import ListSection from "./ListSection";
 
 const BookList = () => {
   const { books, setCurrBookId, deleteBookById } = useContext(BookContext);
@@ -52,9 +53,7 @@ const BookList = () => {
     <div>
       {allArksSortedByOrder?.map(ark => (
         <Fragment key={`ark_${ark.id}`}>
-          <div className="z-30 sticky top-16 px-4 py-3 flex items-center font-semibold text-slate-900 bg-slate-100 backdrop-blur-sm ring-1 ring-slate-900/10">
-            {ark.title}
-          </div>
+          <ListSection text={ark.title} className="z-30" />
           <div className="divide-y">
             {books.filter(book => book.arkId === ark.id).map(book => (
               <ListItem
