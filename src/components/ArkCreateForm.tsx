@@ -1,10 +1,15 @@
 import { useState, useContext } from "react";
-import { ArkContext } from "../context/arks";
+import { ArkContext, Ark } from "../context/arks";
 
-const ArkCreate = ({ close }: { close?: () => void }) => {
-  const { createArk } = useContext(ArkContext);
-  const [valueTitle, setValueTitle] = useState<string>('');
-  const [valueOrder, setValueOrder] = useState<number>(1);
+interface ArkCreateFormProps {
+  close?: () => void;
+  ark?: Ark;
+}
+
+const ArkCreateForm: React.FC<ArkCreateFormProps> = ({ close, ark }) => {
+  const { createArk, editArk } = useContext(ArkContext);
+  const [valueTitle, setValueTitle] = useState<string>(ark?.title ?? '');
+  const [valueOrder, setValueOrder] = useState<number>(ark?.order ?? 1);
   const [titleError, setTitleError] = useState<boolean>(false);
 
   const handleValueTitle = (title: string) => {
@@ -22,7 +27,15 @@ const ArkCreate = ({ close }: { close?: () => void }) => {
       setTitleError(true);
       return;
     }
-    createArk(valueTitle, valueOrder);
+    if (ark == undefined) {
+      createArk(valueTitle, valueOrder);
+    } else {
+      editArk({
+        id: ark.id,
+        title: valueTitle,
+        order: valueOrder
+      });
+    }
     if (close) close();
   }
 
@@ -65,11 +78,11 @@ const ArkCreate = ({ close }: { close?: () => void }) => {
         onClick={() => handleClickCreateArk()}
         className="p-2 bg-sky-100 hover:bg-blue-100 mt-4"
       >
-        Create Ark
+        {ark ? 'Edit Ark' : 'Create Ark'}
       </button>
     </fieldset>
   );
 
 }
 
-export default ArkCreate;
+export default ArkCreateForm;
