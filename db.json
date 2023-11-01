@@ -126,7 +126,9 @@
     {
       "title": "Chamber of Secrets",
       "arkId": 0,
-      "characterIds": [],
+      "characterIds": [
+        4
+      ],
       "image": "",
       "order": 1,
       "id": 7

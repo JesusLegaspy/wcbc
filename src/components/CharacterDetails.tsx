@@ -1,31 +1,31 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import ModalConfirm from "./ModalConfirm";
-import { Character, CharacterContext } from "../context/characters";
+import { Character } from "../context/characters";
 import { BookContext } from "../context/books";
 import CharacterEdit from "./CharacterEdit";
 import { MdPlaylistRemove } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
 import { PageContext } from "../context/page";
 
-
 const CharacterDetails = ({ character }: { character: Character }) => {
-  const { setComponent } = useContext(PageContext);
+  const { setComponent, setModal, clearModal } = useContext(PageContext);
   const { removeCharacterByIdFromCurrentBook } = useContext(BookContext);
-  const { setCurrentCharacter } = useContext(CharacterContext);
-  const [isDeleteModalAlive, setIsDeleteModalAlive] = useState<boolean>(false);
 
-  const handleClick = () => {
-    setIsDeleteModalAlive(true);
+  const handleClickRemove = () => {
+    setModal(() =>
+      <ModalConfirm
+        message="Would you like to remove this character?"
+        cancelAction={clearModal}
+        acceptAction={() => {
+          removeCharacterByIdFromCurrentBook(character.id);
+          clearModal();
+        }}
+      />)
   };
 
-  const handleDelete = () => {
-    removeCharacterByIdFromCurrentBook(character.id);
-    setIsDeleteModalAlive(false);
-  }
 
   const handleEdit = () => {
-    setCurrentCharacter(character);
-    setComponent(CharacterEdit, {});
+    setComponent(CharacterEdit, { character });
   }
 
   return (
@@ -45,17 +45,12 @@ const CharacterDetails = ({ character }: { character: Character }) => {
         <button>
           <MdPlaylistRemove
             className="absolute bottom-1 right-1 text-xl text-gray-800 p rounded-full hover:bg-slate-200"
-            onClick={handleClick}
+            onClick={handleClickRemove}
           />
         </button>
       </div>
       {/* <img src="https://placekitten.com/600/300" alt="kitty" /> */}
-      {isDeleteModalAlive
-        && <ModalConfirm
-          message="Would you like to remove this character?"
-          cancelAction={() => setIsDeleteModalAlive(false)}
-          acceptAction={handleDelete}
-        />}
+
     </div>
   );
 }

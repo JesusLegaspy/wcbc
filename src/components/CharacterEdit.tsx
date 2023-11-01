@@ -1,19 +1,19 @@
 import { useContext, useState } from "react";
-import { CharacterContext } from "../context/characters";
+import { Character, CharacterContext } from "../context/characters";
 import { PageContext } from "../context/page";
 import NavbarSub from "./NavbarSub";
 import profile from "../assets/images/profile.png";
 import { TbPhotoPlus } from 'react-icons/tb';
 
-const CharacterCreate = () => {
-  const { editCharacterById, currentCharacter } = useContext(CharacterContext)
+const CharacterCreate = ({ character }: { character: Character }) => {
+  const { editCharacterById } = useContext(CharacterContext)
   const { goBack } = useContext(PageContext);
-  const [valueName, setValueName] = useState<string>(currentCharacter.name);
-  const [valueDescription, setValueDescription] = useState<string>(currentCharacter.description ?? "");
+  const [valueName, setValueName] = useState<string>(character.name);
+  const [valueDescription, setValueDescription] = useState<string>(character.description ?? "");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    editCharacterById(currentCharacter.id, { id: currentCharacter.id, name: valueName, description: valueDescription }).then(() => {
+    editCharacterById(character.id, { id: character.id, name: valueName, description: valueDescription }).then(() => {
       goBack();
     });
   }
@@ -32,7 +32,7 @@ const CharacterCreate = () => {
 
   return (
     <div className="sm:bg-slate-50 min-h-screen">
-      <NavbarSub text={`Editing ${currentCharacter.name}`} />
+      <NavbarSub text={`Editing ${character.name}`} />
       <div className="container m-auto max-w-sm sm:max-w-md sm:bg-white sm:border-x sm:border-b sm:border-gray-200">
         <form className="flex flex-col mx-6" onSubmit={handleSubmit}>
           <div className="relative m-auto p-6 mb-8">

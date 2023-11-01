@@ -2,19 +2,17 @@
 import { Character, CharacterContext } from '../context/characters';
 import ListItem from './ListItem';
 import { PageContext } from '../context/page';
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import { BookContext } from '../context/books';
 import CharacterEdit from './CharacterEdit';
 import ModalConfirm from './ModalConfirm';
 
 
 const CharacterSection = ({ characters }: { characters: Character[] }) => {
-  const { setComponent } = useContext(PageContext);
-  const { deleteCharacterById, setCurrentCharacter } = useContext(CharacterContext);
+  const { setComponent, setModal, clearModal } = useContext(PageContext);
+  const { deleteCharacterById } = useContext(CharacterContext);
   const { addCharacterById, removeCharacterByIdFromAllBooks } = useContext(BookContext);
   const { goHome } = useContext(PageContext);
-  const [isModalDeleteAlive, setIsModalDeleteAlive] = useState<boolean>(false);
-  const [selectedCharacter, setSelectedCharacter] = useState<Character | undefined>();
 
   const handleClickEditCharacter = (id: number) => {
     const selectedCharacter = characters.find(character => character.id === id);
@@ -22,9 +20,7 @@ const CharacterSection = ({ characters }: { characters: Character[] }) => {
       console.error("Could not edit character");
       return;
     }
-    //todo: remove global selected character
-    setCurrentCharacter(selectedCharacter);
-    setComponent(CharacterEdit, {});
+    setComponent(CharacterEdit, { character: selectedCharacter });
   }
 
   const handleDeleteCharacter = (id: number) => {
@@ -33,19 +29,22 @@ const CharacterSection = ({ characters }: { characters: Character[] }) => {
       console.error("Could not find character");
       return;
     }
-    setSelectedCharacter(character);
-    setIsModalDeleteAlive(true);
-  }
+    setModal(() => (
+      <ModalConfirm
+        message={`Delete ${character.name} from all books?`}
+        cancelAction={clearModal}
+        acceptAction={() => {
+          deleteCharacterById(id);
+          removeCharacterByIdFromAllBooks(id);
+          clearModal();
+        }}
+      />
+    ));
+  };
 
   const handleClickAddCharacter = (id: number) => {
     addCharacterById(id);
     goHome();
-  }
-
-  const handleModalDeleteCharacter = (id: number) => {
-    deleteCharacterById(id);
-    removeCharacterByIdFromAllBooks(id);
-    setIsModalDeleteAlive(false);
   }
 
   return (
@@ -64,15 +63,6 @@ const CharacterSection = ({ characters }: { characters: Character[] }) => {
             callbackSelect={handleClickAddCharacter} />
         ))
       }
-      {isModalDeleteAlive &&
-        <ModalConfirm
-          message={`Delete ${selectedCharacter?.name} from all books?`}
-          cancelAction={() => setIsModalDeleteAlive(false)}
-          acceptAction={() => {
-            if (!selectedCharacter) return;
-            handleModalDeleteCharacter(selectedCharacter.id);
-          }}
-        />}
     </>
   );
 }
