@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { ArkContext, Ark } from "../context/arks";
 
 interface ArkCreateFormProps {
-  close?: () => void;
+  close?: (newArkId?: number) => void; // A callback to close the form with option to pass new ark ID.
   ark?: Ark;
 }
 
@@ -27,16 +27,18 @@ const ArkCreateForm: React.FC<ArkCreateFormProps> = ({ close, ark }) => {
       setTitleError(true);
       return;
     }
-    if (ark == undefined) {
-      createArk(valueTitle, valueOrder);
+    if (ark === undefined) {
+      createArk(valueTitle, valueOrder).then((id) => {
+        if (close) close(id); // Calling close callback with new ark ID
+      });
     } else {
       editArk({
         id: ark.id,
         title: valueTitle,
         order: valueOrder
       });
+      if (close) close();
     }
-    if (close) close();
   }
 
   return (

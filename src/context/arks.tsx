@@ -14,7 +14,7 @@ interface ArkContextType {
   allArksSortedByOrder: readonly Ark[];
   fetchArks: () => Promise<void>;
   getArkById: (id: number) => Promise<Ark | undefined>;
-  createArk: (title: string, order: number) => Promise<void>;
+  createArk: (title: string, order: number) => Promise<number | undefined>;
   editArk: (ark: Ark) => Promise<void>;
   deleteArkById: (id: number) => void;
 }
@@ -24,7 +24,7 @@ const startupBookContext: ArkContextType = {
   allArksSortedByOrder: [],
   fetchArks: async () => { },
   getArkById: async (id: number) => undefined,
-  createArk: async (title: string, order: number) => { },
+  createArk: async (title: string, order: number) => undefined,
   editArk: async (ark: Ark) => { },
   deleteArkById: (id: number) => { }
 }
@@ -69,6 +69,7 @@ const ArkProvider = ({ children }: { children?: ReactNode }) => {
       });
       const newArk = response.data;
       setAllArks((prevArks) => [...prevArks, newArk]);
+      return newArk.id;
     } catch (error) {
       console.error("Error creating ark", error);
     }

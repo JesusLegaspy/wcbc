@@ -10,12 +10,13 @@ import "../styles/BookCreateOrEdit.css";
 
 interface BookCreateOrEditProps {
   book?: Book;
+  arkId?: number; // Preselect ark
 }
 
 // If a book is passed, then assume editing.
 // Otherwise, assume book creation.
 
-const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book }) => {
+const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arkId }) => {
   const { allArksSortedByOrder, deleteArkById } = useContext(ArkContext);
   const { books, createBook, editBook } = useContext(BookContext);
   const { goBack } = useContext(PageContext);
@@ -24,14 +25,14 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book }) => {
 
   const [arkDeleteError, setArkDeleteError] = useState<boolean>(false);
   const [showArkCreate, setShowArkCreate] = useState<boolean>(false);
-  const [valueArkId, setValueArkId] = useState<number | undefined>(book?.arkId);
+  const [valueArkId, setValueArkId] = useState<number | undefined>(book?.arkId || arkId);
   const [valueOrder, setValueOrder] = useState<number>(book?.order ?? 1);
 
   useEffect(() => {
-    if (book !== undefined) return;
-    console.debug('BookCreate.tsx', 'useEffect', 'setValueArkId', 'dep:allArks');
+    if (book !== undefined || arkId !== undefined || valueArkId !== undefined) return;
+    console.debug('BookCreateOrEdit.tsx', 'useEffect', 'setValueArkId', 'dep:allArks');
     setValueArkId(allArksSortedByOrder.at(0)?.id ?? -1);
-  }, [allArksSortedByOrder, book]);
+  }, [allArksSortedByOrder, book, arkId, valueArkId]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -142,7 +143,11 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book }) => {
         </div>
 
         {/* Ark Create */}
-        {showArkCreate && <ArkCreateForm close={() => setShowArkCreate(false)} />}
+        {showArkCreate && <ArkCreateForm close={(newArkId) => {
+          setValueArkId(newArkId);
+          setShowArkCreate(false);
+        }}
+        />}
 
         {/* Order */}
         <div className="flex my-8 items-center">
