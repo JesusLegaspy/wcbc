@@ -50,7 +50,7 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arkId }) => {
         title: valueTitle
       });
     } else {
-      createBook(valueTitle, valueArkId);
+      createBook(valueTitle, valueArkId, valueOrder);
     }
     goBack();
   }

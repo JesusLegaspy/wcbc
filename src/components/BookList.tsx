@@ -55,18 +55,20 @@ const BookList = () => {
         <Fragment key={`ark_${ark.id}`}>
           <ListArk ark={ark} className="z-30" />
           <div className="divide-y">
-            {books.filter(book => book.arkId === ark.id).map(book => (
-              <ListItem
-                id={book.id}
-                key={`listitem_book_${book.id}`}
-                iconUrl={''}
-                title={book.title}
-                description={''}
-                callbackEdit={handleClickEdit}
-                callbackDelete={handleClickDelete}
-                callbackSelect={handleClickBook}
-              />
-            ))}
+            {books.filter(book => book.arkId === ark.id)
+              .sort((a, b) => a.order - b.order)
+              .map(book => (
+                <ListItem
+                  id={book.id}
+                  key={`listitem_book_${book.id}`}
+                  iconUrl={''}
+                  title={book.title}
+                  description={''}
+                  callbackEdit={handleClickEdit}
+                  callbackDelete={handleClickDelete}
+                  callbackSelect={handleClickBook}
+                />
+              ))}
           </div>
         </Fragment>
       ))}

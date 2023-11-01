@@ -141,25 +141,36 @@
       "id": 12
     },
     {
-      "title": "Another Book",
+      "title": "Five",
       "arkId": 1,
       "characterIds": [],
       "image": "",
-      "id": 13
+      "id": 16,
+      "order": 5
     },
     {
-      "title": "Book 2",
+      "title": "Four",
       "arkId": 1,
+      "order": 4,
       "characterIds": [],
       "image": "",
-      "id": 14
+      "id": 17
     },
     {
-      "title": "Book three",
+      "title": "One",
       "arkId": 1,
+      "order": 1,
       "characterIds": [],
       "image": "",
-      "id": 15
+      "id": 18
+    },
+    {
+      "title": "Six",
+      "arkId": 1,
+      "order": 6,
+      "characterIds": [],
+      "image": "",
+      "id": 19
     }
   ],
   "characters": [
