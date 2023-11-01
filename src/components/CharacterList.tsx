@@ -2,10 +2,9 @@ import { useContext, useRef, useEffect, Fragment, useMemo } from "react";
 import { CharacterContext, Character } from "../context/characters";
 import { PageContext } from "../context/page";
 import { BookContext } from "../context/books";
-import CharacterEdit from './CharacterEdit';
+import CharacterCreateOrEdit from './CharacterCreateOrEdit';
 import ModalConfirm from './ModalConfirm';
 import ListItem from "./ListItem";
-import "../styles/CharacterList.css";
 
 const CharacterList = () => {
   const { allCharacters, fetchAllCharacters, characters } = useContext(CharacterContext);
@@ -21,7 +20,7 @@ const CharacterList = () => {
   }, []);
 
   const handleClickEditCharacter = (character: Character) => {
-    setComponent(CharacterEdit, { character: character });
+    setComponent(CharacterCreateOrEdit, { character: character });
   }
 
   const handleDeleteCharacter = (character: Character) => {

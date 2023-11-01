@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { CSSTransition } from 'react-transition-group'
 import { Character } from '../context/characters';
 import CharacterDetails from './CharacterDetails';
-import '../styles/CharacterShow.css';
+import "../styles/CharacterShow.css";
 
 interface CharacterShowProps {
   character: Character;

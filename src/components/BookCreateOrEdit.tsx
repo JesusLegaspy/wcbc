@@ -3,9 +3,10 @@ import NavbarSub from "./NavbarSub";
 import { ArkContext } from "../context/arks";
 import { Book, BookContext } from "../context/books";
 import { PageContext } from "../context/page";
-import "../styles/BookCreate.css";
 import ArkCreate from "./ArkCreate";
 import { LiaTrashAltSolid } from "react-icons/lia";
+import "../styles/BookCreateOrEdit.css";
+
 
 interface BookCreateOrEditProps {
   book?: Book;

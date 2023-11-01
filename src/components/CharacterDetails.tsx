@@ -1,11 +1,12 @@
 import { useContext } from "react";
-import ModalConfirm from "./ModalConfirm";
-import { Character } from "../context/characters";
+import { PageContext } from "../context/page";
 import { BookContext } from "../context/books";
-import CharacterEdit from "./CharacterEdit";
+import { Character } from "../context/characters";
+import CharacterCreateOrEdit from "./CharacterCreateOrEdit";
+import ModalConfirm from "./ModalConfirm";
 import { MdPlaylistRemove } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
-import { PageContext } from "../context/page";
+
 
 const CharacterDetails = ({ character }: { character: Character }) => {
   const { setComponent, setModal, clearModal } = useContext(PageContext);
@@ -23,9 +24,8 @@ const CharacterDetails = ({ character }: { character: Character }) => {
       />)
   };
 
-
   const handleEdit = () => {
-    setComponent(CharacterEdit, { character });
+    setComponent(CharacterCreateOrEdit, { character });
   }
 
   return (

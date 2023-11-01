@@ -1,36 +1,47 @@
 import { useContext, useState } from "react";
-import { CharacterContext } from "../context/characters";
+import { Character, CharacterContext } from "../context/characters";
 import { BookContext } from "../context/books";
 import { PageContext } from "../context/page";
 import NavbarSub from "./NavbarSub";
 import profile from "../assets/images/profile.png";
 import { TbPhotoPlus } from 'react-icons/tb';
 
-const CharacterCreate = () => {
-  const { createCharacter } = useContext(CharacterContext)
+interface CharacterCreateOrEditProps {
+  character?: Character;
+}
+
+const CharacterCreateOrEdit: React.FC<CharacterCreateOrEditProps> = ({ character }) => {
+  const { createCharacter, editCharacterById } = useContext(CharacterContext)
   const { currBookId, addCharacterById } = useContext(BookContext);
   const { goHome, goBack } = useContext(PageContext);
-  const [valueName, setValueName] = useState<string>('');
-  const [valueDescription, setValueDescription] = useState<string>('');
+  const [valueName, setValueName] = useState<string>(character?.name ?? '');
+  const [valueDescription, setValueDescription] = useState<string>(character?.description ?? '');
   const [checkedAddToExistingBook, setCheckedAddToExistingBook] = useState<boolean>(true);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    createCharacter(currBookId, valueName, valueDescription, '').then(id => {
-      if (!id) {
-        console.error("Could not add new character to existing book");
-        goHome();
-        return;
-      }
 
-      if (!checkedAddToExistingBook) {
+    if (character !== undefined) {
+      editCharacterById(character.id, { id: character.id, name: valueName, description: valueDescription }).then(() => {
         goBack();
-        return;
-      }
+      });
+    } else {
+      createCharacter(currBookId, valueName, valueDescription, '').then(id => {
+        if (!id) {
+          console.error("Could not add new character to existing book");
+          goHome();
+          return;
+        }
 
-      addCharacterById(id);
-      goHome();
-    });
+        if (!checkedAddToExistingBook) {
+          goBack();
+          return;
+        }
+
+        addCharacterById(id);
+        goHome();
+      });
+    }
   }
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +62,7 @@ const CharacterCreate = () => {
 
   return (
     <div className="sm:bg-slate-50 min-h-screen">
-      <NavbarSub text="Create new character" />
+      <NavbarSub text={character ? `Editing ${character.name}` : "Create new character"} />
       <div className="container m-auto max-w-sm sm:max-w-md sm:bg-white sm:border-x sm:border-b sm:border-gray-200">
         <form className="flex flex-col mx-6" onSubmit={handleSubmit}>
           <div className="relative m-auto p-6 mb-8">
@@ -85,16 +96,19 @@ const CharacterCreate = () => {
               onChange={handleChangeDescription}
             />
           </div>
-          <div className="flex justify-end mb-5">
-            <label htmlFor="addToCurrent" className="pr-2">Add to current book: </label>
-            <input id="addToCurrent" type="checkbox" checked={checkedAddToExistingBook} onChange={handleChangeAddToExistingBook} />
-          </div>
+          {character === undefined &&
+            <div className="flex justify-end mb-5">
+              <label htmlFor="addToCurrent" className="pr-2">Add to current book: </label>
+              <input id="addToCurrent" type="checkbox" checked={checkedAddToExistingBook} onChange={handleChangeAddToExistingBook} />
+            </div>
+          }
+
           <div className="flex justify-end mb-6">
             <button type="button" onClick={handleCancel} className="border px-4 py-2 bg-stone-200 border-stone-300">
               Cancel
             </button>
             <button type="submit" className="border ml-4 px-4 py-2 bg-blue-200 border-blue-400">
-              Create
+              {character ? 'Edit' : 'Create'}
             </button>
           </div>
         </form>
@@ -103,4 +117,4 @@ const CharacterCreate = () => {
   );
 }
 
-export default CharacterCreate;
+export default CharacterCreateOrEdit;

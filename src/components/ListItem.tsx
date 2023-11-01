@@ -2,6 +2,7 @@ import { useRef, useState } from "react";
 import Draggable, { DraggableData, DraggableEvent } from "react-draggable";
 import { LiaTrashAltSolid } from "react-icons/lia";
 import { TbEdit } from "react-icons/tb";
+import "../styles/ListItem.css";
 
 
 interface ListItemProps {

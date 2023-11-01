@@ -1,9 +1,11 @@
-import { PiPlusSquareFill } from "react-icons/pi";
-import BookList from "./BookList";
-import NavbarSub from "./NavbarSub";
 import { PageContext } from "../context/page";
 import { useContext } from "react";
+import BookList from "./BookList";
+import NavbarSub from "./NavbarSub";
 import BookCreateOrEdit from "./BookCreateOrEdit";
+import { PiPlusSquareFill } from "react-icons/pi";
+import "../styles/Selection.css";
+
 
 const BookSelection = () => {
   const { setComponent } = useContext(PageContext);
