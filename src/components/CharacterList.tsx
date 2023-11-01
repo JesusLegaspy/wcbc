@@ -1,18 +1,47 @@
 import { useContext, useRef, useEffect, Fragment, useMemo } from "react";
 import { CharacterContext, Character } from "../context/characters";
-import CharacterSection from "./CharacterSection";
-
+import { PageContext } from "../context/page";
+import { BookContext } from "../context/books";
+import CharacterEdit from './CharacterEdit';
+import ModalConfirm from './ModalConfirm';
+import ListItem from "./ListItem";
 import "../styles/CharacterList.css";
-
 
 const CharacterList = () => {
   const { allCharacters, fetchAllCharacters, characters } = useContext(CharacterContext);
+  const { setComponent, setModal, clearModal } = useContext(PageContext);
+  const { deleteCharacterById } = useContext(CharacterContext);
+  const { addCharacterById, removeCharacterByIdFromAllBooks } = useContext(BookContext);
+  const { goHome } = useContext(PageContext);
 
   const fetchAllCharactersRef = useRef(fetchAllCharacters);
   console.debug('CharacterList', 'useEffect', 'fetchAllCharacters');
   useEffect(() => {
     fetchAllCharactersRef.current?.();
   }, []);
+
+  const handleClickEditCharacter = (character: Character) => {
+    setComponent(CharacterEdit, { character: character });
+  }
+
+  const handleDeleteCharacter = (character: Character) => {
+    setModal(() => (
+      <ModalConfirm
+        message={`Delete ${character.name} from all books?`}
+        cancelAction={clearModal}
+        acceptAction={() => {
+          deleteCharacterById(character.id);
+          removeCharacterByIdFromAllBooks(character.id);
+          clearModal();
+        }}
+      />
+    ));
+  };
+
+  const handleClickAddCharacter = (character: Character) => {
+    addCharacterById(character.id);
+    goHome();
+  }
 
   type CharactersGroup = {
     [key: string]: Character[]
@@ -47,7 +76,19 @@ const CharacterList = () => {
             {letter}
           </div>
           <div className="divide-y">
-            <CharacterSection characters={characters} />
+            {
+              characters.map((character: Character) => (
+                <ListItem
+                  id={character.id}
+                  key={`listitem_${character.id}`}
+                  iconUrl={character.image ?? ''}
+                  title={character.name}
+                  description={character.description ?? ''}
+                  callbackEdit={() => handleClickEditCharacter(character)}
+                  callbackDelete={() => handleDeleteCharacter(character)}
+                  callbackSelect={() => handleClickAddCharacter(character)} />
+              ))
+            }
           </div>
         </Fragment>
       ))}

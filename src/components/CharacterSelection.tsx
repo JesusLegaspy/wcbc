@@ -1,10 +1,11 @@
 import { useContext } from "react";
+import { PageContext } from "../context/page";
 import NavbarSub from "./NavbarSub";
 import CharacterList from './CharacterList';
 import CharacterCreate from "./CharacterCreate";
 import { PiPlusSquareFill } from "react-icons/pi";
 import '../styles/CharacterAdd.css';
-import { PageContext } from "../context/page";
+
 
 const CharacterSelection = () => {
   const { setComponent } = useContext(PageContext);
