@@ -126,7 +126,7 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book }) => {
             {arkDeleteError && <div className="text-red-500">Ark with books cannot be deleted.</div>}
             <button
               type="button"
-              className="ml-auto bg-stone-200 p-1 p-1 text-sm rounded-lg hover:bg-stone-300"
+              className="ml-auto bg-stone-200 p-1 text-sm rounded-lg hover:bg-stone-300"
               onClick={(e) => {
                 e.stopPropagation()
                 handlClickDeleteArk()
