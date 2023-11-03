@@ -12,7 +12,7 @@ interface CharacterCreateOrEditProps {
 
 const CharacterCreateOrEdit: React.FC<CharacterCreateOrEditProps> = ({ character }) => {
   const { createCharacter, editCharacterById } = useContext(CharacterContext)
-  const { currBookId, addCharacterById } = useContext(BookContext);
+  const { currBookId } = useContext(BookContext); // addCharacterById
   const { goHome, goBack } = useContext(PageContext);
   const [valueName, setValueName] = useState<string>(character?.name ?? '');
   const [valueDescription, setValueDescription] = useState<string>(character?.description ?? '');
@@ -38,7 +38,7 @@ const CharacterCreateOrEdit: React.FC<CharacterCreateOrEditProps> = ({ character
           return;
         }
 
-        addCharacterById(id);
+        // addCharacterById(id);
         goHome();
       });
     }

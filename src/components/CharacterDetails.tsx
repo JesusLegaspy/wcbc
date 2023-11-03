@@ -10,7 +10,7 @@ import { TbEdit } from "react-icons/tb";
 
 const CharacterDetails = ({ character }: { character: Character }) => {
   const { setComponent, setModal, clearModal } = useContext(PageContext);
-  const { removeCharacterByIdFromCurrentBook } = useContext(BookContext);
+  // const { removeCharacterByIdFromCurrentBook } = useContext(BookContext);
 
   const handleClickRemove = () => {
     setModal(() =>
@@ -18,7 +18,7 @@ const CharacterDetails = ({ character }: { character: Character }) => {
         message="Would you like to remove this character?"
         cancelAction={clearModal}
         acceptAction={() => {
-          removeCharacterByIdFromCurrentBook(character.id);
+          // removeCharacterByIdFromCurrentBook(character.id);
           clearModal();
         }}
       />)

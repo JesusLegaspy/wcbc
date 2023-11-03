@@ -10,7 +10,7 @@ const CharacterList = () => {
   const { allCharacters, fetchAllCharacters, characters } = useContext(CharacterContext);
   const { setComponent, setModal, clearModal } = useContext(PageContext);
   const { deleteCharacterById } = useContext(CharacterContext);
-  const { addCharacterById, removeCharacterByIdFromAllBooks } = useContext(BookContext);
+  // const { addCharacterById, removeCharacterByIdFromAllBooks } = useContext(BookContext);
   const { goHome } = useContext(PageContext);
 
   const fetchAllCharactersRef = useRef(fetchAllCharacters);
@@ -30,7 +30,7 @@ const CharacterList = () => {
         cancelAction={clearModal}
         acceptAction={() => {
           deleteCharacterById(character.id);
-          removeCharacterByIdFromAllBooks(character.id);
+          // removeCharacterByIdFromAllBooks(character.id);
           clearModal();
         }}
       />
@@ -38,7 +38,7 @@ const CharacterList = () => {
   };
 
   const handleClickAddCharacter = (character: Character) => {
-    addCharacterById(character.id);
+    // addCharacterById(character.id);
     goHome();
   }
 

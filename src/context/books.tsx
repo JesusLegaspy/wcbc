@@ -5,11 +5,11 @@ const API_BASE_URL = "http://localhost:3001";
 
 export interface Book {
   id: number;
+  title: string;
   arkId: number;
   order: number;
-  title: string;
   image?: string;
-  characterIds?: number[];
+  chapterId?: number; // linked list
 }
 
 interface BookContextType {
@@ -21,10 +21,10 @@ interface BookContextType {
   createBook: (title: string, arkId: number, order: number) => Promise<void>;
   editBook: (data: Book) => Promise<void>;
   deleteBookById: (id: number) => Promise<void>;
-  removeCharacterById: (bookId: number, characterId: number) => Promise<void>;
-  removeCharacterByIdFromCurrentBook: (id: number) => Promise<void>;
-  removeCharacterByIdFromAllBooks: (characterId: number) => void;
-  addCharacterById: (id: number) => void;
+  // removeCharacterById: (bookId: number, characterId: number) => Promise<void>;
+  // removeCharacterByIdFromCurrentBook: (id: number) => Promise<void>;
+  // removeCharacterByIdFromAllBooks: (characterId: number) => void;
+  // addCharacterById: (id: number) => void;
 }
 
 const startupBookContext: BookContextType = {
@@ -36,10 +36,10 @@ const startupBookContext: BookContextType = {
   createBook: async () => { },
   editBook: async () => { },
   deleteBookById: async () => { },
-  removeCharacterById: async () => { },
-  removeCharacterByIdFromCurrentBook: async () => { },
-  removeCharacterByIdFromAllBooks: () => { },
-  addCharacterById: () => { },
+  // removeCharacterById: async () => { },
+  // removeCharacterByIdFromCurrentBook: async () => { },
+  // removeCharacterByIdFromAllBooks: () => { },
+  // addCharacterById: () => { },
 }
 
 const BookContext = createContext<BookContextType>(startupBookContext);
@@ -101,58 +101,58 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     }
   };
 
-  const removeCharacterById = useCallback(async (bookId: number, characterId: number) => {
-    const selectedBook = books.at(bookId);
+  // const removeCharacterById = useCallback(async (bookId: number, characterId: number) => {
+  //   const selectedBook = books.at(bookId);
 
-    if (!selectedBook) {
-      console.error("Unexpected error. Current book not found");
-      return;
-    }
-    if (!selectedBook.characterIds) {
-      console.error("Unexpected error. No characterIds exist on current book.");
-      return;
-    }
+  //   if (!selectedBook) {
+  //     console.error("Unexpected error. Current book not found");
+  //     return;
+  //   }
+  //   if (!selectedBook.characterIds) {
+  //     console.error("Unexpected error. No characterIds exist on current book.");
+  //     return;
+  //   }
 
-    const index = selectedBook.characterIds.indexOf(characterId);
+  //   const index = selectedBook.characterIds.indexOf(characterId);
 
-    if (index < 0) {
-      console.error("Could not remove character from book. Character ID not found in book.");
-      return;
-    }
+  //   if (index < 0) {
+  //     console.error("Could not remove character from book. Character ID not found in book.");
+  //     return;
+  //   }
 
-    const characterIds = [...selectedBook.characterIds];
-    characterIds.splice(index, 1);
-    editBook({
-      id: bookId,
-      characterIds: characterIds,
-      arkId: selectedBook.arkId,
-      order: selectedBook.order,
-      title: selectedBook.title
-    });
-  }, [books, editBook]);
+  //   const characterIds = [...selectedBook.characterIds];
+  //   characterIds.splice(index, 1);
+  //   editBook({
+  //     id: bookId,
+  //     characterIds: characterIds,
+  //     arkId: selectedBook.arkId,
+  //     order: selectedBook.order,
+  //     title: selectedBook.title
+  //   });
+  // }, [books, editBook]);
 
-  const removeCharacterByIdFromCurrentBook = useCallback(async (id: number) => {
-    removeCharacterById(currBookId, id);
-  }, [currBookId, removeCharacterById]);
+  // const removeCharacterByIdFromCurrentBook = useCallback(async (id: number) => {
+  //   removeCharacterById(currBookId, id);
+  // }, [currBookId, removeCharacterById]);
 
-  const removeCharacterByIdFromAllBooks = useCallback((characterId: number) => {
-    const bks = books.filter(book => book.characterIds?.some(chId => chId === characterId));
-    bks.forEach(bk => removeCharacterById(bk.id, characterId));
-  }, [books, removeCharacterById]);
+  // const removeCharacterByIdFromAllBooks = useCallback((characterId: number) => {
+  //   const bks = books.filter(book => book.characterIds?.some(chId => chId === characterId));
+  //   bks.forEach(bk => removeCharacterById(bk.id, characterId));
+  // }, [books, removeCharacterById]);
 
-  const addCharacterById = useCallback((id: number) => {
-    if (!currBook) {
-      console.error("Unexpected error. Current book not found");
-      return;
-    }
-    editBook({
-      id: currBookId,
-      characterIds: [...currBook.characterIds ?? [], id],
-      arkId: currBook.arkId,
-      order: currBook.order,
-      title: currBook.title
-    });
-  }, [currBook, currBookId, editBook]);
+  // const addCharacterById = useCallback((id: number) => {
+  //   if (!currBook) {
+  //     console.error("Unexpected error. Current book not found");
+  //     return;
+  //   }
+  //   editBook({
+  //     id: currBookId,
+  //     characterIds: [...currBook.characterIds ?? [], id],
+  //     arkId: currBook.arkId,
+  //     order: currBook.order,
+  //     title: currBook.title
+  //   });
+  // }, [currBook, currBookId, editBook]);
 
   const contextValue = useMemo(
     () => ({
@@ -164,18 +164,18 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
       createBook,
       editBook,
       deleteBookById,
-      removeCharacterById,
-      removeCharacterByIdFromCurrentBook,
-      removeCharacterByIdFromAllBooks,
-      addCharacterById
+      // removeCharacterById,
+      // removeCharacterByIdFromCurrentBook,
+      // removeCharacterByIdFromAllBooks,
+      // addCharacterById
     }), [books,
     currBook,
     currBookId,
     editBook,
-    removeCharacterById,
-    removeCharacterByIdFromCurrentBook,
-    removeCharacterByIdFromAllBooks,
-    addCharacterById,
+    // removeCharacterById,
+    // removeCharacterByIdFromCurrentBook,
+    // removeCharacterByIdFromAllBooks,
+    // addCharacterById,
     fetchBooks
   ]);
 

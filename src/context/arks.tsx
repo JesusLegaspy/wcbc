@@ -89,7 +89,7 @@ const ArkProvider = ({ children }: { children?: ReactNode }) => {
 
   const deleteArkById = (id: number) => {
     try {
-      axios.delete<Ark>(`${API_BASE_URL}/arks/${id}`)
+      axios.delete<Ark>(`${API_BASE_URL}/arks/${id}`);
       setAllArks((prevArks) => prevArks.filter((ark) => ark.id !== id));
     } catch (error) {
       console.error("Error deleing ark");

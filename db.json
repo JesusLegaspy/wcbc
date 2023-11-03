@@ -23,19 +23,12 @@
   ],
   "books": [
     {
-      "title": "This is a title",
+      "title": "This is a title - Edit",
       "arkId": 0,
       "order": 1,
       "image": "",
       "id": 0,
-      "characterIds": [
-        6,
-        8,
-        10,
-        5,
-        9,
-        4
-      ]
+      "chapterId": 0
     },
     {
       "title": "Book Two",
@@ -43,134 +36,41 @@
       "order": 2,
       "image": "",
       "id": 1,
-      "characterIds": [
-        1,
-        2,
-        3
+      "chapterIds": 0
+    }
+  ],
+  "chapters": [
+    {
+      "id": 0,
+      "prevId": null,
+      "nextId": 1,
+      "bookId": 0,
+      "characterOrder": [
+        {
+          "characterId": 1,
+          "order": 1
+        },
+        {
+          "characterId": 2,
+          "order": 2
+        }
       ]
     },
     {
-      "title": "This is a title, too",
-      "arkId": 0,
-      "order": 1,
-      "image": "",
-      "id": 2,
-      "characterIds": [
-        6,
-        8,
-        5,
-        1,
-        10,
-        3
+      "id": 1,
+      "prevId": 0,
+      "nextId": null,
+      "bookId": 0,
+      "characterOrder": [
+        {
+          "characterId": 1,
+          "order": 1
+        },
+        {
+          "characterId": 2,
+          "order": 2
+        }
       ]
-    },
-    {
-      "title": "Book Four",
-      "arkId": 2,
-      "order": 2,
-      "image": "",
-      "id": 3,
-      "characterIds": [
-        1,
-        2,
-        3
-      ]
-    },
-    {
-      "title": "Another amazing test book",
-      "arkId": 2,
-      "characterIds": [],
-      "order": 3,
-      "image": "",
-      "id": 4
-    },
-    {
-      "title": "Test Book",
-      "arkId": 4,
-      "characterIds": [
-        10,
-        4
-      ],
-      "order": 5,
-      "image": "",
-      "id": 6
-    },
-    {
-      "title": "Chamber of Secrets",
-      "arkId": 0,
-      "characterIds": [
-        4
-      ],
-      "image": "",
-      "order": 1,
-      "id": 7
-    },
-    {
-      "title": "This is a title",
-      "arkId": 0,
-      "characterIds": [
-        6,
-        8,
-        5,
-        1,
-        10,
-        3
-      ],
-      "image": "",
-      "order": 2,
-      "id": 8
-    },
-    {
-      "title": "Book Two",
-      "arkId": 0,
-      "characterIds": [
-        1,
-        2,
-        3
-      ],
-      "image": "",
-      "order": 4,
-      "id": 9
-    },
-    {
-      "title": "Hello World",
-      "arkId": 4,
-      "characterIds": [],
-      "image": "",
-      "order": 1,
-      "id": 12
-    },
-    {
-      "title": "Five",
-      "arkId": 1,
-      "characterIds": [],
-      "image": "",
-      "id": 16,
-      "order": 5
-    },
-    {
-      "title": "Four",
-      "arkId": 1,
-      "order": 4,
-      "characterIds": [],
-      "image": "",
-      "id": 17
-    },
-    {
-      "title": "One",
-      "arkId": 1,
-      "order": 1,
-      "characterIds": [],
-      "image": "",
-      "id": 18
-    },
-    {
-      "title": "Six",
-      "arkId": 1,
-      "order": 6,
-      "characterIds": [],
-      "image": "",
-      "id": 19
     }
   ],
   "characters": [

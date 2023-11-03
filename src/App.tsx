@@ -1,11 +1,14 @@
 import { useEffect, useContext } from 'react';
-import { BookContext } from './context/books';
-import { CharacterContext } from './context/characters';
 import { PageContext } from './context/page';
+import { BookContext } from './context/books';
+import { ChapterContext } from './context/chapters';
+import { CharacterContext } from './context/characters';
+
 
 export default function App() {
   const { presentEntry, modalEntry } = useContext(PageContext);
   const { fetchBooks, currBook } = useContext(BookContext);
+  const { fetchChaptersByIds, setCurrChapterById } = useContext(ChapterContext);
   const { fetchCharactersByIds } = useContext(CharacterContext);
 
   useEffect(() => {
@@ -14,10 +17,16 @@ export default function App() {
   }, [fetchBooks]);
 
   useEffect(() => {
-    if (currBook) {
-      console.debug('App.tsx', 'useEffect:', 'fetchCharactersByIds()', 'dep:', 'fetchCharactersByIds, currBook');
-      if (currBook.characterIds) fetchCharactersByIds(currBook.characterIds);
-    }
+    if (currBook === undefined) return;
+    if (currBook.chapterIds === undefined) return;
+    fetchChaptersByIds(currBook.chapterIds);
+
+    const chapterId = currBook.chapterIds.at(0);
+    if (chapterId === undefined) return;
+    setCurrChapterById(chapterId);
+
+    // if (currBook.characterIds) fetchCharactersByIds(currBook.characterIds);
+    console.debug('App.tsx', 'useEffect:', 'fetchChapterById()', 'dep:', 'fetchCharactersByIds, currBook');
   }, [fetchCharactersByIds, currBook]);
 
 
