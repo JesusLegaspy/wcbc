@@ -1,15 +1,17 @@
 import { useContext, useRef, useEffect, Fragment, useMemo } from "react";
-import { CharacterContext, Character } from "../context/characters";
 import { PageContext } from "../context/page";
+import { ChapterContext } from "../context/chapters";
+import { CharacterContext, Character } from "../context/characters";
 import CharacterCreateOrEdit from './CharacterCreateOrEdit';
 import ModalConfirm from './ModalConfirm';
 import ListItem from "./ListItem";
 
+
 const CharacterList = () => {
   const { allCharacters, fetchAllCharacters, characters } = useContext(CharacterContext);
   const { setComponent, setModal, clearModal } = useContext(PageContext);
+  const { addCharacterOrderToChapter, deleteAllCharacterOrdersWithCharacterId } = useContext(ChapterContext);
   const { deleteCharacterById } = useContext(CharacterContext);
-  // const { addCharacterById, removeCharacterByIdFromAllBooks } = useContext(BookContext);
   const { goHome } = useContext(PageContext);
 
   const fetchAllCharactersRef = useRef(fetchAllCharacters);
@@ -29,7 +31,7 @@ const CharacterList = () => {
         cancelAction={clearModal}
         acceptAction={() => {
           deleteCharacterById(character.id);
-          // removeCharacterByIdFromAllBooks(character.id);
+          deleteAllCharacterOrdersWithCharacterId(character.id);
           clearModal();
         }}
       />
@@ -37,7 +39,10 @@ const CharacterList = () => {
   };
 
   const handleClickAddCharacter = (character: Character) => {
-    // addCharacterById(character.id);
+    addCharacterOrderToChapter({
+      characterId: character.id,
+      order: 2
+    });
     goHome();
   }
 

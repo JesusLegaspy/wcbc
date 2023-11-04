@@ -13,7 +13,7 @@ export interface Chapter {
   bookId: number, // sanity check
   prevId: number,
   nextId: number,
-  characterOrder: CharacterOrder[]
+  characterOrders: CharacterOrder[]
 }
 
 interface ChapterContextType {
@@ -22,19 +22,23 @@ interface ChapterContextType {
   nextChapter: () => void;
   prevChapter: () => void;
   addChapter: (bookId: number) => Promise<void>;
-  editCharacterOrder: (characterOrdre: CharacterOrder[]) => void;
+  editCharacterOrders: (characterOrders: CharacterOrder[]) => void;
   removeLastChapter: () => Promise<void>;
+  addCharacterOrderToChapter: (characterOrder: CharacterOrder) => Promise<void>;
+  deleteAllCharacterOrdersWithCharacterId: (characterId: number) => Promise<void>;
 }
 
 
 const startupChapterContext: ChapterContextType = {
   chapter: undefined,
-  fetchChapterById: async (id: number) => { },
+  fetchChapterById: async () => { },
   nextChapter: () => { },
   prevChapter: () => { },
-  addChapter: async (bookId: number) => { },
-  editCharacterOrder: (characterOrdrer: CharacterOrder[]) => { },
-  removeLastChapter: async () => { }
+  addChapter: async () => { },
+  editCharacterOrders: () => { },
+  removeLastChapter: async () => { },
+  addCharacterOrderToChapter: async () => { },
+  deleteAllCharacterOrdersWithCharacterId: async () => { }
 }
 
 const ChapterContext = createContext<ChapterContextType>(startupChapterContext);
@@ -81,7 +85,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
         bookId,
         prevId: chapter.prevId,
         nextId: chapter.nextId,
-        characterOrder: []
+        characterOrders: []
       }).then(response => response.data);
 
       const chapterCopy = structuredClone(chapter);
@@ -96,21 +100,21 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
 
   const editChapter = async (chapter: Chapter) => {
     try {
-      const response = await axios.patch<Chapter>(`${API_BASE_URL}/chapter/${chapter.id}`, chapter);
+      const response = await axios.patch<Chapter>(`${API_BASE_URL}/chapters/${chapter.id}`, chapter);
       return response.data;
     } catch (error) {
       console.error("Error editing chapter", error);
     }
   }
 
-  const editCharacterOrder = useCallback((characterOrder: CharacterOrder[]) => {
+  const editCharacterOrders = useCallback((characterOrders: CharacterOrder[]) => {
     if (chapter === undefined) {
       console.error("Can not edit character order");
       return;
     }
 
     const chapterCopy = structuredClone(chapter);
-    chapterCopy.characterOrder = characterOrder;
+    chapterCopy.characterOrders = characterOrders;
     editChapter(chapterCopy);
   }, [chapter]);
 
@@ -145,11 +149,42 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
 
   const deleteChapterById = (id: number) => {
     try {
-      axios.delete(`${API_BASE_URL}/chapter/${id}`);
+      axios.delete(`${API_BASE_URL}/chapters/${id}`);
     } catch (error) {
       console.error("Could not delete chapter:", error);
     }
-  }
+  };
+
+  const addCharacterOrderToChapter = useCallback(async (characterOrder: CharacterOrder) => {
+    if (chapter === undefined) {
+      console.error("Could not add characterOrder to chapter");
+      return;
+    }
+    const newCharOrder = [...chapter.characterOrders, characterOrder];
+    const chapterCopy = structuredClone(chapter);
+    chapterCopy.characterOrders = newCharOrder;
+    const editedChapter = await editChapter(chapterCopy);
+    setChapter(editedChapter);
+  }, [chapter]);
+
+  const deleteAllCharacterOrdersWithCharacterId = useCallback(async (characterId: number) => {
+    try {
+      const response = await axios.get<readonly Chapter[]>(`${API_BASE_URL}/chapters`);
+      const allChapters = response.data;
+
+      const chapterEdits: Promise<Chapter | undefined>[] = allChapters.map(chapter => {
+        const editedCharOrder = chapter.characterOrders
+          .filter(characterOrder => characterOrder.characterId !== characterId);
+        const chapterCopy = structuredClone(chapter);
+        chapterCopy.characterOrders = editedCharOrder;
+        return editChapter(chapterCopy);
+      });
+
+      Promise.all(chapterEdits);
+    } catch (error) {
+      console.error("Could not delete all character orders with character ID:", error);
+    }
+  }, []);
 
   const contextValue = useMemo(
     () => ({
@@ -158,15 +193,19 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
       nextChapter,
       prevChapter,
       addChapter,
-      editCharacterOrder,
-      removeLastChapter
+      editCharacterOrders,
+      removeLastChapter,
+      addCharacterOrderToChapter,
+      deleteAllCharacterOrdersWithCharacterId
     }), [addChapter,
     chapter,
-    editCharacterOrder,
+    editCharacterOrders,
     fetchChapterById,
     nextChapter,
     prevChapter,
-    removeLastChapter
+    removeLastChapter,
+    addCharacterOrderToChapter,
+    deleteAllCharacterOrdersWithCharacterId
   ]);
 
   return (

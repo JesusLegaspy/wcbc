@@ -28,7 +28,7 @@ export default function App() {
   // Get Characters
   useEffect(() => {
     if (chapter === undefined) return;
-    const characterIds = chapter.characterOrder.map(charOrder => charOrder.characterId);
+    const characterIds = chapter.characterOrders.map(charOrder => charOrder.characterId);
     fetchCharactersByIds(characterIds);
     console.debug('useEffect()', 'fetchCharactersByIds:', characterIds);
   }, [chapter, fetchCharactersByIds]);

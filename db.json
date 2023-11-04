@@ -36,7 +36,7 @@
       "order": 2,
       "image": "",
       "id": 1,
-      "chapterIds": 0
+      "chapterId": 1
     }
   ],
   "chapters": [
@@ -45,13 +45,17 @@
       "prevId": null,
       "nextId": 1,
       "bookId": 0,
-      "characterOrder": [
+      "characterOrders": [
         {
           "characterId": 1,
           "order": 1
         },
         {
           "characterId": 2,
+          "order": 2
+        },
+        {
+          "characterId": 6,
           "order": 2
         }
       ]
@@ -61,7 +65,7 @@
       "prevId": 0,
       "nextId": null,
       "bookId": 0,
-      "characterOrder": [
+      "characterOrders": [
         {
           "characterId": 1,
           "order": 1
@@ -133,12 +137,6 @@
       "description": "Big white tom",
       "image": "",
       "id": 10
-    },
-    {
-      "name": "asdfasdf",
-      "description": "asdfadsf",
-      "image": "",
-      "id": 12
     }
   ]
 }
