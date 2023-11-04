@@ -1,7 +1,6 @@
 import { useContext, useRef, useEffect, Fragment, useMemo } from "react";
 import { CharacterContext, Character } from "../context/characters";
 import { PageContext } from "../context/page";
-import { BookContext } from "../context/books";
 import CharacterCreateOrEdit from './CharacterCreateOrEdit';
 import ModalConfirm from './ModalConfirm';
 import ListItem from "./ListItem";

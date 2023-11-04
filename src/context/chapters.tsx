@@ -42,14 +42,14 @@ const ChapterContext = createContext<ChapterContextType>(startupChapterContext);
 const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   const [chapter, setChapter] = useState<Chapter | undefined>();
 
-  const fetchChapterById = async (id: number | undefined) => {
+  const fetchChapterById = useCallback(async (id: number | undefined) => {
     if (id === undefined) {
       setChapter(undefined);
       return;
     }
     const aChapter = await getChapterById(id);
     setChapter(aChapter);
-  }
+  }, []);
 
   const getChapterById = async (id: number) => {
     try {
@@ -60,17 +60,17 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     }
   }
 
-  const nextChapter = () => {
+  const nextChapter = useCallback(() => {
     if (chapter?.nextId !== undefined)
       fetchChapterById(chapter.nextId);
-  };
+  }, [fetchChapterById, chapter?.nextId]);
 
-  const prevChapter = () => {
+  const prevChapter = useCallback(() => {
     if (chapter?.prevId !== undefined)
       fetchChapterById(chapter.prevId);
-  };
+  }, [fetchChapterById, chapter?.prevId]);
 
-  const addChapter = async (bookId: number) => {
+  const addChapter = useCallback(async (bookId: number) => {
     try {
       if (chapter === undefined) {
         console.error("Cannot add new chapter");
@@ -92,7 +92,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     } catch (error) {
       console.log("Could not add new chapter:", error);
     }
-  };
+  }, [chapter]);
 
   const editChapter = async (chapter: Chapter) => {
     try {
@@ -103,7 +103,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     }
   }
 
-  const editCharacterOrder = (characterOrder: CharacterOrder[]) => {
+  const editCharacterOrder = useCallback((characterOrder: CharacterOrder[]) => {
     if (chapter === undefined) {
       console.error("Can not edit character order");
       return;
@@ -112,9 +112,9 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     const chapterCopy = structuredClone(chapter);
     chapterCopy.characterOrder = characterOrder;
     editChapter(chapterCopy);
-  };
+  }, [chapter]);
 
-  const removeLastChapter = async () => {
+  const removeLastChapter = useCallback(async () => {
     if (chapter === undefined) {
       console.error("Can not remove last chapter");
       return;
@@ -141,7 +141,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     }
 
     deleteChapterById(currChapter.id);
-  };
+  }, [chapter, fetchChapterById]);
 
   const deleteChapterById = (id: number) => {
     try {
@@ -160,7 +160,14 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
       addChapter,
       editCharacterOrder,
       removeLastChapter
-    }), []);
+    }), [addChapter,
+    chapter,
+    editCharacterOrder,
+    fetchChapterById,
+    nextChapter,
+    prevChapter,
+    removeLastChapter
+  ]);
 
   return (
     <ChapterContext.Provider value={contextValue}>

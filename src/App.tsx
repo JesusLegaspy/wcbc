@@ -8,27 +8,30 @@ import { CharacterContext } from './context/characters';
 export default function App() {
   const { presentEntry, modalEntry } = useContext(PageContext);
   const { fetchBooks, currBook } = useContext(BookContext);
-  const { fetchChaptersByIds, setCurrChapterById } = useContext(ChapterContext);
+  const { fetchChapterById, chapter } = useContext(ChapterContext);
   const { fetchCharactersByIds } = useContext(CharacterContext);
 
+  // Get book
   useEffect(() => {
-    console.debug('App.tsx', 'useEffect:', 'fetchBooks()');
     fetchBooks();
+    console.debug('useEffect()', 'fetchBooks()');
   }, [fetchBooks]);
 
+  // Get chapter
   useEffect(() => {
     if (currBook === undefined) return;
-    if (currBook.chapterIds === undefined) return;
-    fetchChaptersByIds(currBook.chapterIds);
+    if (currBook.chapterId === undefined) return;
+    fetchChapterById(currBook.chapterId);
+    console.debug('useEffect()', 'fetchChapterById:', currBook.chapterId);
+  }, [fetchChapterById, currBook]);
 
-    const chapterId = currBook.chapterIds.at(0);
-    if (chapterId === undefined) return;
-    setCurrChapterById(chapterId);
-
-    // if (currBook.characterIds) fetchCharactersByIds(currBook.characterIds);
-    console.debug('App.tsx', 'useEffect:', 'fetchChapterById()', 'dep:', 'fetchCharactersByIds, currBook');
-  }, [fetchCharactersByIds, currBook]);
-
+  // Get Characters
+  useEffect(() => {
+    if (chapter === undefined) return;
+    const characterIds = chapter.characterOrder.map(charOrder => charOrder.characterId);
+    fetchCharactersByIds(characterIds);
+    console.debug('useEffect()', 'fetchCharactersByIds:', characterIds);
+  }, [chapter, fetchCharactersByIds]);
 
   return (
     <div>
