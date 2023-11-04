@@ -25,6 +25,7 @@ interface ChapterContextType {
   editCharacterOrders: (characterOrders: CharacterOrder[]) => void;
   removeLastChapter: () => Promise<void>;
   addCharacterOrderToChapter: (characterOrder: CharacterOrder) => Promise<void>;
+  removeCharacterOrderFromChapter: (characterId: number) => Promise<void>;
   deleteAllCharacterOrdersWithCharacterId: (characterId: number) => Promise<void>;
 }
 
@@ -38,6 +39,7 @@ const startupChapterContext: ChapterContextType = {
   editCharacterOrders: () => { },
   removeLastChapter: async () => { },
   addCharacterOrderToChapter: async () => { },
+  removeCharacterOrderFromChapter: async () => { },
   deleteAllCharacterOrdersWithCharacterId: async () => { }
 }
 
@@ -167,6 +169,21 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     setChapter(editedChapter);
   }, [chapter]);
 
+  const removeCharacterOrderFromChapter = useCallback(async (characterId: number) => {
+    if (chapter === undefined) {
+      console.error("Could not remove character from chapter");
+      return;
+    }
+
+    const editedCharacterOrders = chapter.characterOrders
+      .filter(charOrder => charOrder.characterId !== characterId);
+    const chapterCopy = structuredClone(chapter);
+    chapterCopy.characterOrders = editedCharacterOrders;
+    const newChapter = await editChapter(chapterCopy);
+    setChapter(newChapter);
+
+  }, [chapter]);
+
   const deleteAllCharacterOrdersWithCharacterId = useCallback(async (characterId: number) => {
     try {
       const response = await axios.get<readonly Chapter[]>(`${API_BASE_URL}/chapters`);
@@ -196,6 +213,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
       editCharacterOrders,
       removeLastChapter,
       addCharacterOrderToChapter,
+      removeCharacterOrderFromChapter,
       deleteAllCharacterOrdersWithCharacterId
     }), [addChapter,
     chapter,
@@ -205,6 +223,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     prevChapter,
     removeLastChapter,
     addCharacterOrderToChapter,
+    removeCharacterOrderFromChapter,
     deleteAllCharacterOrdersWithCharacterId
   ]);
 

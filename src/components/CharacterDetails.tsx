@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { PageContext } from "../context/page";
-// import { BookContext } from "../context/books";
+import { ChapterContext } from "../context/chapters";
 import { Character } from "../context/characters";
 import CharacterCreateOrEdit from "./CharacterCreateOrEdit";
 import ModalConfirm from "./ModalConfirm";
@@ -10,7 +10,7 @@ import { TbEdit } from "react-icons/tb";
 
 const CharacterDetails = ({ character }: { character: Character }) => {
   const { setComponent, setModal, clearModal } = useContext(PageContext);
-  // const { removeCharacterByIdFromCurrentBook } = useContext(BookContext);
+  const { removeCharacterOrderFromChapter } = useContext(ChapterContext);
 
   const handleClickRemove = () => {
     setModal(() =>
@@ -18,7 +18,7 @@ const CharacterDetails = ({ character }: { character: Character }) => {
         message="Would you like to remove this character?"
         cancelAction={clearModal}
         acceptAction={() => {
-          // removeCharacterByIdFromCurrentBook(character.id);
+          removeCharacterOrderFromChapter(character.id);
           clearModal();
         }}
       />)

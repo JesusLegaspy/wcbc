@@ -22,7 +22,7 @@ const CharacterList = () => {
 
   const handleClickEditCharacter = (character: Character) => {
     setComponent(CharacterCreateOrEdit, { character: character });
-  }
+  };
 
   const handleDeleteCharacter = (character: Character) => {
     setModal(() => (
