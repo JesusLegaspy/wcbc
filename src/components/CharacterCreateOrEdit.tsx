@@ -1,7 +1,8 @@
 import { useContext, useState } from "react";
-import { Character, CharacterContext } from "../context/characters";
 import { BookContext } from "../context/books";
 import { PageContext } from "../context/page";
+import { ChapterContext } from "../context/chapters";
+import { Character, CharacterContext } from "../context/characters";
 import NavbarSub from "./NavbarSub";
 import profile from "../assets/images/profile.png";
 import { TbPhotoPlus } from 'react-icons/tb';
@@ -11,9 +12,11 @@ interface CharacterCreateOrEditProps {
 }
 
 const CharacterCreateOrEdit: React.FC<CharacterCreateOrEditProps> = ({ character }) => {
-  const { createCharacter, editCharacterById } = useContext(CharacterContext)
-  const { currBookId } = useContext(BookContext); // addCharacterById
+
   const { goHome, goBack } = useContext(PageContext);
+  const { currBookId } = useContext(BookContext); // addCharacterById
+  const { addCharacterOrderToChapter } = useContext(ChapterContext);
+  const { createCharacter, editCharacterById } = useContext(CharacterContext);
   const [valueName, setValueName] = useState<string>(character?.name ?? '');
   const [valueDescription, setValueDescription] = useState<string>(character?.description ?? '');
   const [checkedAddToExistingBook, setCheckedAddToExistingBook] = useState<boolean>(true);
@@ -38,7 +41,10 @@ const CharacterCreateOrEdit: React.FC<CharacterCreateOrEditProps> = ({ character
           return;
         }
 
-        // addCharacterById(id);
+        addCharacterOrderToChapter({
+          characterId: id,
+          order: 3 // todo: add mechanism to order
+        });
         goHome();
       });
     }

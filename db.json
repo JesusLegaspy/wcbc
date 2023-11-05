@@ -57,6 +57,10 @@
         {
           "characterId": 4,
           "order": 2
+        },
+        {
+          "characterId": 11,
+          "order": 3
         }
       ]
     },
@@ -137,6 +141,12 @@
       "description": "Big white tom",
       "image": "",
       "id": 10
+    },
+    {
+      "name": "Bramblestar",
+      "description": "The current leader of ThunderClan in the lake territories. He was born as Bramblekit to Tigerclaw and Goldenflower in ThunderClan with his sister Tawnypelt.",
+      "image": "",
+      "id": 11
     }
   ]
 }
