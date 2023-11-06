@@ -14,7 +14,7 @@ interface CharacterCreateOrEditProps {
 const CharacterCreateOrEdit: React.FC<CharacterCreateOrEditProps> = ({ character }) => {
 
   const { goHome, goBack } = useContext(PageContext);
-  const { currBookId } = useContext(BookContext); // addCharacterById
+  const { currBookId } = useContext(BookContext);
   const { addCharacterOrderToChapter } = useContext(ChapterContext);
   const { createCharacter, editCharacterById } = useContext(CharacterContext);
   const [valueName, setValueName] = useState<string>(character?.name ?? '');

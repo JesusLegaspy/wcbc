@@ -74,11 +74,6 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
       const newCharacter = response.data;
       return newCharacter.id;
 
-      // const bookResponse = await axios.get<Book>(`${API_BASE_URL}/books/${bookId}`);
-      // const currentCharactersIds = bookResponse.data.characterIds || [];
-      // await editBook({ id: bookId, characterIds: [...currentCharactersIds, newCharacter.id] });
-
-      // setCharacters([...characters, newCharacter]);
     } catch (error) {
       console.error("Error creating character:", error);
     }
@@ -95,7 +90,6 @@ const CharacterProvider = ({ children }: { children?: ReactNode }) => {
   };
 
   const deleteCharacterById = async (id: number) => {
-    // todo: Need to delete character in all books
     try {
       await axios.delete(`${API_BASE_URL}/characters/${id}`);
       setAllCharacters((prevCharacters) => prevCharacters.filter((character) => character.id !== id));
