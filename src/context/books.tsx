@@ -106,7 +106,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     }), [books,
     currBook,
     currBookId,
-    editBook
+    editBook,
     fetchBooks
   ]);
 
