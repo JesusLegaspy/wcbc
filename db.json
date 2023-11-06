@@ -37,6 +37,14 @@
       "image": "",
       "id": 1,
       "chapterId": 1
+    },
+    {
+      "title": "Book Three",
+      "arkId": 0,
+      "order": 3,
+      "chapterId": 2,
+      "image": "",
+      "id": 2
     }
   ],
   "chapters": [
@@ -44,7 +52,6 @@
       "id": 0,
       "prevId": null,
       "nextId": 1,
-      "bookId": 0,
       "characterOrders": [
         {
           "characterId": 1,
@@ -57,10 +64,6 @@
         {
           "characterId": 4,
           "order": 2
-        },
-        {
-          "characterId": 11,
-          "order": 3
         }
       ]
     },
@@ -68,7 +71,6 @@
       "id": 1,
       "prevId": 0,
       "nextId": null,
-      "bookId": 0,
       "characterOrders": [
         {
           "characterId": 1,
@@ -79,6 +81,21 @@
           "order": 2
         }
       ]
+    },
+    {
+      "prevId": null,
+      "nextId": null,
+      "characterOrders": [
+        {
+          "characterId": 10,
+          "order": 2
+        },
+        {
+          "characterId": 5,
+          "order": 2
+        }
+      ],
+      "id": 2
     }
   ],
   "characters": [
@@ -141,12 +158,6 @@
       "description": "Big white tom",
       "image": "",
       "id": 10
-    },
-    {
-      "name": "Bramblestar",
-      "description": "The current leader of ThunderClan in the lake territories. He was born as Bramblekit to Tigerclaw and Goldenflower in ThunderClan with his sister Tawnypelt.",
-      "image": "",
-      "id": 11
     }
   ]
 }

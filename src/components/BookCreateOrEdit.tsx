@@ -1,7 +1,8 @@
 import { useState, useContext, useEffect } from "react";
+import { PageContext } from "../context/page";
 import { ArkContext } from "../context/arks";
 import { Book, BookContext } from "../context/books";
-import { PageContext } from "../context/page";
+import { ChapterContext } from "../context/chapters";
 import ArkCreateForm from "./ArkCreateForm";
 import FormTemplate from "./FormTemplate";
 import { LiaTrashAltSolid } from "react-icons/lia";
@@ -17,9 +18,10 @@ interface BookCreateOrEditProps {
 // Otherwise, assume book creation.
 
 const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arkId }) => {
+  const { goBack } = useContext(PageContext);
   const { allArksSortedByOrder, deleteArkById } = useContext(ArkContext);
   const { books, createBook, editBook } = useContext(BookContext);
-  const { goBack } = useContext(PageContext);
+  const { createChapter } = useContext(ChapterContext);
 
   const [valueTitle, setValueTitle] = useState<string>(book?.title ?? '');
 
@@ -50,7 +52,13 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arkId }) => {
         title: valueTitle
       });
     } else {
-      createBook(valueTitle, valueArkId, valueOrder);
+      createChapter().then(chapter => {
+        if (chapter === undefined) {
+          console.error("Could not create new book");
+          return;
+        }
+        createBook(valueTitle, valueArkId, valueOrder, chapter.id);
+      });
     }
     goBack();
   }

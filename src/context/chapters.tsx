@@ -10,18 +10,18 @@ export interface CharacterOrder {
 
 export interface Chapter {
   id: number,
-  bookId: number, // sanity check
-  prevId: number,
-  nextId: number,
+  prevId: number | null,
+  nextId: number | null,
   characterOrders: CharacterOrder[]
 }
 
 interface ChapterContextType {
-  chapter: Chapter | undefined;
+  chapter: Chapter | undefined | null;
+  createChapter: () => Promise<Chapter | undefined>;
   fetchChapterById: (id: number) => Promise<void>;
   nextChapter: () => void;
   prevChapter: () => void;
-  addChapter: (bookId: number) => Promise<void>;
+  addChapter: () => Promise<void>;
   editCharacterOrders: (characterOrders: CharacterOrder[]) => void;
   removeLastChapter: () => Promise<void>;
   addCharacterOrderToChapter: (characterOrder: CharacterOrder) => Promise<void>;
@@ -32,6 +32,7 @@ interface ChapterContextType {
 
 const startupChapterContext: ChapterContextType = {
   chapter: undefined,
+  createChapter: async () => ({ id: -1, prevId: null, nextId: null, characterOrders: [] }),
   fetchChapterById: async () => { },
   nextChapter: () => { },
   prevChapter: () => { },
@@ -46,11 +47,24 @@ const startupChapterContext: ChapterContextType = {
 const ChapterContext = createContext<ChapterContextType>(startupChapterContext);
 
 const ChapterProvider = ({ children }: { children?: ReactNode }) => {
-  const [chapter, setChapter] = useState<Chapter | undefined>();
+  const [chapter, setChapter] = useState<Chapter | undefined | null>();
 
-  const fetchChapterById = useCallback(async (id: number | undefined) => {
-    if (id === undefined) {
-      setChapter(undefined);
+  const createChapter = async () => {
+    try {
+      const response = await axios.post<Chapter>(`${API_BASE_URL}/chapters`, {
+        prevId: null,
+        nextId: null,
+        characterOrders: []
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Could not create new chapter:", error);
+    }
+  }
+
+  const fetchChapterById = useCallback(async (id: number | null) => {
+    if (id === null) {
+      setChapter(null);
       return;
     }
     const aChapter = await getChapterById(id);
@@ -76,15 +90,14 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
       fetchChapterById(chapter.prevId);
   }, [fetchChapterById, chapter?.prevId]);
 
-  const addChapter = useCallback(async (bookId: number) => {
+  const addChapter = useCallback(async () => {
     try {
-      if (chapter === undefined) {
+      if (chapter === undefined || chapter == null) {
         console.error("Cannot add new chapter");
         return;
       }
 
       const newChapter = await axios.post<Chapter>(`${API_BASE_URL}/chapters`, {
-        bookId,
         prevId: chapter.prevId,
         nextId: chapter.nextId,
         characterOrders: []
@@ -110,7 +123,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   }
 
   const editCharacterOrders = useCallback((characterOrders: CharacterOrder[]) => {
-    if (chapter === undefined) {
+    if (chapter === undefined || chapter == null) {
       console.error("Can not edit character order");
       return;
     }
@@ -121,14 +134,14 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   }, [chapter]);
 
   const removeLastChapter = useCallback(async () => {
-    if (chapter === undefined) {
+    if (chapter === undefined || chapter == null) {
       console.error("Can not remove last chapter");
       return;
     }
 
     // Walk the linked list to the last element.
     let currChapter = chapter;
-    while (!isNaN(currChapter.nextId)) {
+    while (currChapter.nextId !== null) {
       const potentialChapter = await getChapterById(currChapter.nextId);
       if (potentialChapter === undefined) {
         console.error("Could not remove last chapter");
@@ -158,7 +171,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   };
 
   const addCharacterOrderToChapter = useCallback(async (characterOrder: CharacterOrder) => {
-    if (chapter === undefined) {
+    if (chapter === undefined || chapter == null) {
       console.error("Could not add characterOrder to chapter");
       return;
     }
@@ -170,7 +183,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   }, [chapter]);
 
   const removeCharacterOrderFromChapter = useCallback(async (characterId: number) => {
-    if (chapter === undefined) {
+    if (chapter === undefined || chapter == null) {
       console.error("Could not remove character from chapter");
       return;
     }
@@ -206,6 +219,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   const contextValue = useMemo(
     () => ({
       chapter,
+      createChapter,
       fetchChapterById,
       nextChapter,
       prevChapter,
