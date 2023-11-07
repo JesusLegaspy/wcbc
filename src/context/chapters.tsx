@@ -17,6 +17,7 @@ export interface Chapter {
 
 interface ChapterContextType {
   chapter: Chapter | undefined | null;
+  chapterNumber: number;
   createChapter: () => Promise<Chapter | undefined>;
   fetchChapterById: (id: number) => Promise<void>;
   nextChapter: () => void;
@@ -29,9 +30,10 @@ interface ChapterContextType {
   deleteAllCharacterOrdersWithCharacterId: (characterId: number) => Promise<void>;
 }
 
-
+// todo***: have a placeholder chapter
 const startupChapterContext: ChapterContextType = {
   chapter: undefined,
+  chapterNumber: 1,
   createChapter: async () => ({ id: -1, prevId: null, nextId: null, characterOrders: [] }),
   fetchChapterById: async () => { },
   nextChapter: () => { },
@@ -48,6 +50,7 @@ const ChapterContext = createContext<ChapterContextType>(startupChapterContext);
 
 const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   const [chapter, setChapter] = useState<Chapter | undefined | null>();
+  const [chapterNumber, setChapterNumber] = useState<number>(1);
 
   const createChapter = async () => {
     try {
@@ -86,7 +89,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
       || chapter?.nextId === null) {
       return;
     }
-
+    setChapterNumber(prev => prev + 1);
     fetchChapterById(chapter.nextId);
   }, [fetchChapterById, chapter]);
 
@@ -96,6 +99,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
       || chapter?.prevId === null) {
       return;
     }
+    setChapterNumber(prev => prev - 1);
     fetchChapterById(chapter.prevId);
   }, [fetchChapterById, chapter]);
 
@@ -166,6 +170,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     // one chapter existed).
     if (chapter.id === currChapter.id) {
       const secondToLastId = currChapter.prevId;
+      setChapterNumber(prev => prev - 1);
       fetchChapterById(secondToLastId);
     }
 
@@ -229,6 +234,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   const contextValue = useMemo(
     () => ({
       chapter,
+      chapterNumber,
       createChapter,
       fetchChapterById,
       nextChapter,
@@ -241,6 +247,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
       deleteAllCharacterOrdersWithCharacterId
     }), [addChapter,
     chapter,
+    chapterNumber,
     editCharacterOrders,
     fetchChapterById,
     nextChapter,
