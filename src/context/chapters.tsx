@@ -21,7 +21,7 @@ interface ChapterContextType {
   fetchChapterById: (id: number) => Promise<void>;
   nextChapter: () => void;
   prevChapter: () => void;
-  addChapter: () => Promise<void>;
+  addChapter: (duplicate?: boolean) => Promise<void>;
   editCharacterOrders: (characterOrders: CharacterOrder[]) => void;
   removeLastChapter: () => Promise<void>;
   addCharacterOrderToChapter: (characterOrder: CharacterOrder) => Promise<void>;
@@ -99,7 +99,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     fetchChapterById(chapter.prevId);
   }, [fetchChapterById, chapter]);
 
-  const addChapter = useCallback(async () => {
+  const addChapter = useCallback(async (duplicate = false) => {
     // Ask if want to make a dupliate or start new.
     try {
       if (chapter === undefined || chapter == null) {
@@ -110,7 +110,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
       const newChapter = await axios.post<Chapter>(`${API_BASE_URL}/chapters`, {
         prevId: chapter.id,
         nextId: null,
-        characterOrders: []
+        characterOrders: duplicate ? chapter.characterOrders : []
       }).then(response => response.data);
 
       const chapterCopy = structuredClone(chapter);

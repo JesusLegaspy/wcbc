@@ -35,9 +35,22 @@ const Menu = () => {
           message={`Add new chapter to ${currBook?.title}?`}
           cancelAction={clearModal}
           acceptAction={() => {
-            addChapter();
-            nextChapter();
-            clearModal();
+            setModal(() => (
+              <ModalConfirm
+                message={"Duplicate current chapter?"}
+                cancelButtonText="No"
+                cancelAction={() => {
+                  addChapter();
+                  nextChapter();
+                  clearModal();
+                }}
+                acceptAction={() => {
+                  addChapter(true);
+                  nextChapter();
+                  clearModal();
+                }}
+              />
+            ))
           }}
         />
       ));

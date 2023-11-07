@@ -160,7 +160,7 @@
     },
     {
       "prevId": 5,
-      "nextId": null,
+      "nextId": 7,
       "characterOrders": [
         {
           "characterId": 10,
@@ -168,6 +168,39 @@
         }
       ],
       "id": 6
+    },
+    {
+      "prevId": 6,
+      "nextId": 8,
+      "characterOrders": [
+        {
+          "characterId": 1,
+          "order": 2
+        }
+      ],
+      "id": 7
+    },
+    {
+      "prevId": 7,
+      "nextId": 9,
+      "characterOrders": [
+        {
+          "characterId": 8,
+          "order": 2
+        }
+      ],
+      "id": 8
+    },
+    {
+      "prevId": 8,
+      "nextId": null,
+      "characterOrders": [
+        {
+          "characterId": 8,
+          "order": 2
+        }
+      ],
+      "id": 9
     }
   ],
   "characters": [

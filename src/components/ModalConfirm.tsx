@@ -4,9 +4,10 @@ interface ModalConfirmProps {
   message: string;
   cancelAction: () => void;
   acceptAction: () => void;
+  cancelButtonText?: string;
 }
 
-const ModalConfirm: FC<ModalConfirmProps> = ({ message, cancelAction, acceptAction }) => {
+const ModalConfirm: FC<ModalConfirmProps> = ({ message, cancelAction, acceptAction, cancelButtonText = "Cancel" }) => {
 
   const handleCancel = () => {
     cancelAction();
@@ -31,7 +32,7 @@ const ModalConfirm: FC<ModalConfirmProps> = ({ message, cancelAction, acceptActi
             className="p-2 bg-yellow-400"
             onClick={handleCancel}
           >
-            Cancel
+            {cancelButtonText}
           </button>
           <button
             className="p-2 ml-2 bg-orange-400"
