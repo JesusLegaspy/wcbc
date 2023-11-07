@@ -81,16 +81,26 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   }
 
   const nextChapter = useCallback(() => {
-    if (chapter?.nextId !== undefined)
-      fetchChapterById(chapter.nextId);
-  }, [fetchChapterById, chapter?.nextId]);
+    if (chapter === undefined
+      || chapter?.nextId === undefined
+      || chapter?.nextId === null) {
+      return;
+    }
+
+    fetchChapterById(chapter.nextId);
+  }, [fetchChapterById, chapter]);
 
   const prevChapter = useCallback(() => {
-    if (chapter?.prevId !== undefined)
-      fetchChapterById(chapter.prevId);
-  }, [fetchChapterById, chapter?.prevId]);
+    if (chapter === undefined
+      || chapter?.prevId === undefined
+      || chapter?.prevId === null) {
+      return;
+    }
+    fetchChapterById(chapter.prevId);
+  }, [fetchChapterById, chapter]);
 
   const addChapter = useCallback(async () => {
+    // Ask if want to make a dupliate or start new.
     try {
       if (chapter === undefined || chapter == null) {
         console.error("Cannot add new chapter");
@@ -98,16 +108,16 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
       }
 
       const newChapter = await axios.post<Chapter>(`${API_BASE_URL}/chapters`, {
-        prevId: chapter.prevId,
-        nextId: chapter.nextId,
+        prevId: chapter.id,
+        nextId: null,
         characterOrders: []
       }).then(response => response.data);
 
       const chapterCopy = structuredClone(chapter);
       chapterCopy.nextId = newChapter.id;
 
-      const editedChapter = await editChapter(chapterCopy);
-      setChapter(editedChapter);
+      await editChapter(chapterCopy);
+      setChapter(newChapter);
     } catch (error) {
       console.log("Could not add new chapter:", error);
     }

@@ -51,7 +51,7 @@
     {
       "id": 0,
       "prevId": null,
-      "nextId": 1,
+      "nextId": null,
       "characterOrders": [
         {
           "characterId": 1,
@@ -69,7 +69,7 @@
     },
     {
       "id": 1,
-      "prevId": 0,
+      "prevId": null,
       "nextId": null,
       "characterOrders": [
         {
@@ -84,7 +84,7 @@
     },
     {
       "prevId": null,
-      "nextId": null,
+      "nextId": 3,
       "characterOrders": [
         {
           "characterId": 10,
@@ -95,15 +95,79 @@
           "order": 2
         },
         {
-          "characterId": 11,
-          "order": 3
+          "characterId": 6,
+          "order": 2
         },
         {
-          "characterId": 12,
-          "order": 3
+          "characterId": 4,
+          "order": 2
+        },
+        {
+          "characterId": 8,
+          "order": 2
+        },
+        {
+          "characterId": 1,
+          "order": 2
+        },
+        {
+          "characterId": 2,
+          "order": 2
+        },
+        {
+          "characterId": 9,
+          "order": 2
+        },
+        {
+          "characterId": 3,
+          "order": 2
         }
       ],
       "id": 2
+    },
+    {
+      "prevId": 2,
+      "nextId": 4,
+      "characterOrders": [
+        {
+          "characterId": 1,
+          "order": 2
+        }
+      ],
+      "id": 3
+    },
+    {
+      "prevId": 3,
+      "nextId": 5,
+      "characterOrders": [
+        {
+          "characterId": 4,
+          "order": 2
+        }
+      ],
+      "id": 4
+    },
+    {
+      "prevId": 4,
+      "nextId": 6,
+      "characterOrders": [
+        {
+          "characterId": 6,
+          "order": 2
+        }
+      ],
+      "id": 5
+    },
+    {
+      "prevId": 5,
+      "nextId": null,
+      "characterOrders": [
+        {
+          "characterId": 10,
+          "order": 2
+        }
+      ],
+      "id": 6
     }
   ],
   "characters": [
@@ -166,18 +230,6 @@
       "description": "Big white tom",
       "image": "",
       "id": 10
-    },
-    {
-      "name": "ColdFusion",
-      "description": "12344567890",
-      "image": "",
-      "id": 11
-    },
-    {
-      "name": "Mew",
-      "description": "asdfasdf",
-      "image": "",
-      "id": 12
     }
   ]
 }
