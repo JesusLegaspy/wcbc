@@ -8,7 +8,7 @@ import { CharacterContext } from './context/characters';
 export default function App() {
   const { presentEntry, modalEntry } = useContext(PageContext);
   const { fetchBooks, currBook } = useContext(BookContext);
-  const { fetchChapterById, chapter } = useContext(ChapterContext);
+  const { fetchChaptersByIds, chapter } = useContext(ChapterContext);
   const { fetchCharactersByIds } = useContext(CharacterContext);
 
   // Get book
@@ -20,10 +20,10 @@ export default function App() {
   // Get chapter
   useEffect(() => {
     if (currBook === undefined) return;
-    if (currBook.chapterId === undefined) return;
-    fetchChapterById(currBook.chapterId);
-    console.debug('useEffect()', 'fetchChapterById:', currBook.chapterId);
-  }, [fetchChapterById, currBook]);
+    if (currBook.chapterIds === undefined) return;
+    fetchChaptersByIds(currBook.chapterIds);
+    console.debug('useEffect()', 'fetchChaptersByIds:', currBook.chapterIds);
+  }, [fetchChaptersByIds, currBook]);
 
   // Get Characters
   useEffect(() => {

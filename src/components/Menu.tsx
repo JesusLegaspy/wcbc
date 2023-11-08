@@ -13,14 +13,13 @@ import { PiBatteryPlusThin, PiCat } from "react-icons/pi";
 const Menu = () => {
   const { setComponent, setModal, clearModal } = useContext(PageContext);
   const { currBook } = useContext(BookContext);
-  const { prevChapter, nextChapter, chapter, addChapter } = useContext(ChapterContext);
+  const { chapterNumber, chapters, prevChapter, nextChapter, addChapter } = useContext(ChapterContext);
 
   const handleClickPrevChapter = () => {
-    console.log('prev');
     prevChapter();
   }
 
-  const handleClickAdd = () => {
+  const handleClickAddCharacter = () => {
     setComponent(CharacterSelection, {});
   }
 
@@ -29,35 +28,34 @@ const Menu = () => {
   }
 
   const handleClickNextChapter = () => {
-    if (chapter?.nextId === null) {
-      setModal(() => (
-        <ModalConfirm
-          message={`Add new chapter to ${currBook?.title}?`}
-          cancelAction={clearModal}
-          acceptAction={() => {
-            setModal(() => (
-              <ModalConfirm
-                message={"Duplicate current chapter?"}
-                cancelButtonText="No"
-                cancelAction={() => {
-                  addChapter();
-                  nextChapter();
-                  clearModal();
-                }}
-                acceptAction={() => {
-                  addChapter(true);
-                  nextChapter();
-                  clearModal();
-                }}
-              />
-            ))
-          }}
-        />
-      ));
-    } else {
-      nextChapter();
-    }
-  }
+    nextChapter();
+  };
+
+  const handleClickAddChapter = () => {
+    const modalDuplicate = () => (<ModalConfirm
+      message={"Duplicate current chapter?"}
+      cancelButtonText="No"
+      cancelAction={() => {
+        addChapter();
+        nextChapter();
+        clearModal();
+      }}
+      acceptAction={() => {
+        addChapter(true);
+        nextChapter();
+        clearModal();
+      }}
+    />);
+
+    const modalNewChapter = () => (
+      <ModalConfirm
+        message={`Add new chapter to ${currBook?.title}?`}
+        cancelAction={clearModal}
+        acceptAction={() => setModal(modalDuplicate)}
+      />
+    );
+    setModal(modalNewChapter);
+  };
 
   return (
     <div className="z-20 fixed bottom-0 left-0 right-0 border-t bg-gray-100">
@@ -67,13 +65,13 @@ const Menu = () => {
             <button onClick={() => handleClickPrevChapter()}>
               {
                 // todo: stop buttons from shifting
-                chapter?.prevId !== null &&
+                1 < chapterNumber &&
                 <TbChevronLeftPipe className="text-4xl" />
               }
             </button>
           </li>
           <li className="p-3 flex justify-center items-center">
-            <button onClick={() => handleClickAdd()}>
+            <button onClick={() => handleClickAddCharacter()}>
               <PiCat className="text-4xl" />
             </button>
           </li>
@@ -93,13 +91,15 @@ const Menu = () => {
             </button>
           </li>
           <li className="p-3 flex justify-center items-center">
-            <button onClick={() => handleClickNextChapter()}>
-              {
-                chapter?.nextId === null
-                  ? <PiBatteryPlusThin className="text-4xl" />
-                  : <TbChevronRightPipe className="text-4xl" />
-              }
-            </button>
+            {
+              chapterNumber < chapters.length
+                ? <button onClick={() => handleClickAddChapter()}>
+                  <PiBatteryPlusThin className="text-4xl" />
+                </button>
+                : <button onClick={() => handleClickNextChapter()}>
+                  <TbChevronRightPipe className="text-4xl" />
+                </button>
+            }
           </li>
         </ul>
       </div>

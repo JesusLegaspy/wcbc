@@ -28,30 +28,16 @@
       "order": 1,
       "image": "",
       "id": 0,
-      "chapterId": 0
-    },
-    {
-      "title": "Book Two",
-      "arkId": 0,
-      "order": 2,
-      "image": "",
-      "id": 1,
-      "chapterId": 1
-    },
-    {
-      "title": "Book Three",
-      "arkId": 0,
-      "order": 3,
-      "chapterId": 2,
-      "image": "",
-      "id": 2
+      "chapterIds": [
+        0,
+        1
+      ]
     }
   ],
   "chapters": [
     {
       "id": 0,
-      "prevId": null,
-      "nextId": null,
+      "chapterNumber": 1,
       "characterOrders": [
         {
           "characterId": 1,
@@ -69,8 +55,7 @@
     },
     {
       "id": 1,
-      "prevId": null,
-      "nextId": null,
+      "chapterNumber": 2,
       "characterOrders": [
         {
           "characterId": 1,
@@ -81,126 +66,6 @@
           "order": 2
         }
       ]
-    },
-    {
-      "prevId": null,
-      "nextId": 3,
-      "characterOrders": [
-        {
-          "characterId": 10,
-          "order": 2
-        },
-        {
-          "characterId": 5,
-          "order": 2
-        },
-        {
-          "characterId": 6,
-          "order": 2
-        },
-        {
-          "characterId": 4,
-          "order": 2
-        },
-        {
-          "characterId": 8,
-          "order": 2
-        },
-        {
-          "characterId": 1,
-          "order": 2
-        },
-        {
-          "characterId": 2,
-          "order": 2
-        },
-        {
-          "characterId": 9,
-          "order": 2
-        },
-        {
-          "characterId": 3,
-          "order": 2
-        }
-      ],
-      "id": 2
-    },
-    {
-      "prevId": 2,
-      "nextId": 4,
-      "characterOrders": [
-        {
-          "characterId": 1,
-          "order": 2
-        }
-      ],
-      "id": 3
-    },
-    {
-      "prevId": 3,
-      "nextId": 5,
-      "characterOrders": [
-        {
-          "characterId": 4,
-          "order": 2
-        }
-      ],
-      "id": 4
-    },
-    {
-      "prevId": 4,
-      "nextId": 6,
-      "characterOrders": [
-        {
-          "characterId": 6,
-          "order": 2
-        }
-      ],
-      "id": 5
-    },
-    {
-      "prevId": 5,
-      "nextId": 7,
-      "characterOrders": [
-        {
-          "characterId": 10,
-          "order": 2
-        }
-      ],
-      "id": 6
-    },
-    {
-      "prevId": 6,
-      "nextId": 8,
-      "characterOrders": [
-        {
-          "characterId": 1,
-          "order": 2
-        }
-      ],
-      "id": 7
-    },
-    {
-      "prevId": 7,
-      "nextId": 9,
-      "characterOrders": [
-        {
-          "characterId": 8,
-          "order": 2
-        }
-      ],
-      "id": 8
-    },
-    {
-      "prevId": 8,
-      "nextId": null,
-      "characterOrders": [
-        {
-          "characterId": 8,
-          "order": 2
-        }
-      ],
-      "id": 9
     }
   ],
   "characters": [

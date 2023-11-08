@@ -9,7 +9,7 @@ export interface Book {
   arkId: number;
   order: number;
   image?: string;
-  chapterId?: number; // linked list
+  chapterIds: number[];
 }
 
 interface BookContextType {
@@ -18,7 +18,7 @@ interface BookContextType {
   currBookId: number;
   setCurrBookId: React.Dispatch<React.SetStateAction<number>>;
   fetchBooks: () => Promise<void>;
-  createBook: (title: string, arkId: number, order: number, chapterId: number) => Promise<void>;
+  createBook: (title: string, arkId: number, order: number) => Promise<void>;
   editBook: (data: Book) => Promise<void>;
   deleteBookById: (id: number) => Promise<void>;
 }
@@ -55,13 +55,13 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     }
   }, []);
 
-  const createBook = async (title: string, arkId: number, order: number, chapterId: number) => {
+  const createBook = async (title: string, arkId: number, order: number) => {
     try {
       const data = {
         title,
         arkId,
         order,
-        chapterId: chapterId,
+        chapterId: [],
         image: "",
       };
       const response = await axios.post<Book>(`${API_BASE_URL}/books`, data);
