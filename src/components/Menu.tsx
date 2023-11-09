@@ -12,8 +12,8 @@ import { PiBatteryPlusThin, PiCat } from "react-icons/pi";
 
 const Menu = () => {
   const { setComponent, setModal, clearModal } = useContext(PageContext);
-  const { currBook } = useContext(BookContext);
-  const { chapterNumber, chapters, prevChapter, nextChapter, addChapter } = useContext(ChapterContext);
+  const { currBook, addChapterIdToBook, removeChapterIdToBook } = useContext(BookContext);
+  const { chapterNumber, chapters, prevChapter, nextChapter, setChapterNumber, addChapter } = useContext(ChapterContext);
 
   const handleClickPrevChapter = () => {
     prevChapter();
@@ -32,19 +32,23 @@ const Menu = () => {
   };
 
   const handleClickAddChapter = () => {
+    if (currBook === undefined) {
+      console.error("Could not add chapter to empty book");
+      return;
+    }
+
+    const addNewChapter = async (duplicate: boolean = false) => {
+      const newChapter = await addChapter(duplicate);
+      addChapterIdToBook(newChapter.id);
+      setChapterNumber(newChapter.chapterNumber);
+      clearModal();
+    }
+
     const modalDuplicate = () => (<ModalConfirm
       message={"Duplicate current chapter?"}
       cancelButtonText="No"
-      cancelAction={() => {
-        addChapter();
-        nextChapter();
-        clearModal();
-      }}
-      acceptAction={() => {
-        addChapter(true);
-        nextChapter();
-        clearModal();
-      }}
+      cancelAction={() => addNewChapter()}
+      acceptAction={() => addNewChapter(true)}
     />);
 
     const modalNewChapter = () => (
@@ -54,6 +58,7 @@ const Menu = () => {
         acceptAction={() => setModal(modalDuplicate)}
       />
     );
+
     setModal(modalNewChapter);
   };
 
@@ -93,11 +98,11 @@ const Menu = () => {
           <li className="p-3 flex justify-center items-center">
             {
               chapterNumber < chapters.length
-                ? <button onClick={() => handleClickAddChapter()}>
-                  <PiBatteryPlusThin className="text-4xl" />
-                </button>
-                : <button onClick={() => handleClickNextChapter()}>
+                ? <button onClick={() => handleClickNextChapter()}>
                   <TbChevronRightPipe className="text-4xl" />
+                </button>
+                : <button onClick={() => handleClickAddChapter()}>
+                  <PiBatteryPlusThin className="text-4xl" />
                 </button>
             }
           </li>

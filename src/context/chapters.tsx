@@ -23,7 +23,7 @@ interface ChapterContextType {
   prevChapter: () => void;
   nextChapter: () => void;
   addChapter: (duplicate?: boolean) => Promise<Chapter>;
-  removeLastChapter: () => Promise<void>;
+  removeLastChapter: () => Promise<number | undefined>;
   addCharacterOrderToChapter: (characterOrder: CharacterOrder) => Promise<void>;
   removeCharacterOrderFromChapter: (characterId: number) => Promise<void>;
   deleteAllCharacterOrdersWithCharacterId: (characterId: number) => Promise<void>;
@@ -45,7 +45,7 @@ const startupChapterContext: ChapterContextType = {
   nextChapter: () => { },
   fetchChaptersByIds: async () => { },
   addChapter: async () => startupChapter,
-  removeLastChapter: async () => { },
+  removeLastChapter: async () => -1,
   addCharacterOrderToChapter: async () => { },
   removeCharacterOrderFromChapter: async () => { },
   deleteAllCharacterOrdersWithCharacterId: async () => { }
@@ -61,7 +61,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   useEffect(() => {
     const foundChapter = chapters.find(chapter => chapter.chapterNumber === chapterNumber);
     if (foundChapter === undefined) {
-      console.error("Could not set chapter by chapter number");
+      console.warn("Could not set chapter by chapter number");
       return;
     }
     setChapter(foundChapter);
@@ -102,6 +102,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   }, [chapterNumber]);
 
   const nextChapter = useCallback(() => {
+    console.log("next!");
     if (chapterNumber >= chapters.length) {
       console.error("Can not set chapter number greater than max num of chapters");
       return;
@@ -146,10 +147,10 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     try {
       await axios.delete(`${API_BASE_URL}/chapters/${chapterToDelete.id}`);
       setChapters(prevChapters => prevChapters.filter(chap => chap.id !== chapterToDelete.id));
+      return chapterToDelete.id; // for use to update book
     } catch (error) {
       console.error("Could not delete chapter:", error);
     }
-
   }, [chapters]);
 
   const addCharacterOrderToChapter = useCallback(async (characterOrder: CharacterOrder) => {

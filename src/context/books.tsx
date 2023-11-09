@@ -21,6 +21,8 @@ interface BookContextType {
   createBook: (title: string, arkId: number, order: number) => Promise<void>;
   editBook: (data: Book) => Promise<void>;
   deleteBookById: (id: number) => Promise<void>;
+  addChapterIdToBook: (id: number) => void;
+  removeChapterIdToBook: (id: number) => void;
 }
 
 const startupBookContext: BookContextType = {
@@ -31,7 +33,9 @@ const startupBookContext: BookContextType = {
   fetchBooks: async () => { },
   createBook: async () => { },
   editBook: async () => { },
-  deleteBookById: async () => { }
+  deleteBookById: async () => { },
+  addChapterIdToBook: () => { },
+  removeChapterIdToBook: () => { }
 }
 
 const BookContext = createContext<BookContextType>(startupBookContext);
@@ -93,6 +97,22 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     }
   };
 
+  const addChapterIdToBook = useCallback((id: number) => {
+    if (currBook === undefined) {
+      console.error("Can not add chapter to no book");
+      return;
+    }
+    editBook({ ...currBook, chapterIds: [...currBook.chapterIds, id] });
+  }, [currBook, editBook]);
+
+  const removeChapterIdToBook = useCallback((id: number) => {
+    if (currBook === undefined) {
+      console.error("Can not add chapter to no book");
+      return;
+    }
+    editBook({ ...currBook, chapterIds: currBook.chapterIds.filter(chapId => chapId !== id) });
+  }, [currBook, editBook]);
+
   const contextValue = useMemo(
     () => ({
       books,
@@ -102,12 +122,16 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
       fetchBooks,
       createBook,
       editBook,
-      deleteBookById
+      deleteBookById,
+      addChapterIdToBook,
+      removeChapterIdToBook
     }), [books,
     currBook,
     currBookId,
     editBook,
-    fetchBooks
+    fetchBooks,
+    addChapterIdToBook,
+    removeChapterIdToBook
   ]);
 
   return (
