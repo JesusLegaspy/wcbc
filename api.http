@@ -75,18 +75,18 @@ DELETE {{host}}/characters/5 HTTP/1.1
 
 ###
 
-# Get all arks
-GET {{host}}/arks HTTP/1.1
+# Get all arcs
+GET {{host}}/arcs HTTP/1.1
 
 ###
 
-# Get an arkf
-GET {{host}}/arks/1 HTTP/1.1
+# Get an arcf
+GET {{host}}/arcs/1 HTTP/1.1
 
 ###
 
-# Create an ark
-POST {{host}}/arks HTTP/1.1
+# Create an arc
+POST {{host}}/arcs HTTP/1.1
 content-type: application/json
 
 {
@@ -96,8 +96,8 @@ content-type: application/json
 
 ###
 
-# Update an ark
-PATCH {{host}}/arks/3 HTTP/1.1
+# Update an arc
+PATCH {{host}}/arcs/3 HTTP/1.1
 content-type: application/json
 
 {
@@ -106,5 +106,5 @@ content-type: application/json
 
 ###
 
-# Delete an ark
-DELETE {{host}}/arks/3 HTTP/1.1
+# Delete an arc
+DELETE {{host}}/arcs/3 HTTP/1.1

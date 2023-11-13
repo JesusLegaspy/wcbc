@@ -1,15 +1,15 @@
 import { useState, useContext } from "react";
-import { ArkContext, Ark } from "../context/arks";
+import { ArcContext, Arc } from "../context/arcs";
 
-interface ArkCreateFormProps {
-  close?: (newArkId?: number) => void; // A callback to close the form with option to pass new ark ID.
-  ark?: Ark;
+interface ArcCreateFormProps {
+  close?: (newArcId?: number) => void; // A callback to close the form with option to pass new arc ID.
+  arc?: Arc;
 }
 
-const ArkCreateForm: React.FC<ArkCreateFormProps> = ({ close, ark }) => {
-  const { createArk, editArk } = useContext(ArkContext);
-  const [valueTitle, setValueTitle] = useState<string>(ark?.title ?? '');
-  const [valueOrder, setValueOrder] = useState<number>(ark?.order ?? 1);
+const ArcCreateForm: React.FC<ArcCreateFormProps> = ({ close, arc }) => {
+  const { createArc, editArc } = useContext(ArcContext);
+  const [valueTitle, setValueTitle] = useState<string>(arc?.title ?? '');
+  const [valueOrder, setValueOrder] = useState<number>(arc?.order ?? 1);
   const [titleError, setTitleError] = useState<boolean>(false);
 
   const handleValueTitle = (title: string) => {
@@ -22,18 +22,18 @@ const ArkCreateForm: React.FC<ArkCreateFormProps> = ({ close, ark }) => {
     setValueOrder(digit);
   }
 
-  const handleClickCreateArk = () => {
+  const handleClickCreateArc = () => {
     if (!valueTitle) {
       setTitleError(true);
       return;
     }
-    if (ark === undefined) {
-      createArk(valueTitle, valueOrder).then((id) => {
-        if (close) close(id); // Calling close callback with new ark ID
+    if (arc === undefined) {
+      createArc(valueTitle, valueOrder).then((id) => {
+        if (close) close(id); // Calling close callback with new arc ID
       });
     } else {
-      editArk({
-        id: ark.id,
+      editArc({
+        id: arc.id,
         title: valueTitle,
         order: valueOrder
       });
@@ -43,15 +43,15 @@ const ArkCreateForm: React.FC<ArkCreateFormProps> = ({ close, ark }) => {
 
   return (
     <fieldset className="my-4 border flex flex-col justify-start">
-      <legend>Create Ark</legend>
+      <legend>Create Arc</legend>
 
       {/* Title */}
       <div className="mx-4 flex items-center">
-        <label htmlFor="arkTitle" className="whitespace-nowrap">Ark Title</label>
+        <label htmlFor="arcTitle" className="whitespace-nowrap">Arc Title</label>
         <input
           type="text"
-          id="arkTitle"
-          placeholder="Ark Title"
+          id="arcTitle"
+          placeholder="Arc Title"
           className={`flex-grow m-4 bg-sky-50 max-w-full w-full sm:w-96 border ${titleError ? 'border-rose-600' : ''}`}
           value={valueTitle}
           onChange={e => handleValueTitle(e.target.value)}
@@ -61,11 +61,11 @@ const ArkCreateForm: React.FC<ArkCreateFormProps> = ({ close, ark }) => {
 
       {/* Order */}
       <div className="mx-4">
-        <label htmlFor="arkTitle">Ark Order</label>
+        <label htmlFor="arcTitle">Arc Order</label>
         <input
           type="number"
-          id="arkOrder"
-          placeholder="Ark Order"
+          id="arcOrder"
+          placeholder="Arc Order"
           step={1}
           min={1}
           className="m-4 w-10 bg-sky-50 border"
@@ -77,14 +77,14 @@ const ArkCreateForm: React.FC<ArkCreateFormProps> = ({ close, ark }) => {
       {/* Submit */}
       <button
         type="button"
-        onClick={() => handleClickCreateArk()}
+        onClick={() => handleClickCreateArc()}
         className="p-2 bg-sky-100 hover:bg-blue-100 mt-4"
       >
-        {ark ? 'Edit Ark' : 'Create Ark'}
+        {arc ? 'Edit Arc' : 'Create Arc'}
       </button>
     </fieldset>
   );
 
 }
 
-export default ArkCreateForm;
+export default ArcCreateForm;

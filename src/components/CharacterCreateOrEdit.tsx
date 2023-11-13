@@ -97,7 +97,7 @@ const CharacterCreateOrEdit: React.FC<CharacterCreateOrEditProps> = ({ character
               rows={5}
               id="description"
               name="description"
-              placeholder="Dark grey tabby with amber-green eyes..."
+              placeholder="Darc grey tabby with amber-green eyes..."
               value={valueDescription}
               onChange={handleChangeDescription}
             />

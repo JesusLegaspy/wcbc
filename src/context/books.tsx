@@ -6,7 +6,7 @@ const API_BASE_URL = "http://localhost:3001";
 export interface Book {
   id: number;
   title: string;
-  arkId: number;
+  arcId: number;
   order: number;
   image?: string;
   chapterIds: number[];
@@ -18,7 +18,7 @@ interface BookContextType {
   currBookId: number;
   setCurrBookId: React.Dispatch<React.SetStateAction<number>>;
   fetchBooks: () => Promise<void>;
-  createBook: (title: string, arkId: number, order: number) => Promise<void>;
+  createBook: (title: string, arcId: number, order: number) => Promise<void>;
   editBook: (data: Book) => Promise<void>;
   deleteBookById: (id: number) => Promise<void>;
   addChapterIdToBook: (id: number) => void;
@@ -59,11 +59,11 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
     }
   }, []);
 
-  const createBook = async (title: string, arkId: number, order: number) => {
+  const createBook = async (title: string, arcId: number, order: number) => {
     try {
       const data = {
         title,
-        arkId,
+        arcId,
         order,
         chapterId: [],
         image: "",

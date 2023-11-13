@@ -1,8 +1,8 @@
 import { useState, useContext, useEffect } from "react";
 import { PageContext } from "../context/page";
-import { ArkContext } from "../context/arks";
+import { ArcContext } from "../context/arcs";
 import { Book, BookContext } from "../context/books";
-import ArkCreateForm from "./ArkCreateForm";
+import ArcCreateForm from "./ArcCreateForm";
 import FormTemplate from "./FormTemplate";
 import { LiaTrashAltSolid } from "react-icons/lia";
 import "../styles/BookCreateOrEdit.css";
@@ -10,34 +10,34 @@ import "../styles/BookCreateOrEdit.css";
 
 interface BookCreateOrEditProps {
   book?: Book;
-  arkId?: number; // Preselect ark
+  arcId?: number; // Preselect arc
 }
 
 // If a book is passed, then assume editing.
 // Otherwise, assume book creation.
 
-const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arkId }) => {
+const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arcId }) => {
   const { goBack } = useContext(PageContext);
-  const { allArksSortedByOrder, deleteArkById } = useContext(ArkContext);
+  const { allArcsSortedByOrder, deleteArcById } = useContext(ArcContext);
   const { books, createBook, editBook } = useContext(BookContext);
 
   const [valueTitle, setValueTitle] = useState<string>(book?.title ?? '');
 
-  const [arkDeleteError, setArkDeleteError] = useState<boolean>(false);
-  const [showArkCreate, setShowArkCreate] = useState<boolean>(false);
-  const [valueArkId, setValueArkId] = useState<number | undefined>(book?.arkId || arkId);
+  const [arcDeleteError, setArcDeleteError] = useState<boolean>(false);
+  const [showArcCreate, setShowArcCreate] = useState<boolean>(false);
+  const [valueArcId, setValueArcId] = useState<number | undefined>(book?.arcId || arcId);
   const [valueOrder, setValueOrder] = useState<number>(book?.order ?? 1);
 
   useEffect(() => {
-    if (book !== undefined || arkId !== undefined || valueArkId !== undefined) return;
-    console.debug('BookCreateOrEdit.tsx', 'useEffect', 'setValueArkId', 'dep:allArks');
-    setValueArkId(allArksSortedByOrder.at(0)?.id ?? -1);
-  }, [allArksSortedByOrder, book, arkId, valueArkId]);
+    if (book !== undefined || arcId !== undefined || valueArcId !== undefined) return;
+    console.debug('BookCreateOrEdit.tsx', 'useEffect', 'setValueArcId', 'dep:allArcs');
+    setValueArcId(allArcsSortedByOrder.at(0)?.id ?? -1);
+  }, [allArcsSortedByOrder, book, arcId, valueArcId]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (valueArkId === undefined) {
-      console.warn("Ark is required");
+    if (valueArcId === undefined) {
+      console.warn("Arc is required");
       // todo: Warning message system.
       return;
     }
@@ -45,13 +45,13 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arkId }) => {
     if (book) {
       editBook({
         id: book.id,
-        arkId: valueArkId,
+        arcId: valueArcId,
         order: valueOrder,
         title: valueTitle,
         chapterIds: book.chapterIds
       });
     } else {
-      createBook(valueTitle, valueArkId, valueOrder);
+      createBook(valueTitle, valueArcId, valueOrder);
     }
     goBack();
   }
@@ -60,8 +60,8 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arkId }) => {
     setValueTitle(e.target.value);
   }
 
-  const handleChangeArk = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setValueArkId(parseInt(e.target.value));
+  const handleChangeArc = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setValueArcId(parseInt(e.target.value));
   }
 
   const handleChangeOrder = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,22 +69,22 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arkId }) => {
     setValueOrder(Number(newValue));
   };
 
-  const handlClickDeleteArk = () => {
-    if (valueArkId === undefined) {
-      setArkDeleteError(true);
+  const handlClickDeleteArc = () => {
+    if (valueArcId === undefined) {
+      setArcDeleteError(true);
       return;
     }
 
-    // Only delete if the ark is not associated with any books
-    if (books.some(book => book.arkId === valueArkId)) {
-      setArkDeleteError(true);
+    // Only delete if the arc is not associated with any books
+    if (books.some(book => book.arcId === valueArcId)) {
+      setArcDeleteError(true);
       return;
     }
-    deleteArkById(valueArkId);
+    deleteArcById(valueArcId);
   }
 
-  const handleClickAddArk = () => {
-    setShowArkCreate(isCreate => !isCreate);
+  const handleClickAddArc = () => {
+    setShowArcCreate(isCreate => !isCreate);
   }
 
   const handleClickCancel = () => {
@@ -93,7 +93,7 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arkId }) => {
 
   return (
     <FormTemplate title={book ? `Editing ${book.title}` : "Create new book"}>
-      <form className="flex flex-col max-w-2xl mx-auto" onSubmit={handleSubmit} onClick={() => setArkDeleteError(false)}>
+      <form className="flex flex-col max-w-2xl mx-auto" onSubmit={handleSubmit} onClick={() => setArcDeleteError(false)}>
 
         {/* Title */}
         <div className="my-4 flex items-center">
@@ -110,26 +110,26 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arkId }) => {
           />
         </div>
 
-        {/* Ark */}
+        {/* Arc */}
         <div className="my-4 flex items-center">
-          <label className="mb-1 mr-3" htmlFor="arks">Ark</label>
+          <label className="mb-1 mr-3" htmlFor="arcs">Arc</label>
           <select
             className="mr-3"
-            id="arks"
-            onChange={handleChangeArk}
-            value={valueArkId}
+            id="arcs"
+            onChange={handleChangeArc}
+            value={valueArcId}
           >
-            {allArksSortedByOrder.map(ark => (
-              <option key={`option_${ark.id}`} value={ark.id}>{ark.title}</option>
+            {allArcsSortedByOrder.map(arc => (
+              <option key={`option_${arc.id}`} value={arc.id}>{arc.title}</option>
             ))}
           </select>
-          {arkDeleteError && <div className="text-red-500">Ark with books cannot be deleted.</div>}
+          {arcDeleteError && <div className="text-red-500">Arc with books cannot be deleted.</div>}
           <button
             type="button"
             className="ml-auto bg-stone-200 p-1 text-sm rounded-lg hover:bg-stone-300"
             onClick={(e) => {
               e.stopPropagation()
-              handlClickDeleteArk()
+              handlClickDeleteArc()
             }}
           >
             <LiaTrashAltSolid />
@@ -137,16 +137,16 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arkId }) => {
           <button
             type="button"
             className="ml-2 bg-stone-200 p-1 px-2 text-sm rounded-lg hover:bg-stone-300"
-            onClick={() => handleClickAddArk()}
+            onClick={() => handleClickAddArc()}
           >
-            {showArkCreate ? "Cancel" : "New Ark"}
+            {showArcCreate ? "Cancel" : "New Arc"}
           </button>
         </div>
 
-        {/* Ark Create */}
-        {showArkCreate && <ArkCreateForm close={(newArkId) => {
-          setValueArkId(newArkId);
-          setShowArkCreate(false);
+        {/* Arc Create */}
+        {showArcCreate && <ArcCreateForm close={(newArcId) => {
+          setValueArcId(newArcId);
+          setShowArcCreate(false);
         }}
         />}
 

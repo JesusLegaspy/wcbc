@@ -1,5 +1,5 @@
 {
-  "arks": [
+  "arcs": [
     {
       "title": "Into the Wild",
       "id": 0,
@@ -24,7 +24,7 @@
   "books": [
     {
       "title": "This is a title - Edit",
-      "arkId": 0,
+      "arcId": 0,
       "order": 1,
       "image": "",
       "id": 0,

@@ -1,21 +1,21 @@
 import { useEffect, useContext, Fragment } from "react";
 import { BookContext } from "../context/books";
-import { ArkContext } from "../context/arks";
+import { ArcContext } from "../context/arcs";
 import { PageContext } from "../context/page";
 import ListItem from "./ListItem";
 import BookCreateOrEdit from "./BookCreateOrEdit";
 import ModalConfirm from './ModalConfirm';
-import ListArk from "./ListArk";
+import ListArc from "./ListArc";
 
 const BookList = () => {
   const { books, setCurrBookId, deleteBookById } = useContext(BookContext);
   const { goHome, setComponent, setModal, clearModal } = useContext(PageContext);
-  const { fetchArks, allArksSortedByOrder } = useContext(ArkContext);
+  const { fetchArcs, allArcsSortedByOrder } = useContext(ArcContext);
 
   useEffect(() => {
-    console.debug('BookList.tsx', 'useEffect', 'getArks');
-    fetchArks();
-  }, [fetchArks]);
+    console.debug('BookList.tsx', 'useEffect', 'getArcs');
+    fetchArcs();
+  }, [fetchArcs]);
 
   const handleClickBook = (id: number) => {
     setCurrBookId(id);
@@ -51,11 +51,11 @@ const BookList = () => {
 
   return (
     <div>
-      {allArksSortedByOrder?.map(ark => (
-        <Fragment key={`ark_${ark.id}`}>
-          <ListArk ark={ark} className="z-30" />
+      {allArcsSortedByOrder?.map(arc => (
+        <Fragment key={`arc_${arc.id}`}>
+          <ListArc arc={arc} className="z-30" />
           <div className="divide-y">
-            {books.filter(book => book.arkId === ark.id)
+            {books.filter(book => book.arcId === arc.id)
               .sort((a, b) => a.order - b.order)
               .map(book => (
                 <ListItem
