@@ -41,15 +41,15 @@
       "characterOrders": [
         {
           "characterId": 1,
-          "order": 1
+          "order": 3
         },
         {
           "characterId": 6,
-          "order": 2
+          "order": 4
         },
         {
           "characterId": 4,
-          "order": 2
+          "order": 1
         }
       ]
     },

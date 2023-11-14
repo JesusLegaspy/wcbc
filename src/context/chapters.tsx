@@ -25,6 +25,7 @@ interface ChapterContextType {
   addChapter: (duplicate?: boolean) => Promise<Chapter>;
   removeLastChapter: () => Promise<number | undefined>;
   addCharacterOrderToChapter: (characterOrder: CharacterOrder) => Promise<void>;
+  editCharacterOrderInChapterByCharacterId: (characterId: number, order: number) => void;
   removeCharacterOrderFromChapter: (characterId: number) => Promise<void>;
   deleteAllCharacterOrdersWithCharacterId: (characterId: number) => Promise<void>;
 }
@@ -35,7 +36,6 @@ const startupChapter: Chapter = {
   characterOrders: []
 };
 
-// todo***: have a placeholder chapter
 const startupChapterContext: ChapterContextType = {
   chapter: startupChapter,
   chapters: [],
@@ -47,6 +47,7 @@ const startupChapterContext: ChapterContextType = {
   addChapter: async () => startupChapter,
   removeLastChapter: async () => -1,
   addCharacterOrderToChapter: async () => { },
+  editCharacterOrderInChapterByCharacterId: () => { },
   removeCharacterOrderFromChapter: async () => { },
   deleteAllCharacterOrdersWithCharacterId: async () => { }
 }
@@ -164,6 +165,15 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     }
   }, [chapter]);
 
+  const editCharacterOrderInChapterByCharacterId = useCallback((characterId: number, order: number) => {
+    const newCharacterOrders: CharacterOrder[] = chapter.characterOrders.map(charOrder =>
+      charOrder.characterId === characterId
+        ? { ...charOrder, order }
+        : charOrder
+    );
+    editChapter({ ...chapter, characterOrders: newCharacterOrders });
+  }, [chapter]);
+
   const removeCharacterOrderFromChapter = useCallback(async (characterId: number) => {
     const editedChapter = await editChapter({
       ...chapter,
@@ -211,6 +221,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
       addChapter,
       removeLastChapter,
       addCharacterOrderToChapter,
+      editCharacterOrderInChapterByCharacterId,
       removeCharacterOrderFromChapter,
       deleteAllCharacterOrdersWithCharacterId
     }), [addChapter,
@@ -222,6 +233,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     nextChapter,
     removeLastChapter,
     addCharacterOrderToChapter,
+    editCharacterOrderInChapterByCharacterId,
     removeCharacterOrderFromChapter,
     deleteAllCharacterOrdersWithCharacterId
   ]);
