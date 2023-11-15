@@ -18,9 +18,10 @@ export enum SortOrder {
 
 interface MenuProps {
   sortFunction?: (order: SortOrder) => void;
+  handleFilterClick?: () => void;
 };
 
-const Menu: React.FC<MenuProps> = ({ sortFunction }) => {
+const Menu: React.FC<MenuProps> = ({ sortFunction, handleFilterClick }) => {
   const { setComponent, setModal, clearModal } = useContext(PageContext);
   const { currBook, addChapterIdToBook, removeChapterIdToBook } = useContext(BookContext);
   const { chapterNumber, chapters, prevChapter, nextChapter, setChapterNumber, addChapter } = useContext(ChapterContext);
@@ -118,7 +119,7 @@ const Menu: React.FC<MenuProps> = ({ sortFunction }) => {
             </button>
           </li>
           <li className="p-3 flex justify-center items-center">
-            <button>
+            <button onClick={() => handleFilterClick?.()}>
               <FiSearch className="text-4xl" />
             </button>
           </li>

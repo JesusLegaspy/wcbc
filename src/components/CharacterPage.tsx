@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { ChangeEventHandler, useContext, useEffect, useState } from 'react';
 import { ChapterContext } from '../context/chapters';
 import { Character, CharacterContext } from '../context/characters';
 import Navbar from './Navbar';
@@ -11,14 +11,21 @@ export default function CharacterPage() {
   const [expandId, setExpandId] = useState<number | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.Importance);
   const [sortedCharacters, setSortedCharacters] = useState<readonly Character[]>([]);
+  const [showFilter, setShowFilter] = useState<boolean>(false);
+  const [valueFilter, setValueFilter] = useState<string>('');
 
   useEffect(() => {
     setSortedCharacters(
-      characters.map(char => (
-        {
-          ...char,
-          importance: chapter.characterOrders.find(charOrder => charOrder.characterId === char.id)?.order
-        }))
+      characters
+        .filter(char => {
+          if (showFilter === false) return true;
+          return char.name.toLocaleUpperCase().includes(valueFilter.toUpperCase());
+        })
+        .map(char => (
+          {
+            ...char,
+            importance: chapter.characterOrders.find(charOrder => charOrder.characterId === char.id)?.order
+          }))
         .sort((a, b) => {
           if (sortOrder === SortOrder.Ascending) {
             return a.name.localeCompare(b.name);
@@ -36,7 +43,9 @@ export default function CharacterPage() {
           return -1;
         })
     );
-  }, [characters, chapter, sortOrder]);
+  }, [characters, chapter, sortOrder, valueFilter, showFilter]);
+
+
 
   const handleClick = (characterId: number) => {
     setExpandId(id => id === characterId ? null : characterId);
@@ -44,6 +53,15 @@ export default function CharacterPage() {
 
   const handleSortOrder = (order: SortOrder) => {
     setSortOrder(order);
+  }
+
+  const handleFilter = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setValueFilter(e.target.value);
+  }
+
+  const handleShowFilter = () => {
+    setValueFilter('');
+    setShowFilter(prev => !prev);
   }
 
   return (
@@ -60,8 +78,19 @@ export default function CharacterPage() {
             />)}
         </div>
       </div>
-      <Menu sortFunction={handleSortOrder} />
+      {showFilter &&
+        <div className='z-20 fixed bottom-16 left-0 right-0 h-16 p-4 flex justify-center bg-white border-t border-grey-200'>
+          <input type="text"
+            className='h-8 text-xl w-full sm:w-96 mx-auto border border-gray-300 rounded-md px-2'
+            id="filter"
+            name="filter"
+            placeholder='Search...'
+            value={valueFilter}
+            onChange={handleFilter}
+          />
+        </div>
+      }
+      <Menu sortFunction={handleSortOrder} handleFilterClick={() => handleShowFilter()} />
     </div>
   );
 }
-
