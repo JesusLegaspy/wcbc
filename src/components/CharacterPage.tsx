@@ -1,4 +1,4 @@
-import { ChangeEventHandler, useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { ChapterContext } from '../context/chapters';
 import { Character, CharacterContext } from '../context/characters';
 import Navbar from './Navbar';
