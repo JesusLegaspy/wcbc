@@ -35,7 +35,7 @@ export default function CharacterPage() {
           }
           if (sortOrder === SortOrder.Importance) {
             if (a.importance === undefined || b.importance === undefined) {
-              console.error("Could not order by importance");
+              console.debug("Could not order by importance"); // suppressed
               return -1;
             }
             return a.importance - b.importance;

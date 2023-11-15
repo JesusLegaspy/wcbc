@@ -62,7 +62,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   useEffect(() => {
     const foundChapter = chapters.find(chapter => chapter.chapterNumber === chapterNumber);
     if (foundChapter === undefined) {
-      console.warn("Could not set chapter by chapter number");
+      console.debug("Could not set chapter by chapter number");
       return;
     }
     setChapter(foundChapter);
