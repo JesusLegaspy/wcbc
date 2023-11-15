@@ -1,19 +1,30 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { PageContext } from "../context/page";
 import { BookContext } from "../context/books";
 import { ChapterContext } from "../context/chapters";
 import CharacterSelection from "./CharacterSelection";
 import BookSelection from "./BookSelection";
 import ModalConfirm from "./ModalConfirm";
-import { BiBook } from "react-icons/bi";
-import { TbSortDescending2, TbChevronLeftPipe, TbChevronRightPipe } from "react-icons/tb";
+import { BiBook, BiSortDown } from "react-icons/bi";
+import { TbChevronLeftPipe, TbChevronRightPipe, TbSortDescendingLetters, TbSortAscendingLetters } from "react-icons/tb";
 import { FiSearch } from "react-icons/fi";
 import { PiBatteryPlusThin, PiCat } from "react-icons/pi";
 
-const Menu = () => {
+export enum SortOrder {
+  Importance,
+  Ascending,
+  Descending
+};
+
+interface MenuProps {
+  sortFunction?: (order: SortOrder) => void;
+};
+
+const Menu: React.FC<MenuProps> = ({ sortFunction }) => {
   const { setComponent, setModal, clearModal } = useContext(PageContext);
   const { currBook, addChapterIdToBook, removeChapterIdToBook } = useContext(BookContext);
   const { chapterNumber, chapters, prevChapter, nextChapter, setChapterNumber, addChapter } = useContext(ChapterContext);
+  const [order, setOrder] = useState<SortOrder>(SortOrder.Importance);
 
   const handleClickPrevChapter = () => {
     prevChapter();
@@ -25,6 +36,20 @@ const Menu = () => {
 
   const handleClickBookList = () => {
     setComponent(BookSelection, {});
+  }
+
+  const handleClickSort = () => {
+    setOrder(prevOrder => {
+      let newOrder: SortOrder = SortOrder.Importance;
+      if (prevOrder === SortOrder.Ascending) newOrder = SortOrder.Descending;
+      if (prevOrder === SortOrder.Descending) newOrder = SortOrder.Importance;
+      if (prevOrder === SortOrder.Importance) newOrder = SortOrder.Ascending;
+
+      if (sortFunction !== undefined) {
+        sortFunction(newOrder);
+      }
+      return newOrder;
+    });
   }
 
   const handleClickNextChapter = () => {
@@ -85,9 +110,11 @@ const Menu = () => {
               <BiBook className="text-4xl" />
             </button>
           </li>
-          <li className="p-3 flex justify-center items-center">
-            <button>
-              <TbSortDescending2 className="text-4xl" />
+          <li className="p-3 flex justify-center items-center text-4xl">
+            <button onClick={() => handleClickSort()}>
+              {order === SortOrder.Ascending && <TbSortAscendingLetters />}
+              {order === SortOrder.Descending && <TbSortDescendingLetters />}
+              {order === SortOrder.Importance && <BiSortDown />}
             </button>
           </li>
           <li className="p-3 flex justify-center items-center">
