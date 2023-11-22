@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createContext, useState, ReactNode, useMemo, useCallback } from "react";
 
-const API_BASE_URL = "http://localhost:3001";
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export interface Persona {
   id: number;
