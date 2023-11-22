@@ -18,7 +18,7 @@ interface BookContextType {
   currBookId: number;
   setCurrBookId: React.Dispatch<React.SetStateAction<number>>;
   fetchBooks: () => Promise<void>;
-  createBook: (title: string, arcId: number, series: number) => Promise<void>;
+  createBook: (title: string, arcId: number, series: number) => Promise<Book | undefined>;
   editBook: (data: Book) => Promise<void>;
   deleteBookById: (id: number) => Promise<void>;
   addChapterIdToBook: (id: number) => void;
@@ -31,7 +31,7 @@ const startupBookContext: BookContextType = {
   currBookId: 0,
   setCurrBookId: () => { },
   fetchBooks: async () => { },
-  createBook: async () => { },
+  createBook: async () => undefined,
   editBook: async () => { },
   deleteBookById: async () => { },
   addChapterIdToBook: () => { },
@@ -71,6 +71,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
       const response = await axios.post<Book>(`${API_BASE_URL}/books`, data);
       const newBook = response.data;
       setBooks((prevBooks) => [...prevBooks, newBook]);
+      return newBook;
     } catch (error) {
       console.error("Error creating Book:", error);
     }

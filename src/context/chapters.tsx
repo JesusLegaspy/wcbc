@@ -18,6 +18,7 @@ interface ChapterContextType {
   chapter: Chapter;
   chapters: readonly Chapter[];
   chapterNumber: number;
+  createChapter: (chapterNumber: number, personaImportances: PersonaImportance[]) => Promise<Chapter | undefined>;
   fetchChaptersByIds: (ids: number[]) => Promise<void>;
   setChapterNumber: (value: number | ((prevValue: number) => number)) => void;
   prevChapter: () => void;
@@ -40,6 +41,7 @@ const startupChapterContext: ChapterContextType = {
   chapter: startupChapter,
   chapters: [],
   chapterNumber: 1,
+  createChapter: async () => startupChapter,
   setChapterNumber: () => { },
   prevChapter: () => { },
   nextChapter: () => { },

@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { PageContext } from "../context/page";
 import { ArcContext } from "../context/arcs";
 import { Book, BookContext } from "../context/books";
+import { ChapterContext } from "../context/chapters";
 import ArcCreateForm from "./ArcCreateForm";
 import FormTemplate from "./FormTemplate";
 import { LiaTrashAltSolid } from "react-icons/lia";
@@ -20,6 +21,7 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arcId }) => {
   const { goBack } = useContext(PageContext);
   const { allArcsSortedBySeries, deleteArcById } = useContext(ArcContext);
   const { books, createBook, editBook } = useContext(BookContext);
+  const { createChapter } = useContext(ChapterContext);
 
   const [valueTitle, setValueTitle] = useState<string>(book?.title ?? '');
 
@@ -51,7 +53,21 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arcId }) => {
         chapterIds: book.chapterIds
       });
     } else {
-      createBook(valueTitle, valueArcId, valueSeries);
+      createBook(valueTitle, valueArcId, valueSeries).then(
+        book => {
+          if (book === undefined) {
+            console.error("Could not create new book")
+            return;
+          }
+          createChapter(1, []).then(chapter => {
+            if (chapter === undefined) {
+              console.error("Could not create new chapter")
+              return;
+            }
+            editBook({ ...book, chapterIds: [chapter.id] });
+          });
+        }
+      );
     }
     goBack();
   }
