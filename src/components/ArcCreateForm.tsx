@@ -9,7 +9,7 @@ interface ArcCreateFormProps {
 const ArcCreateForm: React.FC<ArcCreateFormProps> = ({ close, arc }) => {
   const { createArc, editArc } = useContext(ArcContext);
   const [valueTitle, setValueTitle] = useState<string>(arc?.title ?? '');
-  const [valueOrder, setValueOrder] = useState<number>(arc?.order ?? 1);
+  const [valueSeries, setValueSeries] = useState<number>(arc?.series ?? 1);
   const [titleError, setTitleError] = useState<boolean>(false);
 
   const handleValueTitle = (title: string) => {
@@ -17,9 +17,9 @@ const ArcCreateForm: React.FC<ArcCreateFormProps> = ({ close, arc }) => {
     setTitleError(false);
   }
 
-  const handleValueOrder = (number: string) => {
+  const handleValueSeries = (number: string) => {
     const digit = parseInt(number) ?? 1;
-    setValueOrder(digit);
+    setValueSeries(digit);
   }
 
   const handleClickCreateArc = () => {
@@ -28,14 +28,14 @@ const ArcCreateForm: React.FC<ArcCreateFormProps> = ({ close, arc }) => {
       return;
     }
     if (arc === undefined) {
-      createArc(valueTitle, valueOrder).then((id) => {
+      createArc(valueTitle, valueSeries).then((id) => {
         if (close) close(id); // Calling close callback with new arc ID
       });
     } else {
       editArc({
         id: arc.id,
         title: valueTitle,
-        order: valueOrder
+        series: valueSeries
       });
       if (close) close();
     }
@@ -59,18 +59,18 @@ const ArcCreateForm: React.FC<ArcCreateFormProps> = ({ close, arc }) => {
         {titleError && <div className="text-red-500">Title is required</div>}
       </div>
 
-      {/* Order */}
+      {/* Series */}
       <div className="mx-4">
-        <label htmlFor="arcTitle">Arc Order</label>
+        <label htmlFor="arcTitle">Arc Series</label>
         <input
           type="number"
-          id="arcOrder"
-          placeholder="Arc Order"
+          id="arcSeries"
+          placeholder="Arc Series"
           step={1}
           min={1}
           className="m-4 w-10 bg-sky-50 border"
-          value={valueOrder}
-          onChange={e => handleValueOrder(e.target.value)}
+          value={valueSeries}
+          onChange={e => handleValueSeries(e.target.value)}
         />
       </div>
 

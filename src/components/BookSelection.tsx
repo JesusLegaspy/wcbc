@@ -22,7 +22,7 @@ const BookSelection = () => {
       </div>
       <div className="relative container m-auto max-w-screen-lg pb-4">
         <div className="relative container m-auto max-w-screen-lg pb-4">
-          <button onClick={handleButtonAdd} className="z-30 btn-create-character fixed bottom-7 right-7 text-5xl ml-auto">
+          <button onClick={handleButtonAdd} className="z-30 btn-create-persona fixed bottom-7 right-7 text-5xl ml-auto">
             <PiPlusSquareFill />
           </button>
         </div>

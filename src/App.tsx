@@ -2,14 +2,14 @@ import { useEffect, useContext } from 'react';
 import { PageContext } from './context/page';
 import { BookContext } from './context/books';
 import { ChapterContext } from './context/chapters';
-import { CharacterContext } from './context/characters';
+import { PersonaContext } from './context/personas';
 
 
 export default function App() {
   const { presentEntry, modalEntry } = useContext(PageContext);
   const { fetchBooks, currBook } = useContext(BookContext);
   const { fetchChaptersByIds, chapter } = useContext(ChapterContext);
-  const { fetchCharactersByIds } = useContext(CharacterContext);
+  const { fetchPersonasByIds } = useContext(PersonaContext);
 
   // Get book
   useEffect(() => {
@@ -25,13 +25,13 @@ export default function App() {
     console.debug('useEffect()', 'fetchChaptersByIds:', currBook.chapterIds);
   }, [fetchChaptersByIds, currBook]);
 
-  // Get Characters
+  // Get Personas
   useEffect(() => {
     if (chapter === undefined || chapter === null) return;
-    const characterIds = chapter.characterOrders.map(charOrder => charOrder.characterId);
-    fetchCharactersByIds(characterIds);
-    console.debug('useEffect()', 'fetchCharactersByIds:', characterIds);
-  }, [chapter, fetchCharactersByIds]);
+    const personaIds = chapter.personaImportances.map(persImp => persImp.personaId);
+    fetchPersonasByIds(personaIds);
+    console.debug('useEffect()', 'fetchPersonasByIds:', personaIds);
+  }, [chapter, fetchPersonasByIds]);
 
   return (
     <div>

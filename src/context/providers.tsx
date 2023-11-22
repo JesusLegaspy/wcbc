@@ -3,7 +3,7 @@ import { PageProvider } from './page';
 import { ArcProvider } from './arcs';
 import { BookProvider } from './books';
 import { ChapterProvider } from './chapters';
-import { CharacterProvider } from './characters';
+import { PersonaProvider } from './personas';
 
 
 const MyProviders = ({ children }: { children?: ReactNode }) => {
@@ -13,9 +13,9 @@ const MyProviders = ({ children }: { children?: ReactNode }) => {
       <ArcProvider>
         <BookProvider>
           <ChapterProvider>
-            <CharacterProvider>
+            <PersonaProvider>
               {children}
-            </CharacterProvider>
+            </PersonaProvider>
           </ChapterProvider>
         </BookProvider>
       </ArcProvider>

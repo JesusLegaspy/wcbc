@@ -1,5 +1,5 @@
 import { createContext, useState, ReactNode } from "react";
-import CharacterPage from "../components/CharacterPage";
+import PersonaPage from "../components/PersonaPage";
 
 
 interface HistoryEntry<P = {}> {
@@ -8,7 +8,7 @@ interface HistoryEntry<P = {}> {
 }
 
 const homePage: HistoryEntry = {
-  component: CharacterPage,
+  component: PersonaPage,
   properties: {}
 }
 

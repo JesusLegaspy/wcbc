@@ -2,40 +2,40 @@ import { useContext, useState } from "react";
 import { BookContext } from "../context/books";
 import { PageContext } from "../context/page";
 import { ChapterContext } from "../context/chapters";
-import { Character, CharacterContext } from "../context/characters";
+import { Persona, PersonaContext } from "../context/personas";
 import NavbarSub from "./NavbarSub";
 import profile from "../assets/images/profile.png";
 import { TbPhotoPlus } from 'react-icons/tb';
-import "../styles/CharacterCreateOrEdit.css";
+import "../styles/PersonaCreateOrEdit.css";
 
-interface CharacterCreateOrEditProps {
-  character?: Character;
+interface PersonaCreateOrEditProps {
+  persona?: Persona;
 }
 
-const CharacterCreateOrEdit: React.FC<CharacterCreateOrEditProps> = ({ character }) => {
+const PersonaCreateOrEdit: React.FC<PersonaCreateOrEditProps> = ({ persona }) => {
 
   const { goHome, goBack } = useContext(PageContext);
   const { currBookId } = useContext(BookContext);
-  const { addCharacterOrderToChapter, chapter, editCharacterOrderInChapterByCharacterId } = useContext(ChapterContext);
-  const { createCharacter, editCharacterById } = useContext(CharacterContext);
-  const [valueName, setValueName] = useState<string>(character?.name ?? '');
-  const [valueDescription, setValueDescription] = useState<string>(character?.description ?? '');
+  const { addPersonaImportanceToChapter, chapter, editPersonaImportanceInChapterByPersonaId } = useContext(ChapterContext);
+  const { createPersona, editPersonaById } = useContext(PersonaContext);
+  const [valueName, setValueName] = useState<string>(persona?.name ?? '');
+  const [valueDescription, setValueDescription] = useState<string>(persona?.description ?? '');
   const [checkedAddToExistingBook, setCheckedAddToExistingBook] = useState<boolean>(true);
-  const [valueOrder, setValueOrder] = useState<number>(chapter.characterOrders.find(charOrder => charOrder.characterId === character?.id)?.order ?? 3);
+  const [valueImportance, setValueImportance] = useState<number>(chapter.personaImportances.find(charImportance => charImportance.personaId === persona?.id)?.importance ?? 3);
 
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (character !== undefined) {
-      editCharacterById(character.id, { id: character.id, name: valueName, description: valueDescription }).then(() => {
+    if (persona !== undefined) {
+      editPersonaById(persona.id, { id: persona.id, name: valueName, description: valueDescription }).then(() => {
         goBack();
       });
-      editCharacterOrderInChapterByCharacterId(character.id, valueOrder);
+      editPersonaImportanceInChapterByPersonaId(persona.id, valueImportance);
     } else {
-      createCharacter(currBookId, valueName, valueDescription, '').then(id => {
+      createPersona(currBookId, valueName, valueDescription, '').then(id => {
         if (!id) {
-          console.error("Could not add new character to existing book");
+          console.error("Could not add new persona to existing book");
           goHome();
           return;
         }
@@ -45,9 +45,9 @@ const CharacterCreateOrEdit: React.FC<CharacterCreateOrEditProps> = ({ character
           return;
         }
 
-        addCharacterOrderToChapter({
-          characterId: id,
-          order: 3 // todo: add mechanism to order
+        addPersonaImportanceToChapter({
+          personaId: id,
+          importance: 3 // todo: add mechanism to order
         });
         goHome();
       });
@@ -70,14 +70,14 @@ const CharacterCreateOrEdit: React.FC<CharacterCreateOrEditProps> = ({ character
     goBack();
   }
 
-  const handleChangeOrder = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeImportance = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setValueOrder(Number(newValue));
+    setValueImportance(Number(newValue));
   };
 
   return (
     <div className="sm:bg-slate-50 min-h-screen">
-      <NavbarSub text={character ? `Editing ${character.name}` : "Create new character"} />
+      <NavbarSub text={persona ? `Editing ${persona.name}` : "Create new persona"} />
       <div className="container m-auto max-w-sm sm:max-w-md sm:bg-white sm:border-x sm:border-b sm:border-gray-200">
         <form className="flex flex-col mx-6" onSubmit={handleSubmit}>
           {/* Photo */}
@@ -115,38 +115,38 @@ const CharacterCreateOrEdit: React.FC<CharacterCreateOrEditProps> = ({ character
             />
           </div>
           {/* Importance slider */}
-          {character !== undefined &&
+          {persona !== undefined &&
             <div className="flex my-8 items-center">
-              <label htmlFor="order" className="mr-3 whitespace-nowrap">Character Importance</label>
+              <label htmlFor="importance" className="mr-3 whitespace-nowrap">Persona Importance</label>
               <div className="relative w-full">
                 {/* Tooltip */}
                 <div
                   style={{
-                    left: `${(valueOrder - 1) * 100 / 4}%`,
+                    left: `${(valueImportance - 1) * 100 / 4}%`,
                     bottom: "25px"
                   }}
                   className="absolute p-1 rounded bg-stone-200 text-xs tooltip"
                 >
-                  {valueOrder}
+                  {valueImportance}
                 </div>
                 <input
                   className="slider w-full"
-                  id="order"
+                  id="importance"
                   type="range"
                   min="1"
                   max="5"
                   step="1"
-                  value={valueOrder}
-                  onChange={handleChangeOrder}
+                  value={valueImportance}
+                  onChange={handleChangeImportance}
                 />
               </div>
               <span className="ml-3">
-                {valueOrder}
+                {valueImportance}
               </span>
             </div>
           }
           {/* Add to current book */}
-          {character === undefined &&
+          {persona === undefined &&
             <div className="flex justify-end mb-5">
               <label htmlFor="addToCurrent" className="pr-2">Add to current book: </label>
               <input id="addToCurrent" type="checkbox" checked={checkedAddToExistingBook} onChange={handleChangeAddToExistingBook} />
@@ -158,7 +158,7 @@ const CharacterCreateOrEdit: React.FC<CharacterCreateOrEditProps> = ({ character
               Cancel
             </button>
             <button type="submit" className="border ml-4 px-4 py-2 bg-blue-200 border-blue-400">
-              {character ? 'Edit' : 'Create'}
+              {persona ? 'Edit' : 'Create'}
             </button>
           </div>
         </form>
@@ -167,4 +167,4 @@ const CharacterCreateOrEdit: React.FC<CharacterCreateOrEditProps> = ({ character
   );
 }
 
-export default CharacterCreateOrEdit;
+export default PersonaCreateOrEdit;

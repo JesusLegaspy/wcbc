@@ -3,15 +3,15 @@ import axios from "axios";
 
 const API_BASE_URL = "http://localhost:3001";
 
-export interface CharacterOrder {
-  characterId: number,
-  order: number
+export interface PersonaImportance {
+  personaId: number,
+  importance: number
 }
 
 export interface Chapter {
   id: number,
   chapterNumber: number,
-  characterOrders: CharacterOrder[]
+  personaImportances: PersonaImportance[]
 }
 
 interface ChapterContextType {
@@ -24,16 +24,16 @@ interface ChapterContextType {
   nextChapter: () => void;
   addChapter: (duplicate?: boolean) => Promise<Chapter>;
   removeLastChapter: () => Promise<number | undefined>;
-  addCharacterOrderToChapter: (characterOrder: CharacterOrder) => Promise<void>;
-  editCharacterOrderInChapterByCharacterId: (characterId: number, order: number) => void;
-  removeCharacterOrderFromChapter: (characterId: number) => Promise<void>;
-  deleteAllCharacterOrdersWithCharacterId: (characterId: number) => Promise<void>;
+  addPersonaImportanceToChapter: (personaImportance: PersonaImportance) => Promise<void>;
+  editPersonaImportanceInChapterByPersonaId: (personaId: number, importance: number) => void;
+  removePersonaImportanceFromChapter: (personaId: number) => Promise<void>;
+  deleteAllPersonaImportancesWithPersonaId: (personaId: number) => Promise<void>;
 }
 
 const startupChapter: Chapter = {
   id: -1,
   chapterNumber: 1,
-  characterOrders: []
+  personaImportances: []
 };
 
 const startupChapterContext: ChapterContextType = {
@@ -46,10 +46,10 @@ const startupChapterContext: ChapterContextType = {
   fetchChaptersByIds: async () => { },
   addChapter: async () => startupChapter,
   removeLastChapter: async () => -1,
-  addCharacterOrderToChapter: async () => { },
-  editCharacterOrderInChapterByCharacterId: () => { },
-  removeCharacterOrderFromChapter: async () => { },
-  deleteAllCharacterOrdersWithCharacterId: async () => { }
+  addPersonaImportanceToChapter: async () => { },
+  editPersonaImportanceInChapterByPersonaId: () => { },
+  removePersonaImportanceFromChapter: async () => { },
+  deleteAllPersonaImportancesWithPersonaId: async () => { }
 }
 
 const ChapterContext = createContext<ChapterContextType>(startupChapterContext);
@@ -69,11 +69,11 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     console.debug("useEffect", "setChapter()", "dep:", "[chapters, chapterNumber]");
   }, [chapters, chapterNumber]);
 
-  const createChapter = async (chapterNumber: number, characterOrders: CharacterOrder[] = []) => {
+  const createChapter = async (chapterNumber: number, personaImportances: PersonaImportance[] = []) => {
     try {
       const response = await axios.post<Chapter>(`${API_BASE_URL}/chapters`, {
         chapterNumber,
-        characterOrders
+        personaImportances
       });
       return response.data;
     } catch (error) {
@@ -90,7 +90,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
         .sort((a, b) => a.chapterNumber - b.chapterNumber);
       setChapters(chapters);
     } catch (error) {
-      console.error("Error fetching characters:", error);
+      console.error("Error fetching personas:", error);
     }
   }, []);
 
@@ -114,7 +114,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   const addChapter = useCallback(async (duplicate = false) => {
     const newChapter = await createChapter(
       (chapters.at(-1)?.chapterNumber ?? 0) + 1,
-      duplicate ? chapters.at(-1)?.characterOrders : []
+      duplicate ? chapters.at(-1)?.personaImportances : []
     );
     if (newChapter === undefined) {
       console.log("Could not add new chapter");
@@ -154,49 +154,49 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     }
   }, [chapters]);
 
-  const addCharacterOrderToChapter = useCallback(async (characterOrder: CharacterOrder) => {
+  const addPersonaImportanceToChapter = useCallback(async (personaImportance: PersonaImportance) => {
     const editedChapter = await editChapter({
       ...chapter,
-      characterOrders: [...chapter.characterOrders, characterOrder]
+      personaImportances: [...chapter.personaImportances, personaImportance]
     });
     if (editedChapter === undefined) {
-      console.error("Could not add character order to chapter");
+      console.error("Could not add persona importance to chapter");
       return;
     }
   }, [chapter]);
 
-  const editCharacterOrderInChapterByCharacterId = useCallback((characterId: number, order: number) => {
-    const newCharacterOrders: CharacterOrder[] = chapter.characterOrders.map(charOrder =>
-      charOrder.characterId === characterId
-        ? { ...charOrder, order }
-        : charOrder
+  const editPersonaImportanceInChapterByPersonaId = useCallback((personaId: number, importance: number) => {
+    const newPersonaImportances: PersonaImportance[] = chapter.personaImportances.map(charImportance =>
+      charImportance.personaId === personaId
+        ? { ...charImportance, importance }
+        : charImportance
     );
-    editChapter({ ...chapter, characterOrders: newCharacterOrders });
+    editChapter({ ...chapter, personaImportances: newPersonaImportances });
   }, [chapter]);
 
-  const removeCharacterOrderFromChapter = useCallback(async (characterId: number) => {
+  const removePersonaImportanceFromChapter = useCallback(async (personaId: number) => {
     const editedChapter = await editChapter({
       ...chapter,
-      characterOrders: chapter.characterOrders
-        .filter(charOrder => charOrder.characterId !== characterId)
+      personaImportances: chapter.personaImportances
+        .filter(charImportance => charImportance.personaId !== personaId)
     });
     if (editedChapter === undefined) {
-      console.error("Could not add character order to chapter");
+      console.error("Could not add persona importance to chapter");
       return;
     }
   }, [chapter]);
 
-  const deleteAllCharacterOrdersWithCharacterId = useCallback(async (characterId: number) => {
+  const deleteAllPersonaImportancesWithPersonaId = useCallback(async (personaId: number) => {
     try {
       const response = await axios.get<readonly Chapter[]>(`${API_BASE_URL}/chapters`);
       const allChapters = response.data;
 
       const chapterEdits: Promise<Chapter | undefined>[] = allChapters
-        .filter(chap => chap.characterOrders.some(charOrder => charOrder.characterId === characterId))
+        .filter(chap => chap.personaImportances.some(charImportance => charImportance.personaId === personaId))
         .map(chap => axios.patch<Chapter>(`${API_BASE_URL}/chapters/${chap.id}`, {
           ...chap,
-          characterOrders: chap.characterOrders
-            .filter(characterOrder => characterOrder.characterId !== characterId)
+          personaImportances: chap.personaImportances
+            .filter(personaImportance => personaImportance.personaId !== personaId)
         }).then(response => response.data)); // 
 
       await Promise.all(chapterEdits);
@@ -204,7 +204,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
       const ids = chapters.map(chap => chap.id);
       fetchChaptersByIds(ids);
     } catch (error) {
-      console.error("Could not delete all character orders with character ID:", error);
+      console.error("Could not delete all persona importances with persona ID:", error);
     }
   }, [chapters, fetchChaptersByIds]);
 
@@ -220,10 +220,10 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
       setChapterNumber,
       addChapter,
       removeLastChapter,
-      addCharacterOrderToChapter,
-      editCharacterOrderInChapterByCharacterId,
-      removeCharacterOrderFromChapter,
-      deleteAllCharacterOrdersWithCharacterId
+      addPersonaImportanceToChapter,
+      editPersonaImportanceInChapterByPersonaId,
+      removePersonaImportanceFromChapter,
+      deleteAllPersonaImportancesWithPersonaId
     }), [addChapter,
     chapter,
     chapters,
@@ -232,10 +232,10 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     prevChapter,
     nextChapter,
     removeLastChapter,
-    addCharacterOrderToChapter,
-    editCharacterOrderInChapterByCharacterId,
-    removeCharacterOrderFromChapter,
-    deleteAllCharacterOrdersWithCharacterId
+    addPersonaImportanceToChapter,
+    editPersonaImportanceInChapterByPersonaId,
+    removePersonaImportanceFromChapter,
+    deleteAllPersonaImportancesWithPersonaId
   ]);
 
   return (

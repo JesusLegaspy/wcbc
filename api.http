@@ -10,7 +10,7 @@ GET {{host}}/books HTTP/1.1
 ###
 
 # Get a book
-GET {{host}}/books/1?_embed=characters HTTP/1.1
+GET {{host}}/books/1?_embed=personas HTTP/1.1
 
 ###
 
@@ -21,7 +21,7 @@ content-type: application/json
 {
   "title": "Redpaws's red paw",
   "image": "",
-  "characters": [
+  "personas": [
     1,
     2
   ]
@@ -44,13 +44,13 @@ DELETE {{host}}/books/3 HTTP/1.1
 
 ###
 
-# Get all characters
-GET {{host}}/characters HTTP/1.1
+# Get all personas
+GET {{host}}/personas HTTP/1.1
 
 ###
 
-# Create a character
-POST {{host}}/characters HTTP/1.1
+# Create a persona
+POST {{host}}/personas HTTP/1.1
 content-type: application/json
 
 {
@@ -61,8 +61,8 @@ content-type: application/json
 
 ###
 
-# Update a character
-PATCH {{host}}/characters/1 HTTP/1.1
+# Update a persona
+PATCH {{host}}/personas/1 HTTP/1.1
 content-type: application/json
 
 {
@@ -70,8 +70,8 @@ content-type: application/json
 }
 
 
-# Delete a characters
-DELETE {{host}}/characters/5 HTTP/1.1
+# Delete a personas
+DELETE {{host}}/personas/5 HTTP/1.1
 
 ###
 
@@ -91,7 +91,7 @@ content-type: application/json
 
 {
   "title": "Broken Code",
-  "order": 5
+  "importance": 5
 }
 
 ###

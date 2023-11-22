@@ -1,22 +1,22 @@
 import { useContext, useEffect, useState } from 'react';
 import { ChapterContext } from '../context/chapters';
-import { Character, CharacterContext } from '../context/characters';
+import { Persona, PersonaContext } from '../context/personas';
 import Navbar from './Navbar';
-import CharacterShow from './CharacterShow';
+import PersonaShow from './PersonaShow';
 import Menu, { SortOrder } from './Menu';
 
-export default function CharacterPage() {
+export default function PersonaPage() {
   const { chapter } = useContext(ChapterContext);
-  const { characters } = useContext(CharacterContext);
+  const { personas } = useContext(PersonaContext);
   const [expandId, setExpandId] = useState<number | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.Importance);
-  const [sortedCharacters, setSortedCharacters] = useState<readonly Character[]>([]);
+  const [sortedPersonas, setSortedPersonas] = useState<readonly Persona[]>([]);
   const [showFilter, setShowFilter] = useState<boolean>(false);
   const [valueFilter, setValueFilter] = useState<string>('');
 
   useEffect(() => {
-    setSortedCharacters(
-      characters
+    setSortedPersonas(
+      personas
         .filter(char => {
           if (showFilter === false) return true;
           return char.name.toLocaleUpperCase().includes(valueFilter.toUpperCase());
@@ -24,7 +24,7 @@ export default function CharacterPage() {
         .map(char => (
           {
             ...char,
-            importance: chapter.characterOrders.find(charOrder => charOrder.characterId === char.id)?.order
+            importance: chapter.personaImportances.find(persImp => persImp.personaId === char.id)?.importance
           }))
         .sort((a, b) => {
           if (sortOrder === SortOrder.Ascending) {
@@ -43,12 +43,12 @@ export default function CharacterPage() {
           return -1;
         })
     );
-  }, [characters, chapter, sortOrder, valueFilter, showFilter]);
+  }, [personas, chapter, sortOrder, valueFilter, showFilter]);
 
 
 
-  const handleClick = (characterId: number) => {
-    setExpandId(id => id === characterId ? null : characterId);
+  const handleClick = (personaId: number) => {
+    setExpandId(id => id === personaId ? null : personaId);
   };
 
   const handleSortOrder = (order: SortOrder) => {
@@ -69,12 +69,12 @@ export default function CharacterPage() {
       <Navbar />
       <div className="container mx-auto max-w-screen-xl px-4 pt-16 pb-16 lg:pt-4 lg:pb-4">
         <div className="grid grid-flow-dense grid-cols-3 sm:grid-cols-3 md:grid-cols-4 mt-2 lg:grid-cols-5 gap-4">
-          {sortedCharacters.map((character) =>
-            <CharacterShow
-              key={character.id}
-              character={character}
-              handleClick={() => handleClick(character.id)}
-              expand={expandId === character.id}
+          {sortedPersonas.map((persona) =>
+            <PersonaShow
+              key={persona.id}
+              persona={persona}
+              handleClick={() => handleClick(persona.id)}
+              expand={expandId === persona.id}
             />)}
         </div>
       </div>

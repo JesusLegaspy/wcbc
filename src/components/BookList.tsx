@@ -10,7 +10,7 @@ import ListArc from "./ListArc";
 const BookList = () => {
   const { books, setCurrBookId, deleteBookById } = useContext(BookContext);
   const { goHome, setComponent, setModal, clearModal } = useContext(PageContext);
-  const { fetchArcs, allArcsSortedByOrder } = useContext(ArcContext);
+  const { fetchArcs, allArcsSortedBySeries } = useContext(ArcContext);
 
   useEffect(() => {
     console.debug('BookList.tsx', 'useEffect', 'getArcs');
@@ -51,12 +51,12 @@ const BookList = () => {
 
   return (
     <div>
-      {allArcsSortedByOrder?.map(arc => (
+      {allArcsSortedBySeries?.map(arc => (
         <Fragment key={`arc_${arc.id}`}>
           <ListArc arc={arc} className="z-30" />
           <div className="divide-y">
             {books.filter(book => book.arcId === arc.id)
-              .sort((a, b) => a.order - b.order)
+              .sort((a, b) => a.series - b.series)
               .map(book => (
                 <ListItem
                   id={book.id}

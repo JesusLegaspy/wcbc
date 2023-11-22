@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { PageContext } from "../context/page";
 import { BookContext } from "../context/books";
 import { ChapterContext } from "../context/chapters";
-import CharacterSelection from "./CharacterSelection";
+import PersonaSelection from "./PersonaSelection";
 import BookSelection from "./BookSelection";
 import ModalConfirm from "./ModalConfirm";
 import { BiBook, BiSortDown } from "react-icons/bi";
@@ -33,8 +33,8 @@ const Menu: React.FC<MenuProps> = ({ sortFunction, handleFilterClick }) => {
     prevChapter();
   }
 
-  const handleClickAddCharacter = () => {
-    setComponent(CharacterSelection, {});
+  const handleClickAddPersona = () => {
+    setComponent(PersonaSelection, {});
   }
 
   const handleClickBookList = () => {
@@ -137,7 +137,7 @@ const Menu: React.FC<MenuProps> = ({ sortFunction, handleFilterClick }) => {
               </button>
             </li>
             <li className="flex justify-center items-center">
-              <button onClick={() => handleClickAddCharacter()}>
+              <button onClick={() => handleClickAddPersona()}>
                 <PiCat />
               </button>
             </li>

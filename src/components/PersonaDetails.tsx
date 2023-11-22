@@ -1,40 +1,40 @@
 import { useContext } from "react";
 import { PageContext } from "../context/page";
 import { ChapterContext } from "../context/chapters";
-import { Character } from "../context/characters";
-import CharacterCreateOrEdit from "./CharacterCreateOrEdit";
+import { Persona } from "../context/personas";
+import PersonaCreateOrEdit from "./PersonaCreateOrEdit";
 import ModalConfirm from "./ModalConfirm";
 import { MdPlaylistRemove } from "react-icons/md";
 import { TbEdit } from "react-icons/tb";
 
 
-const CharacterDetails = ({ character }: { character: Character }) => {
+const PersonaDetails = ({ persona }: { persona: Persona }) => {
   const { setComponent, setModal, clearModal } = useContext(PageContext);
-  const { removeCharacterOrderFromChapter } = useContext(ChapterContext);
+  const { removePersonaImportanceFromChapter } = useContext(ChapterContext);
 
   const handleClickRemove = () => {
     setModal(() =>
       <ModalConfirm
-        message="Would you like to remove this character?"
+        message="Would you like to remove this persona?"
         cancelAction={clearModal}
         acceptAction={() => {
-          removeCharacterOrderFromChapter(character.id);
+          removePersonaImportanceFromChapter(persona.id);
           clearModal();
         }}
       />)
   };
 
   const handleEdit = () => {
-    setComponent(CharacterCreateOrEdit, { character });
+    setComponent(PersonaCreateOrEdit, { persona });
   }
 
   return (
     <div
-      key={"detail-" + character.id}
+      key={"detail-" + persona.id}
       className={`col-span-3 md:col-span-4 lg:col-span-5 row-span-1 bg-blue-200 border-2 border-blue-200`}>
       <div className="h-36 px-1 relative">
         <p className="line-clamp-5">
-          {character.description}
+          {persona.description}
         </p>
         <button>
           <TbEdit
@@ -55,4 +55,4 @@ const CharacterDetails = ({ character }: { character: Character }) => {
   );
 }
 
-export default CharacterDetails
+export default PersonaDetails

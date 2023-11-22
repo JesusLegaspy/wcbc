@@ -18,7 +18,7 @@ interface BookCreateOrEditProps {
 
 const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arcId }) => {
   const { goBack } = useContext(PageContext);
-  const { allArcsSortedByOrder, deleteArcById } = useContext(ArcContext);
+  const { allArcsSortedBySeries, deleteArcById } = useContext(ArcContext);
   const { books, createBook, editBook } = useContext(BookContext);
 
   const [valueTitle, setValueTitle] = useState<string>(book?.title ?? '');
@@ -26,13 +26,13 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arcId }) => {
   const [arcDeleteError, setArcDeleteError] = useState<boolean>(false);
   const [showArcCreate, setShowArcCreate] = useState<boolean>(false);
   const [valueArcId, setValueArcId] = useState<number | undefined>(book?.arcId || arcId);
-  const [valueOrder, setValueOrder] = useState<number>(book?.order ?? 1);
+  const [valueSeries, setValueSeries] = useState<number>(book?.series ?? 1);
 
   useEffect(() => {
     if (book !== undefined || arcId !== undefined || valueArcId !== undefined) return;
     console.debug('BookCreateOrEdit.tsx', 'useEffect', 'setValueArcId', 'dep:allArcs');
-    setValueArcId(allArcsSortedByOrder.at(0)?.id ?? -1);
-  }, [allArcsSortedByOrder, book, arcId, valueArcId]);
+    setValueArcId(allArcsSortedBySeries.at(0)?.id ?? -1);
+  }, [allArcsSortedBySeries, book, arcId, valueArcId]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,12 +46,12 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arcId }) => {
       editBook({
         id: book.id,
         arcId: valueArcId,
-        order: valueOrder,
+        series: valueSeries,
         title: valueTitle,
         chapterIds: book.chapterIds
       });
     } else {
-      createBook(valueTitle, valueArcId, valueOrder);
+      createBook(valueTitle, valueArcId, valueSeries);
     }
     goBack();
   }
@@ -64,9 +64,9 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arcId }) => {
     setValueArcId(parseInt(e.target.value));
   }
 
-  const handleChangeOrder = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeSeries = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
-    setValueOrder(Number(newValue));
+    setValueSeries(Number(newValue));
   };
 
   const handlClickDeleteArc = () => {
@@ -119,7 +119,7 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arcId }) => {
             onChange={handleChangeArc}
             value={valueArcId}
           >
-            {allArcsSortedByOrder.map(arc => (
+            {allArcsSortedBySeries.map(arc => (
               <option key={`option_${arc.id}`} value={arc.id}>{arc.title}</option>
             ))}
           </select>
@@ -150,33 +150,33 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arcId }) => {
         }}
         />}
 
-        {/* Order */}
+        {/* Series */}
         <div className="flex my-8 items-center">
-          <label htmlFor="order" className="mr-3 whitespace-nowrap">Book Number</label>
+          <label htmlFor="series" className="mr-3 whitespace-nowrap">Book Number</label>
           <div className="relative w-full">
             {/* Tooltip */}
             <div
               style={{
-                left: `${(valueOrder - 1) * 100 / 5}%`,
+                left: `${(valueSeries - 1) * 100 / 5}%`,
                 bottom: "25px"
               }}
               className="absolute p-1 rounded bg-stone-200 text-xs tooltip"
             >
-              {valueOrder}
+              {valueSeries}
             </div>
             <input
               className="slider w-full"
-              id="order"
+              id="series"
               type="range"
               min="1"
               max="6"
               step="1"
-              value={valueOrder}
-              onChange={handleChangeOrder}
+              value={valueSeries}
+              onChange={handleChangeSeries}
             />
           </div>
           <span className="ml-3">
-            {valueOrder}
+            {valueSeries}
           </span>
         </div>
 

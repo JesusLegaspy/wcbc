@@ -1,5 +1,5 @@
 @media only screen and (min-width: 1024px) {
-  .btn-create-character {
+  .btn-create-persona {
     left: calc(50% + 512px - 4rem);
     right: auto;
   }

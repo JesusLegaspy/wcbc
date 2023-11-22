@@ -6,25 +6,25 @@ const API_BASE_URL = "http://localhost:3001";
 export interface Arc {
   id: number;
   title: string;
-  order: number;
+  series: number;
 }
 
 interface ArcContextType {
   allArcs: readonly Arc[];
-  allArcsSortedByOrder: readonly Arc[];
+  allArcsSortedBySeries: readonly Arc[];
   fetchArcs: () => Promise<void>;
   getArcById: (id: number) => Promise<Arc | undefined>;
-  createArc: (title: string, order: number) => Promise<number | undefined>;
+  createArc: (title: string, series: number) => Promise<number | undefined>;
   editArc: (arc: Arc) => Promise<void>;
   deleteArcById: (id: number) => void;
 }
 
 const startupBookContext: ArcContextType = {
   allArcs: [],
-  allArcsSortedByOrder: [],
+  allArcsSortedBySeries: [],
   fetchArcs: async () => { },
   getArcById: async (id: number) => undefined,
-  createArc: async (title: string, order: number) => undefined,
+  createArc: async (title: string, series: number) => undefined,
   editArc: async (arc: Arc) => { },
   deleteArcById: (id: number) => { }
 }
@@ -34,11 +34,11 @@ const ArcContext = createContext<ArcContextType>(startupBookContext);
 
 const ArcProvider = ({ children }: { children?: ReactNode }) => {
   const [allArcs, setAllArcs] = useState<readonly Arc[]>([]);
-  const [allArcsSortedByOrder, setAllArcsSortedByOrder] = useState<readonly Arc[]>([]);
+  const [allArcsSortedBySeries, setAllArcsSortedBySeries] = useState<readonly Arc[]>([]);
 
   useEffect(() => {
     console.debug('arcs.tsx', 'useEffect', 'setValueArcId', [...allArcs].shift()?.id, 'dep:allArcs');
-    setAllArcsSortedByOrder([...allArcs].sort((a, b) => a.order - b.order));
+    setAllArcsSortedBySeries([...allArcs].sort((a, b) => a.series - b.series));
   }, [allArcs])
 
   const fetchArcs = useCallback(async () => {
@@ -61,11 +61,11 @@ const ArcProvider = ({ children }: { children?: ReactNode }) => {
     }
   };
 
-  const createArc = async (title: string, order: number) => {
+  const createArc = async (title: string, series: number) => {
     try {
       const response = await axios.post<Arc>(`${API_BASE_URL}/arcs`, {
         title,
-        order
+        series
       });
       const newArc = response.data;
       setAllArcs((prevArcs) => [...prevArcs, newArc]);
@@ -99,13 +99,13 @@ const ArcProvider = ({ children }: { children?: ReactNode }) => {
   const contextValue = useMemo(
     () => ({
       allArcs,
-      allArcsSortedByOrder,
+      allArcsSortedBySeries,
       fetchArcs,
       getArcById,
       createArc,
       editArc,
       deleteArcById
-    }), [allArcs, fetchArcs, allArcsSortedByOrder]);
+    }), [allArcs, fetchArcs, allArcsSortedBySeries]);
 
   return (
     <ArcContext.Provider value={contextValue}>
