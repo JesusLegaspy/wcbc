@@ -42,7 +42,7 @@ const BookContext = createContext<BookContextType>(startupBookContext);
 
 const BookProvider = ({ children }: { children?: ReactNode }) => {
   const [books, setBooks] = useState<readonly Book[]>([]);
-  const [currBookId, setCurrBookId] = useState<number>(0);
+  const [currBookId, setCurrBookId] = useState<number>(1);
   const [currBook, setCurrBook] = useState<Book | undefined>();
 
   useEffect(() => {
@@ -79,7 +79,7 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
 
   const editBook = useCallback(async (data: Book) => {
     try {
-      const response = await axios.patch<Book>(`${API_BASE_URL}/books/${data.id}`, data);
+      const response = await axios.put<Book>(`${API_BASE_URL}/books/${data.id}`, data);
       const editedBook = response.data;
       setBooks((prevBooks) =>
         prevBooks.map((book) => (book.id === data.id ? { ...book, ...editedBook } : book))

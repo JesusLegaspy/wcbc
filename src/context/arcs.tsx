@@ -77,7 +77,7 @@ const ArcProvider = ({ children }: { children?: ReactNode }) => {
 
   const editArc = async (arc: Arc) => {
     try {
-      const response = await axios.patch<Arc>(`${API_BASE_URL}/arcs/${arc.id}`, arc);
+      const response = await axios.put<Arc>(`${API_BASE_URL}/arcs/${arc.id}`, arc);
       const updatedArc = response.data;
       setAllArcs((prevArcs) =>
         prevArcs.map((arc) => (arc.id === updatedArc.id ? { ...arc, ...updatedArc } : arc))

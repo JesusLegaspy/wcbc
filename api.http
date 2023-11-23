@@ -30,7 +30,7 @@ content-type: application/json
 ###
 
 # Update a book
-PATCH {{host}}/books/1 HTTP/1.1
+PUT {{host}}/books/1 HTTP/1.1
 content-type: application/json
 
 {
@@ -62,7 +62,7 @@ content-type: application/json
 ###
 
 # Update a persona
-PATCH {{host}}/personas/1 HTTP/1.1
+PUT {{host}}/personas/1 HTTP/1.1
 content-type: application/json
 
 {
@@ -97,7 +97,7 @@ content-type: application/json
 ###
 
 # Update an arc
-PATCH {{host}}/arcs/3 HTTP/1.1
+PUT {{host}}/arcs/3 HTTP/1.1
 content-type: application/json
 
 {

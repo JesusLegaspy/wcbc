@@ -66,7 +66,7 @@ const PersonaProvider = ({ children }: { children?: ReactNode }) => {
 
   const createPersona = useCallback(async (bookId: number, name: string, description: string, imageUrl: string = '') => {
     try {
-      const response = await axios.post<Persona>(`${API_BASE_URL}/personas/`, {
+      const response = await axios.post<Persona>(`${API_BASE_URL}/personas`, {
         name,
         description,
         image: imageUrl,
@@ -81,7 +81,7 @@ const PersonaProvider = ({ children }: { children?: ReactNode }) => {
 
   const editPersonaById = async (id: number, data: Persona) => {
     try {
-      const response = await axios.patch<Persona>(`${API_BASE_URL}/personas/${id}`, data);
+      const response = await axios.put<Persona>(`${API_BASE_URL}/personas/${id}`, data);
       const editedPersona = response.data;
       setPersonas((prevPersonas) => prevPersonas.map((persona) => (persona.id === id ? editedPersona : persona)));
     } catch (error) {

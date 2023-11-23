@@ -109,7 +109,7 @@ const PersonaCreateOrEdit: React.FC<PersonaCreateOrEditProps> = ({ persona }) =>
               rows={5}
               id="description"
               name="description"
-              placeholder="Darc grey tabby with amber-green eyes..."
+              placeholder="Dark grey tabby with amber-green eyes..."
               value={valueDescription}
               onChange={handleChangeDescription}
             />

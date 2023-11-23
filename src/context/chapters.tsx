@@ -33,7 +33,7 @@ interface ChapterContextType {
 
 const startupChapter: Chapter = {
   id: -1,
-  chapterNumber: 1,
+  chapterNumber: -1,
   personaImportances: []
 };
 
@@ -128,7 +128,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
 
   const editChapter = async (chapter: Chapter) => {
     try {
-      const response = await axios.patch<Chapter>(`${API_BASE_URL}/chapters/${chapter.id}`, chapter);
+      const response = await axios.put<Chapter>(`${API_BASE_URL}/chapters/${chapter.id}`, chapter);
       const editedChapter = response.data;
       setChapters(prevChapters => prevChapters.map(prevChapter =>
         prevChapter.id === editedChapter.id
@@ -195,7 +195,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
 
       const chapterEdits: Promise<Chapter | undefined>[] = allChapters
         .filter(chap => chap.personaImportances.some(charImportance => charImportance.personaId === personaId))
-        .map(chap => axios.patch<Chapter>(`${API_BASE_URL}/chapters/${chap.id}`, {
+        .map(chap => axios.put<Chapter>(`${API_BASE_URL}/chapters/${chap.id}`, {
           ...chap,
           personaImportances: chap.personaImportances
             .filter(personaImportance => personaImportance.personaId !== personaId)
