@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    # environment:
+    #   - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/wcbc-database
+    #   - SPRING_DATASOURCE_USERNAME=postgres
+    #   - SPRING_DATASOURCE_PASSWORD=ZCusJ2SQranLqxgQSywbgLZi
+    # depends_on:
+    #   - db
+
+  # db:
+  #   image: postgres
+  #   environment:
+  #     - POSTGRES_DB=wcbc-database
+  #     - POSTGRES_PASSWORD=ZCusJ2SQranLqxgQSywbgLZi
+  #   ports:
+  #     - "5432:5432"

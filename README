@@ -1,0 +1,13 @@
+## How to run/build
+### run
+docker-compose up
+
+### build
+docker-compose up --build
+
+## Other commands
+### build
+docker build -t jlegaspy/wcbc . 
+
+### run
+docker run -p 8080:8080 --name wcbc-app jlegaspy/wcbc
