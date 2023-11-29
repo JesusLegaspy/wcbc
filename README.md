@@ -1,3 +1,7 @@
+## Environment Variables
+Make sure to have a **.env** file at the root directory with `POSTGRES_PASSWORD`.
+Also have a **.env** file in **react-frontend** with `REACT_APP_API_BASE_URL`.
+
 ## How to run/build
 ### run
 docker-compose up

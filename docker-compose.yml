@@ -10,7 +10,7 @@ services:
     # environment:
     #   - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/wcbc-database
     #   - SPRING_DATASOURCE_USERNAME=postgres
-    #   - SPRING_DATASOURCE_PASSWORD=ZCusJ2SQranLqxgQSywbgLZi
+    #   - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
     # depends_on:
     #   - db
 
@@ -18,6 +18,6 @@ services:
   #   image: postgres
   #   environment:
   #     - POSTGRES_DB=wcbc-database
-  #     - POSTGRES_PASSWORD=ZCusJ2SQranLqxgQSywbgLZi
+  #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
   #   ports:
   #     - "5432:5432"
