@@ -5,11 +5,16 @@ import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class Book {
-  private @Id @GeneratedValue Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq_generator")
+  @SequenceGenerator(name = "book_seq_generator", sequenceName = "book_seq", allocationSize = 1)
+  private Long id;
   private String title;
   private Long arcId;
   private Integer series;
@@ -77,8 +82,10 @@ public class Book {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (!(o instanceof Book)) return false;
+    if (this == o)
+      return true;
+    if (!(o instanceof Book))
+      return false;
     Book book = (Book) o;
     return Objects.equals(this.id, book.id) && Objects.equals(this.title, book.title)
         && Objects.equals(this.arcId, book.arcId) && Objects.equals(this.series, book.series)

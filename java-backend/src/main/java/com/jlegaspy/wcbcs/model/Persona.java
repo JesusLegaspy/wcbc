@@ -2,11 +2,16 @@ package com.jlegaspy.wcbcs.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class Persona {
-  private @Id @GeneratedValue Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "persona_seq_generator")
+  @SequenceGenerator(name = "persona_seq_generator", sequenceName = "persona_seq", allocationSize = 1)
+  private Long id;
   private String name;
   private String description;
   private String image;

@@ -4,11 +4,16 @@ import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
 public class Arc {
-  private @Id @GeneratedValue Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "arc_seq_generator")
+  @SequenceGenerator(name = "arc_seq_generator", sequenceName = "arc_seq", allocationSize = 1)
+  private Long id;
 
   private String title;
   private Integer series;
@@ -47,9 +52,11 @@ public class Arc {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
+    if (this == o)
+      return true;
 
-    if (!(o instanceof Arc)) return false;
+    if (!(o instanceof Arc))
+      return false;
     Arc arc = (Arc) o;
     return Objects.equals(this.id, arc.id) && Objects.equals(this.title, arc.title)
         && Objects.equals(this.series, arc.series);
