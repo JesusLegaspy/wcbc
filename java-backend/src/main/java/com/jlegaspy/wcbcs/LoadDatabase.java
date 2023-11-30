@@ -34,17 +34,21 @@ class LoadDatabase {
     return args -> {
 
       if (preloadDatabase) {
-        log.info("Preloading " + ArcRepository.save(new Arc("The Prophesies Begin", 1)));
+        Arc newArc = ArcRepository.save(new Arc("The Prophesies Begin", 1));
+        log.info("Preloading " + newArc);
 
-        log.info("Preloading " + bookRepository
-            .save(new Book("Harry Potter", Long.valueOf(1), 1, "path", new ArrayList<Long>(Arrays.asList(1L)))));
+        Persona newPersona = new Persona("Rusty", "Flame-colored young tom.", "");
+        log.info("Preloading " + personaRepository.save(newPersona));
 
         ArrayList<PersonaImportance> personaImportance = new ArrayList<PersonaImportance>();
-        personaImportance.add(new PersonaImportance(1L, 3));
-        log.info("Preloading " + chapterRepository.save(new Chapter(1, personaImportance)));
+        personaImportance.add(new PersonaImportance(newPersona.getId(), 3));
+        Chapter newChapter = new Chapter(1, personaImportance);
+        log.info("Preloading " + chapterRepository.save(newChapter));
 
-        log.info("Preloading " + personaRepository.save(new Persona("Ariawing", "Black and white cat", "")));
-
+        Book newBook = new Book("Into the Wild", newArc.getId(), 1, "path",
+            new ArrayList<Long>(Arrays.asList(newChapter.getId())));
+        log.info("Preloading " + bookRepository
+            .save(newBook));
       }
     };
   }
