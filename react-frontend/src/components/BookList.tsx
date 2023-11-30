@@ -11,7 +11,7 @@ import ListArc from "./ListArc";
 const BookList = () => {
   const { goHome, setComponent, setModal, clearModal } = useContext(PageContext);
   const { fetchArcs, allArcsSortedBySeries } = useContext(ArcContext);
-  const { books, setCurrBookId, deleteBookById } = useContext(BookContext);
+  const { books, setCurrBookId, deleteBookById, currBook } = useContext(BookContext);
   const { deleteChapterById } = useContext(ChapterContext);
 
 
@@ -47,6 +47,9 @@ const BookList = () => {
         acceptAction={() => {
           Promise.all(book.chapterIds.map(chId => deleteChapterById(chId))).then(() => {
             deleteBookById(book.id);
+            if (currBook?.id === book.id) {
+              setCurrBookId(undefined);
+            }
             clearModal();
           });
         }}
