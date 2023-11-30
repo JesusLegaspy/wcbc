@@ -33,6 +33,10 @@ const PersonaCreateOrEdit: React.FC<PersonaCreateOrEditProps> = ({ persona }) =>
       });
       editPersonaImportanceInChapterByPersonaId(persona.id, valueImportance);
     } else {
+      if (currBookId === undefined) {
+        console.error("Could not add new persona to existing book. Book ID not found.");
+        return;
+      }
       createPersona(currBookId, valueName, valueDescription, '').then(id => {
         if (!id) {
           console.error("Could not add new persona to existing book");

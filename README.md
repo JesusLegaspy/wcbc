@@ -36,8 +36,8 @@ Remember to set **spring.jpa.hibernate.ddl-auto** to `validate` in production in
 ```docker container exec -it wcbc-db-1 psql -U postgres```
 
 ### Handy commands
-Show databases: `\l`
-Chose database: `\c wcbc-database`
-Show tables: `\dt`
-Example SQL command: `SELECT * FROM arc;`
-Quit: `\q` (also: `quit` and `exit`)
+- Show databases: `\l`
+- Chose database: `\c wcbc-database`
+- Show tables: `\dt`
+- Example SQL command: `SELECT * FROM arc;`
+- Quit: `\q` (also: `quit` and `exit`)

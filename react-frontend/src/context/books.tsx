@@ -15,8 +15,8 @@ export interface Book {
 interface BookContextType {
   books: readonly Book[];
   currBook: Book | undefined;
-  currBookId: number;
-  setCurrBookId: React.Dispatch<React.SetStateAction<number>>;
+  currBookId: number | undefined;
+  setCurrBookId: React.Dispatch<React.SetStateAction<number | undefined>>;
   fetchBooks: () => Promise<void>;
   createBook: (title: string, arcId: number, series: number) => Promise<Book | undefined>;
   editBook: (data: Book) => Promise<void>;
@@ -28,7 +28,7 @@ interface BookContextType {
 const startupBookContext: BookContextType = {
   books: [],
   currBook: undefined,
-  currBookId: 0,
+  currBookId: undefined,
   setCurrBookId: () => { },
   fetchBooks: async () => { },
   createBook: async () => undefined,
@@ -42,12 +42,16 @@ const BookContext = createContext<BookContextType>(startupBookContext);
 
 const BookProvider = ({ children }: { children?: ReactNode }) => {
   const [books, setBooks] = useState<readonly Book[]>([]);
-  const [currBookId, setCurrBookId] = useState<number>(1);
+  const [currBookId, setCurrBookId] = useState<number | undefined>(undefined);
   const [currBook, setCurrBook] = useState<Book | undefined>();
 
   useEffect(() => {
     console.debug('books.tsx', 'useEffect', 'setCurrentBook', 'Dep:', 'currBookId, books');
-    setCurrBook(books.find(book => book.id === currBookId));
+    if (currBookId === undefined) {
+      setCurrBook(books.at(0));
+    } else {
+      setCurrBook(books.find(book => book.id === currBookId));
+    }
   }, [currBookId, books]);
 
   const fetchBooks = useCallback(async () => {
