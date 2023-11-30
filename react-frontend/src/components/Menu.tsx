@@ -123,6 +123,7 @@ const Menu: React.FC<MenuProps> = ({ sortFunction, handleFilterClick }) => {
       <div className="z-20 fixed bottom-0 left-0 right-0 border-t bg-gray-100">
         <div className="container mx-auto max-w-screen-xl">
           {
+            chapterNumber !== 1 &&
             chapterNumber === chapters.length &&
             <span className={`fixed bottom-3 left-4  ${showMenu ? 'text-gray-900' : 'text-gray-500'}}`}>
               <button onClick={() => handleClickMenu()}>
