@@ -1,16 +1,19 @@
 import { useEffect, useContext, Fragment } from "react";
-import { BookContext } from "../context/books";
-import { ArcContext } from "../context/arcs";
 import { PageContext } from "../context/page";
+import { ArcContext } from "../context/arcs";
+import { BookContext } from "../context/books";
+import { ChapterContext } from "../context/chapters";
 import ListItem from "./ListItem";
 import BookCreateOrEdit from "./BookCreateOrEdit";
 import ModalConfirm from './ModalConfirm';
 import ListArc from "./ListArc";
 
 const BookList = () => {
-  const { books, setCurrBookId, deleteBookById } = useContext(BookContext);
   const { goHome, setComponent, setModal, clearModal } = useContext(PageContext);
   const { fetchArcs, allArcsSortedBySeries } = useContext(ArcContext);
+  const { books, setCurrBookId, deleteBookById } = useContext(BookContext);
+  const { deleteChapterById } = useContext(ChapterContext);
+
 
   useEffect(() => {
     console.debug('BookList.tsx', 'useEffect', 'getArcs');
@@ -42,8 +45,10 @@ const BookList = () => {
         message={`Delete ${book.title}?`}
         cancelAction={clearModal}
         acceptAction={() => {
-          deleteBookById(id);
-          clearModal();
+          Promise.all(book.chapterIds.map(chId => deleteChapterById(chId))).then(() => {
+            deleteBookById(book.id);
+            clearModal();
+          });
         }}
       />
     ));

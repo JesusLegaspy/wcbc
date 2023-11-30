@@ -24,6 +24,7 @@ interface ChapterContextType {
   prevChapter: () => void;
   nextChapter: () => void;
   addChapter: (duplicate?: boolean) => Promise<Chapter>;
+  deleteChapterById: (id: number) => Promise<void>;
   removeLastChapter: () => Promise<number | undefined>;
   addPersonaImportanceToChapter: (personaImportance: PersonaImportance) => Promise<void>;
   editPersonaImportanceInChapterByPersonaId: (personaId: number, importance: number) => void;
@@ -47,6 +48,7 @@ const startupChapterContext: ChapterContextType = {
   nextChapter: () => { },
   fetchChaptersByIds: async () => { },
   addChapter: async () => startupChapter,
+  deleteChapterById: async () => { },
   removeLastChapter: async () => -1,
   addPersonaImportanceToChapter: async () => { },
   editPersonaImportanceInChapterByPersonaId: () => { },
@@ -125,6 +127,14 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
     setChapters(prevChapters => [...prevChapters, newChapter]);
     return newChapter;
   }, [chapters]);
+
+  const deleteChapterById = async (id: number) => {
+    try {
+      await axios.delete(`${API_BASE_URL}/chapters/${id}`);
+    } catch (error) {
+      console.error("Could not delete chapter:", error);
+    }
+  }
 
   const editChapter = async (chapter: Chapter) => {
     try {
@@ -221,6 +231,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
       nextChapter,
       setChapterNumber,
       addChapter,
+      deleteChapterById,
       removeLastChapter,
       addPersonaImportanceToChapter,
       editPersonaImportanceInChapterByPersonaId,
