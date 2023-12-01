@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useCallback, useEffect, useMemo, useState } from 'react';
 import axios from "axios";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://wcbc-app.onrender.com';
 
 export interface Arc {
   id: number;
