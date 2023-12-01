@@ -7,7 +7,7 @@ Uses Docker to run two containers, PostgreSQL database and a Java Spring boot (s
 
 ## Environment Variables
 Make sure to have a **.env** file at the root directory with `POSTGRES_PASSWORD`, `POSTGRES_DB_NAME`, `POSTGRES_URL`, and `POSTGRES_USER`.
-Make sure to have a **.env.development** file in the **react-frontend** directory with `REACT_APP_API_BASE_URL`.
+Make sure to have a **.env** file in the **react-frontend** directory with `REACT_APP_API_BASE_URL`.
 
 Preload the database by changing the **service.app.environment.preload.database** to `true` in docker-compose.yml.
 
