@@ -1,7 +1,46 @@
 version: '3.8'
 
-services:
+services: 
+  react-dev:
+    profiles: ["dev"]
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+      target: react-dev
+    volumes:
+      - ./react-frontend:/app
+    ports:
+      - "3000:3000"
+
+  spring-dev:
+    profiles: ["dev"]
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+      target: spring-dev
+    volumes:
+      - ./java-backend:/app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/wcbc_db
+      - SPRING_DATASOURCE_USERNAME=iceflower
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - preload.database=false
+    depends_on:
+      - db
+      
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=wcbc_db
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=iceflower
+    ports:
+      - "5432:5432"
+
   app:
+    profiles: ["prod"]
     build: 
       context: .
       dockerfile: Dockerfile
@@ -14,12 +53,3 @@ services:
       - preload.database=false
     depends_on:
       - db
-
-  db:
-    image: postgres
-    environment:
-      - POSTGRES_DB=wcbc_db
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_USER=iceflower
-    ports:
-      - "5432:5432"

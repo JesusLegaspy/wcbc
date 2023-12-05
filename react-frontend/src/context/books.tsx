@@ -57,7 +57,9 @@ const BookProvider = ({ children }: { children?: ReactNode }) => {
   const fetchBooks = useCallback(async () => {
     try {
       const response = await axios.get<readonly Book[]>(`${API_BASE_URL}/books`);
-      setBooks(response.data);
+      const newBooks = response.data;
+      setBooks(newBooks);
+      setCurrBookId(newBooks?.at(0)?.id);
     } catch (error) {
       console.error("Error fetching books:", error);
     }

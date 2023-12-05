@@ -16,18 +16,15 @@ Make sure to have a PostgreSQL docker container:
 ```docker run --name wcbc-database -e POSTGRES_PASSWORD=mysecretpassword -d postgres-user```
 
 ## How to run/build
-### run
-```docker-compose up```
+### Development (live-reload)
+```docker-compose --profile dev up```
 
-### build
-```docker-compose up --build```
+### Production
+#### run
+```docker-compose --profile prod up```
 
-## Other commands
-### build
-```docker build -t jlegaspy/wcbc . ```
-
-### run
-```docker run -p 8080:8080 --name wcbc-app jlegaspy/wcbc```
+#### build
+```docker-compose --profile prod up --build```
 
 ## Production Notes
 Remember to set **spring.jpa.hibernate.ddl-auto** to `validate` in production in **application.yml**.

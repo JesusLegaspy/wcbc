@@ -1,0 +1,16 @@
+# Development stage for React app
+FROM node:latest as react-dev
+WORKDIR /app
+COPY ./react-frontend/package*.json ./
+RUN npm ci
+EXPOSE 3000
+CMD ["npm", "start"]
+
+# Development stage for Spring Boot app
+FROM maven:3.9.4-eclipse-temurin-21 as spring-dev
+WORKDIR /app
+COPY ./java-backend/pom.xml ./
+RUN mvn dependency:go-offline
+COPY ./java-backend/ ./
+EXPOSE 8080
+CMD ["mvn", "spring-boot:run"]
