@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createContext, useState, ReactNode, useMemo, useCallback } from "react";
 
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://wcbc-app.onrender.com';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://wcbc.app';
 
 export interface Persona {
   id: number;
