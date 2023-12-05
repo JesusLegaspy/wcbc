@@ -6,14 +6,17 @@ Add, remove, or modify arcs, books, chapters, and characters.
 Uses Docker to run two containers, PostgreSQL database and a Java Spring boot (semi)RESTful backend that serves the React frontend.
 
 ## Environment Variables
-Make sure to have a **.env** file at the root directory with `POSTGRES_PASSWORD`.
-Make sure to have a **.env** file in the **react-frontend** directory with `REACT_APP_API_BASE_URL`.
+1. Make sure to have a **.env** file at the root directory with:
+- `POSTGRES_PASSWORD`
+- `POSTGRES_USER`
+- `POSTGRES_DB`
+2. Make sure to have a **.env** file in the **react-frontend** directory with `REACT_APP_API_BASE_URL`.
 
 Preload the database by changing the **service.app.environment.preload.database** to `true` in docker-compose.yml.
 
 # Pre-requisites 
 Make sure to have a PostgreSQL docker container:
-```docker run --name wcbc-database -e POSTGRES_PASSWORD=mysecretpassword -d postgres-user```
+```docker run --name wcbc_db -e POSTGRES_PASSWORD=mysecretpassword -d postgres-user```
 
 ## How to run/build
 ### Development (live-reload)
