@@ -5,6 +5,9 @@ Add, remove, or modify arcs, books, chapters, and characters.
 # Development
 Uses Docker to run two containers, PostgreSQL database and a Java Spring boot (semi)RESTful backend that serves the React frontend.
 
+## Requirements
+Docker and Docker Compose installed
+
 ## Environment Variables
 1. Make sure to have a **.env** file at the root directory with:
 - `POSTGRES_PASSWORD`
