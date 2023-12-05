@@ -14,11 +14,7 @@ Uses Docker to run two containers, PostgreSQL database and a Java Spring boot (s
 
 Preload the database by changing the **service.app.environment.preload.database** to `true` in docker-compose.yml.
 
-# Pre-requisites 
-Make sure to have a PostgreSQL docker container:
-```docker run --name wcbc_db -e POSTGRES_PASSWORD=mysecretpassword -d postgres-user```
-
-## How to run/build
+## Building/Running
 ### Development (live-reload)
 ```docker-compose --profile dev up```
 
