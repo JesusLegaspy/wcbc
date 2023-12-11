@@ -3,7 +3,7 @@ import { BookContext } from '../context/books';
 import { ChapterContext } from '../context/chapters';
 import useScrollDirection from '../hooks/useScrollDirection';
 
-const Navbar = () => {
+const NavbarTop = () => {
   const { currBook } = useContext(BookContext);
   const { chapterNumber } = useContext(ChapterContext);
   const scrollDirection = useScrollDirection();
@@ -15,7 +15,7 @@ const Navbar = () => {
           <div className='relative w-16 h-16'>
             <img className="w-16 h-16" src={`https://picsum.photos/seed/${currBook?.id ?? 1 * 10}/400/400`} alt="Book cover" />
             <div className='absolute top-0 left-8 bottom-0 w-16 flex items-center justify-center text-6xl text-white bg-black/30'>
-              {chapterNumber}
+              {chapterNumber === 0 ? 'P' : chapterNumber}
             </div>
           </div>
           <p className='flex-grow text-2xl pl-3'>
@@ -27,4 +27,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarTop;

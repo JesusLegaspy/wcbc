@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import NavbarSub from "./NavbarSub";
+import NavbarSub from "./NavbarTopSub";
 
 interface FormTemplateProps {
   children?: ReactNode;

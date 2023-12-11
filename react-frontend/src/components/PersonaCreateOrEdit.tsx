@@ -3,7 +3,7 @@ import { BookContext } from "../context/books";
 import { PageContext } from "../context/page";
 import { ChapterContext } from "../context/chapters";
 import { Persona, PersonaContext } from "../context/personas";
-import NavbarSub from "./NavbarSub";
+import NavbarSub from "./NavbarTopSub";
 import profile from "../assets/images/profile.png";
 import { TbPhotoPlus } from 'react-icons/tb';
 import "../styles/PersonaCreateOrEdit.css";

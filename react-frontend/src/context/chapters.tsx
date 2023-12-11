@@ -41,7 +41,7 @@ const startupChapter: Chapter = {
 const startupChapterContext: ChapterContextType = {
   chapter: startupChapter,
   chapters: [],
-  chapterNumber: 1,
+  chapterNumber: 0,
   createChapter: async () => startupChapter,
   setChapterNumber: () => { },
   prevChapter: () => { },
@@ -61,7 +61,7 @@ const ChapterContext = createContext<ChapterContextType>(startupChapterContext);
 const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   const [chapter, setChapter] = useState<Chapter>(startupChapter);
   const [chapters, setChapters] = useState<readonly Chapter[]>([]);
-  const [chapterNumber, setChapterNumber] = useState<number>(1);
+  const [chapterNumber, setChapterNumber] = useState<number>(0);
 
   useEffect(() => {
     const foundChapter = chapters.find(chapter => chapter.chapterNumber === chapterNumber);
@@ -99,7 +99,7 @@ const ChapterProvider = ({ children }: { children?: ReactNode }) => {
   }, []);
 
   const prevChapter = useCallback(() => {
-    if (chapterNumber <= 1) {
+    if (chapterNumber <= 0) {
       console.error("Can not set chapter number less than 1");
       return;
     }

@@ -1,9 +1,9 @@
 import { useContext, useEffect, useState } from 'react';
 import { ChapterContext } from '../context/chapters';
 import { Persona, PersonaContext } from '../context/personas';
-import Navbar from './Navbar';
+import NavbarTop from './NavbarTop';
 import PersonaShow from './PersonaShow';
-import Menu, { SortOrder } from './Menu';
+import MenuBottom, { SortOrder } from './NavbarBottom';
 
 export default function PersonaPage() {
   const { chapter } = useContext(ChapterContext);
@@ -66,7 +66,7 @@ export default function PersonaPage() {
 
   return (
     <div>
-      <Navbar />
+      <NavbarTop />
       <div className="container mx-auto max-w-screen-xl px-4 pt-16 pb-16 lg:pt-4 lg:pb-4">
         <div className="grid grid-flow-dense grid-cols-3 sm:grid-cols-3 md:grid-cols-4 mt-2 lg:grid-cols-5 gap-4">
           {sortedPersonas.map((persona) =>
@@ -90,7 +90,7 @@ export default function PersonaPage() {
           />
         </div>
       }
-      <Menu sortFunction={handleSortOrder} handleFilterClick={() => handleShowFilter()} />
+      <MenuBottom sortFunction={handleSortOrder} handleFilterClick={() => handleShowFilter()} />
     </div>
   );
 }

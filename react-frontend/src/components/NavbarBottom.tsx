@@ -22,7 +22,7 @@ interface MenuProps {
   handleFilterClick?: () => void;
 };
 
-const Menu: React.FC<MenuProps> = ({ sortFunction, handleFilterClick }) => {
+const MenuBottom: React.FC<MenuProps> = ({ sortFunction, handleFilterClick }) => {
   const { setComponent, setModal, clearModal } = useContext(PageContext);
   const { currBook, addChapterIdToBook, removeChapterIdToBook } = useContext(BookContext);
   const { chapterNumber, chapters, prevChapter, nextChapter, setChapterNumber, addChapter, chapter } = useContext(ChapterContext);
@@ -133,8 +133,8 @@ const Menu: React.FC<MenuProps> = ({ sortFunction, handleFilterClick }) => {
           }
           <ul className="flex flex-row justify-center items-center space-x-4 h-16 text-4xl">
             <li className="flex justify-center items-center">
-              <button onClick={() => { if (1 < chapterNumber) handleClickPrevChapter() }}>
-                {<TbChevronLeftPipe className={1 < chapterNumber ? "" : "invisible"} />}
+              <button onClick={() => { if (0 < chapterNumber) handleClickPrevChapter() }}>
+                {<TbChevronLeftPipe className={0 < chapterNumber ? "" : "invisible"} />}
               </button>
             </li>
             <li className="flex justify-center items-center">
@@ -161,7 +161,7 @@ const Menu: React.FC<MenuProps> = ({ sortFunction, handleFilterClick }) => {
             </li>
             <li className="flex justify-center items-center">
               {
-                chapterNumber < chapters.length
+                chapterNumber < chapters.length - 1
                   ? <button onClick={() => handleClickNextChapter()}>
                     <TbChevronRightPipe />
                   </button>
@@ -177,4 +177,4 @@ const Menu: React.FC<MenuProps> = ({ sortFunction, handleFilterClick }) => {
   );
 }
 
-export default Menu;
+export default MenuBottom;

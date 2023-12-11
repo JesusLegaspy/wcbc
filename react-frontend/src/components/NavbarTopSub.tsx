@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { MdArrowBack } from 'react-icons/md';
 import { PageContext, } from '../context/page';
 
-const Navbar = ({ text }: { text?: string }) => {
+const NavbarTopSub = ({ text }: { text?: string }) => {
   const { goBack } = useContext(PageContext);
 
   const handleClickBack = () => {
@@ -23,4 +23,4 @@ const Navbar = ({ text }: { text?: string }) => {
   );
 };
 
-export default Navbar;
+export default NavbarTopSub;

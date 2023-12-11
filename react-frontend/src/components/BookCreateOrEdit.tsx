@@ -59,7 +59,7 @@ const BookCreateOrEdit: React.FC<BookCreateOrEditProps> = ({ book, arcId }) => {
             console.error("Could not create new book")
             return;
           }
-          createChapter(1, []).then(chapter => {
+          createChapter(0, []).then(chapter => {
             if (chapter === undefined) {
               console.error("Could not create new chapter")
               return;
