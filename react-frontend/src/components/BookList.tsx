@@ -12,7 +12,7 @@ const BookList = () => {
   const { goHome, setComponent, setModal, clearModal } = useContext(PageContext);
   const { fetchArcs, allArcsSortedBySeries } = useContext(ArcContext);
   const { books, setCurrBookId, deleteBookById, currBook } = useContext(BookContext);
-  const { deleteChapterById } = useContext(ChapterContext);
+  const { deleteChapterById, setChapterNumber } = useContext(ChapterContext);
 
 
   useEffect(() => {
@@ -22,6 +22,7 @@ const BookList = () => {
 
   const handleClickBook = (id: number) => {
     setCurrBookId(id);
+    setChapterNumber(0);
     goHome();
   }
 
